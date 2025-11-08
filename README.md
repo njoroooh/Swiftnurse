@@ -689,7 +689,7 @@
         <div class="services-grid">
             <!-- Infant Care -->
             <div class="service-card">
-                <img src=["https://i.pinimg.com/736x/a6/12/93/a61293e65b41159bb6482b7f6be3229b.jpg)=format&fit=crop" alt="Infant Care" class="service-img">
+                <img src=["https://i.pinimg.com/736x/d8/d6/ef/d8d6ef85f2d659f51dbc379ee6aea058.jpg)=format&fit=crop" alt="Infant Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-baby service-icon"></i>
                     <h3 class="service-title">Infant Care</h3>
