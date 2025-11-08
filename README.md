@@ -1004,19 +1004,36 @@
     showTestimonial(0);
     setInterval(nextTestimonial, 5000);
 
-    // ✅ EmailJS Form Submission
+       // ✅ EmailJS Form Submission - WITH AUTO-REPLY
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
+            console.log("📧 Sending emails...");
+            
+            // Send email to YOURSELF (the inquiry)
             emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
                 .then(() => {
-                    alert("✅ Thank you for your message! We will contact you shortly.");
+                    console.log('✅ Inquiry sent to SwiftNurse');
+                    
+                    // Send AUTO-REPLY to customer
+                    return emailjs.send("service_9rfro2l", "auto_reply_template", {
+                        from_name: this.from_name.value,
+                        from_email: this.from_email.value,
+                        phone: this.phone.value,
+                        service: this.service.value,
+                        message: this.message.value
+                    });
+                })
+                .then(() => {
+                    console.log('✅ Auto-reply sent to customer');
+                    alert("✅ Thank you for your message! We have sent a confirmation email to you.");
                     this.reset();
-                }, (error) => {
+                })
+                .catch((error) => {
+                    console.log('❌ Error:', error);
                     alert("❌ Failed to send message. Please try again later.");
-                    console.error(error);
                 });
         });
     }
