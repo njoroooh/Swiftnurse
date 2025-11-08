@@ -1028,7 +1028,7 @@ if (contactForm) {
                 
                 // 2. Try to send AUTO-REPLY to customer
                 console.log("Attempting auto-reply...");
-                return emailjs.send("service_9rfro2l", "YOUR_AUTO_REPLY_TEMPLATE_ID", formData)
+                return emailjs.send("service_9rfro2l", "template_dw5tn6b", formData)
                     .then((response) => {
                         console.log('✅ Auto-reply sent to customer');
                     })
