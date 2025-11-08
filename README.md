@@ -1021,33 +1021,56 @@ if (contactForm) {
             message: this.message.value
         };
         
-        // 1. Send to YOURSELF (SwiftNurse)
-        emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
-            .then((response) => {
-                console.log('✅ Inquiry sent to SwiftNurse');
-                
-                // 2. Try to send AUTO-REPLY to customer
-                console.log("Attempting auto-reply...");
-                return emailjs.send("service_9rfro2l", "template_dw5tn6b", formData)
-                    .then((response) => {
-                        console.log('✅ Auto-reply sent to customer');
-                    })
-                    .catch((autoReplyError) => {
-                        console.log('⚠️ Auto-reply failed, but inquiry was sent:', autoReplyError);
-                        // Continue anyway - don't let auto-reply failure stop the success message
-                    });
-            })
-            .then(() => {
-                // Show success message regardless of auto-reply result
-                alert("✅ Thank you for your message! We will contact you shortly.");
+       <script>
+(function() {
+    emailjs.init("aNt7HVW9ZnYMbAceL");
+})();
+
+const contactForm = document.getElementById('booking-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+            user_name: this.user_name.value,
+            user_email: this.user_email.value,
+            user_phone: this.user_phone.value,
+            service_needed: this.service_needed.value,
+            message: this.message.value
+        };
+
+        // Send both emails simultaneously
+        const sendToSwiftNurse = emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this);
+        const sendAutoReply = emailjs.send("service_9rfro2l", "template_dw5tn6b", formData);
+
+        Promise.allSettled([sendToSwiftNurse, sendAutoReply])
+            .then(results => {
+                const [swiftResult, replyResult] = results;
+
+                // Check outcomes
+                const swiftSuccess = swiftResult.status === "fulfilled";
+                const replySuccess = replyResult.status === "fulfilled";
+
+                if (swiftSuccess && replySuccess) {
+                    alert("✅ Message sent successfully! You and SwiftNurse have both received confirmation.");
+                } else if (swiftSuccess && !replySuccess) {
+                    alert("⚠️ Message sent to SwiftNurse, but auto-reply failed to reach your inbox.");
+                } else if (!swiftSuccess && replySuccess) {
+                    alert("⚠️ Auto-reply sent, but message failed to reach SwiftNurse.");
+                } else {
+                    alert("❌ Message failed to send. Please try again later.");
+                }
+
                 this.reset();
             })
             .catch((error) => {
-                console.log('❌ Main email failed:', error);
-                alert("❌ Failed to send message. Please try again later.");
+                console.error("❌ Unexpected error:", error);
+                alert("❌ Something went wrong. Please try again later.");
             });
     });
 }
+</script>
+
 </script>
 
    
