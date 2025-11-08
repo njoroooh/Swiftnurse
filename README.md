@@ -687,16 +687,21 @@
             <h2>Our Specialized Services</h2>
         </div>
         <div class="services-grid">
-            <!-- Infant Care -->
-            <div class="service-card">
-                <img src=["https://i.pinimg.com/736x/d8/d6/ef/d8d6ef85f2d659f51dbc379ee6aea058.jpg)=format&fit=crop" alt="Infant Care" class="service-img">
-                <div class="service-content">
-                    <i class="fas fa-baby service-icon"></i>
-                    <h3 class="service-title">Infant Care</h3>
-                    <p class="service-description">Specialized care for your newborn with trained pediatric nurses who provide round-the-clock attention, feeding support, and developmental monitoring.</p>
-                    <a href="#contact" class="btn">Learn More</a>
-                </div>
-            </div>
+          <!-- ✅ FIXED INFANT CARE IMAGE -->
+<div class="service-card">
+    <img src="https://i.pinimg.com/736x/d8/d6/ef/d8d6ef85f2d659f51dbc379ee6aea058.jpg" 
+         alt="Infant Care" class="service-img">
+    <div class="service-content">
+        <i class="fas fa-baby service-icon"></i>
+        <h3 class="service-title">Infant Care</h3>
+        <p class="service-description">
+            Specialized care for your newborn with trained pediatric nurses who provide round-the-clock attention,
+            feeding support, and developmental monitoring.
+        </p>
+        <a href="#contact" class="btn">Learn More</a>
+    </div>
+</div>
+
             
             <!-- Maternal Care -->
             <div class="service-card">
@@ -953,66 +958,71 @@
             <p>&copy; 2023 SwiftNurse Homecare Solutions. All Rights Reserved.</p>
         </div>
     </footer>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+    // Initialize EmailJS
+    (function() {
+        emailjs.init("aNt7HVW9ZnYMbAceL"); // 🔑 Replace with your EmailJS Public Key
+    })();
 
-    <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const navMenu = document.getElementById('nav-menu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Sticky Header
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
+    });
+
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+            if (window.innerWidth <= 768) navMenu.style.display = 'none';
         });
-        
-        // Sticky Header
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            header.classList.toggle('sticky', window.scrollY > 0);
+    });
+
+    // Testimonials Slider
+    let currentTestimonial = 0;
+    const testimonials = document.querySelectorAll('.testimonial-card');
+    function showTestimonial(index) {
+        testimonials.forEach((testimonial, i) => {
+            testimonial.style.display = i === index ? 'block' : 'none';
         });
-        
-        // Smooth Scrolling for Anchor Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+    }
+    function nextTestimonial() {
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        showTestimonial(currentTestimonial);
+    }
+    showTestimonial(0);
+    setInterval(nextTestimonial, 5000);
+
+    // ✅ EmailJS Form Submission
+    const contactForm = document.querySelector('.contact-form form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
+                .then(() => {
+                    alert("✅ Thank you for your message! We will contact you shortly.");
+                    this.reset();
+                }, (error) => {
+                    alert("❌ Failed to send message. Please try again later.");
+                    console.error(error);
                 });
-                
-                // Close mobile menu if open
-                if (window.innerWidth <= 768) {
-                    navMenu.style.display = 'none';
-                }
-            });
         });
-        
-        // Simple Testimonial Slider
-        let currentTestimonial = 0;
-        const testimonials = document.querySelectorAll('.testimonial-card');
-        
-        function showTestimonial(index) {
-            testimonials.forEach((testimonial, i) => {
-                testimonial.style.display = i === index ? 'block' : 'none';
-            });
-        }
-        
-        function nextTestimonial() {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            showTestimonial(currentTestimonial);
-        }
-        
-        // Initialize
-        showTestimonial(0);
-        setInterval(nextTestimonial, 5000);
-        
-        // Form Submission
-        const contactForm = document.querySelector('.contact-form form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Thank you for your message! We will contact you shortly.');
-                this.reset();
-            });
-        }
+    }
+</script>
+
+   
     </script>
 </body>
 </html>
