@@ -1004,19 +1004,42 @@
     showTestimonial(0);
     setInterval(nextTestimonial, 5000);
 
-       // ✅ EmailJS Form Submission - BASIC WORKING VERSION
+ // ✅ EmailJS Form Submission - WITH AUTO-REPLY
 const contactForm = document.querySelector('.contact-form form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-
+        
+        console.log("📧 Starting email process...");
+        
+        // Get form data for auto-reply
+        const formData = {
+            from_name: this.from_name.value,
+            from_email: this.from_email.value,
+            phone: this.phone.value,
+            service: this.service.value,
+            message: this.message.value
+        };
+        
+        console.log("Sending to SwiftNurse...");
+        
+        // 1. Send to YOURSELF (SwiftNurse)
         emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
-            .then(() => {
-                alert("✅ Thank you for your message! We will contact you shortly.");
+            .then((response) => {
+                console.log('✅ Inquiry sent to SwiftNurse');
+                
+                // 2. Send AUTO-REPLY to customer
+                console.log("Sending auto-reply to customer...");
+                return emailjs.send("service_9rfro2l", "YOUR_AUTO_REPLY_TEMPLATE_ID", formData);
+            })
+            .then((response) => {
+                console.log('✅ Auto-reply sent to customer');
+                alert("✅ Thank you! We've sent a confirmation email to you.");
                 this.reset();
-            }, (error) => {
-                alert("❌ Failed to send message. Please try again later.");
-                console.error(error);
+            })
+            .catch((error) => {
+                console.log('❌ Error:', error);
+                alert("❌ Failed to send message. Please try again.");
             });
     });
 }
