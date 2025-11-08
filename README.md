@@ -870,35 +870,35 @@
                 </div>
             </div>
             
-            <div class="contact-form">
-                <h3 class="contact-title">Send Us a Message</h3>
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" class="form-control" placeholder="Phone Number" required>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" required>
-                            <option value="">Select Service Needed</option>
-                            <option>Infant Care</option>
-                            <option>Maternal Care</option>
-                            <option>Elderly Care</option>
-                            <option>Post-Surgical Care</option>
-                            <option>Chronic Condition Management</option>
-                            <option>Palliative Care</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" placeholder="Your Message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
+           <form>
+    <div class="form-group">
+        <input type="text" class="form-control" name="from_name" placeholder="Your Name" required>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" name="from_email" placeholder="Your Email" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required>
+    </div>
+    <div class="form-group">
+        <select class="form-control" name="service" required>
+            <option value="">Select Service Needed</option>
+            <option>Infant Care</option>
+            <option>Maternal Care</option>
+            <option>Elderly Care</option>
+            <option>Post-Surgical Care</option>
+            <option>Chronic Condition Management</option>
+            <option>Palliative Care</option>
+            <option>Other</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
+    </div>
+    <!-- Add this hidden field -->
+    <input type="hidden" name="to_email" value="paulnkamande10877@gmail.com">
+    <button type="submit" class="submit-btn">Send Message</button>
+</form>
             </div>
         </div>
     </section>
