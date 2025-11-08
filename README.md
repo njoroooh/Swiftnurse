@@ -961,35 +961,27 @@
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
     // Initialize EmailJS
-    (function() {
-        emailjs.init("aNt7HVW9ZnYMbAceL"); // 🔑 Replace with your EmailJS Public Key
-    })();
+    emailjs.init("aNt7HVW9ZnYMbAceL");
+    console.log("EmailJS ready!");
 
-    // Mobile Menu Toggle
+    // Mobile Menu
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navMenu = document.getElementById('nav-menu');
     mobileMenuBtn.addEventListener('click', () => {
         navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Sticky Header
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('header');
-        header.classList.toggle('sticky', window.scrollY > 0);
-    });
-
-    // Smooth Scrolling
+    // Smooth Scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             document.querySelector(this.getAttribute('href')).scrollIntoView({
                 behavior: 'smooth'
             });
-            if (window.innerWidth <= 768) navMenu.style.display = 'none';
         });
     });
 
-    // Testimonials Slider
+    // Testimonials
     let currentTestimonial = 0;
     const testimonials = document.querySelectorAll('.testimonial-card');
     function showTestimonial(index) {
@@ -997,20 +989,16 @@
             testimonial.style.display = i === index ? 'block' : 'none';
         });
     }
-    function nextTestimonial() {
+    showTestimonial(0);
+    setInterval(() => {
         currentTestimonial = (currentTestimonial + 1) % testimonials.length;
         showTestimonial(currentTestimonial);
-    }
-    showTestimonial(0);
-    setInterval(nextTestimonial, 5000);
+    }, 5000);
 
-// ✅ EmailJS Form Submission - WITH BETTER ERROR HANDLING
-const contactForm = document.querySelector('.contact-form form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    // ✅ IMMEDIATE AUTO-REPLY EmailJS
+    document.querySelector('.contact-form form').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        console.log("📧 Starting email process...");
+        console.log("🚀 Sending emails IMMEDIATELY...");
         
         // Get form data for auto-reply
         const formData = {
@@ -1021,59 +1009,39 @@ if (contactForm) {
             message: this.message.value
         };
         
-       <script>
-(function() {
-    emailjs.init("aNt7HVW9ZnYMbAceL");
-})();
-
-const contactForm = document.getElementById('booking-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = {
-            user_name: this.user_name.value,
-            user_email: this.user_email.value,
-            user_phone: this.user_phone.value,
-            service_needed: this.service_needed.value,
-            message: this.message.value
-        };
-
-        // Send both emails simultaneously
+        // Send BOTH emails simultaneously for immediate delivery
         const sendToSwiftNurse = emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this);
         const sendAutoReply = emailjs.send("service_9rfro2l", "template_dw5tn6b", formData);
 
+        // Wait for both to complete (or fail)
         Promise.allSettled([sendToSwiftNurse, sendAutoReply])
             .then(results => {
-                const [swiftResult, replyResult] = results;
+                const swiftResult = results[0];
+                const replyResult = results[1];
 
-                // Check outcomes
                 const swiftSuccess = swiftResult.status === "fulfilled";
                 const replySuccess = replyResult.status === "fulfilled";
 
+                console.log("SwiftNurse email:", swiftSuccess ? "✅" : "❌");
+                console.log("Auto-reply email:", replySuccess ? "✅" : "❌");
+
                 if (swiftSuccess && replySuccess) {
-                    alert("✅ Message sent successfully! You and SwiftNurse have both received confirmation.");
-                } else if (swiftSuccess && !replySuccess) {
-                    alert("⚠️ Message sent to SwiftNurse, but auto-reply failed to reach your inbox.");
-                } else if (!swiftSuccess && replySuccess) {
-                    alert("⚠️ Auto-reply sent, but message failed to reach SwiftNurse.");
+                    alert("✅ Thank you! Your message has been sent and you should receive a confirmation email shortly.");
+                } else if (swiftSuccess) {
+                    alert("✅ Message received! We'll contact you soon. (Confirmation email may be delayed)");
                 } else {
-                    alert("❌ Message failed to send. Please try again later.");
+                    alert("❌ Failed to send message. Please try again or call us at 0727681122");
                 }
 
                 this.reset();
             })
             .catch((error) => {
-                console.error("❌ Unexpected error:", error);
-                alert("❌ Something went wrong. Please try again later.");
+                console.error("Unexpected error:", error);
+                alert("❌ Something went wrong. Please try again.");
             });
     });
-}
-</script>
-
 </script>
 
    
-    </script>
 </body>
 </html> 
