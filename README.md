@@ -1029,7 +1029,7 @@ if (contactForm) {
                 console.log('✅ Inquiry sent to SwiftNurse');
                 
                 // 2. Send auto-reply with COMPLETE data
-                return emailjs.send("service_9rfro2l", "YOUR_AUTO_REPLY_TEMPLATE_ID", formData);
+                return emailjs.send("service_9rfro2l", "template_dw5tn6b", formData);
             })
             .then((response) => {
                 console.log('✅ Auto-reply sent with complete data');
