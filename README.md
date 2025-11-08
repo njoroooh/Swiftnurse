@@ -473,11 +473,6 @@
             transform: translateY(-3px);
         }
 
-        /* Form Message */
-        .form-message {margin-top:1rem; padding:1rem; border-radius:8px; font-weight:600; display:none;}
-        .form-message.success {background-color: #d4edda; color:#155724; border:1px solid #c3e6cb;}
-        .form-message.error {background-color: #f8d7da; color:#721c24; border:1px solid #f5c6cb;}
-
         /* Footer */
         footer {
             background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
@@ -570,35 +565,82 @@
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive Styles */
         @media (max-width: 992px) {
-            .hero-title { font-size: 2.8rem; }
-            .about-container { flex-direction: column; }
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .about-container {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 768px) {
-            .header-container { padding: 0 1rem; }
-            nav ul { display: none; }
-            .mobile-menu-btn { display: block; }
-            .hero-title { font-size: 2.2rem; }
-            .hero-subtitle { font-size: 1.2rem; }
-            .btn { display: block; margin: 1rem auto; width: 80%; }
-            .btn-blue { margin-left: auto; }
+            .header-container {
+                padding: 0 1rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 1rem auto;
+                width: 80%;
+            }
+            
+            .btn-blue {
+                margin-left: auto;
+            }
         }
 
         @media (max-width: 576px) {
-            .hero-title { font-size: 1.8rem; }
-            .section-title h2 { font-size: 2rem; }
-            .service-card { min-width: 100%; }
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .service-card {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
@@ -615,55 +657,102 @@
             </div>
             <nav>
                 <ul id="nav-menu">
-                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
-            <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" id="hero">
+    <section class="hero" id="home">
         <div class="hero-content">
-            <h1 class="hero-title">Your Health, Our Priority</h1>
-            <p class="hero-subtitle">SwiftNurse provides trusted healthcare services at your doorstep.</p>
-            <a href="#contact" class="btn">Book a Nurse</a>
-            <a href="#services" class="btn btn-blue">Explore Services</a>
+            <h1 class="hero-title">Compassionate Care When You Need It Most</h1>
+            <p class="hero-subtitle">Professional home healthcare services tailored to your unique needs</p>
+            <a href="#contact" class="btn">Get Care Now</a>
+            <a href="#services" class="btn btn-blue">Our Services</a>
         </div>
     </section>
 
     <!-- Services Section -->
     <section class="services" id="services">
         <div class="section-title">
-            <h2>Our Services</h2>
+            <h2>Our Specialized Services</h2>
         </div>
         <div class="services-grid">
+            <!-- Infant Care -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1588776814546-15c115e6b9de?q=80&w=800&auto=format&fit=crop" class="service-img" alt="Home Nursing">
-                <div class="service-content">
-                    <i class="fas fa-user-nurse service-icon"></i>
-                    <h3 class="service-title">Home Nursing</h3>
-                    <p class="service-description">Professional nurses for home care and post-operative recovery.</p>
-                </div>
-            </div>
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1588776814546-15c115e6b9de?q=80&w=800&auto=format&fit=crop" class="service-img" alt="Pediatric Care">
+                <img src="https://i.pinimg.com/736x/d8/d6/ef/d8d6ef85f2d659f51dbc379ee6aea058.jpg" 
+                     alt="Infant Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-baby service-icon"></i>
-                    <h3 class="service-title">Pediatric Care</h3>
-                    <p class="service-description">Specialized care for infants and children in the comfort of your home.</p>
+                    <h3 class="service-title">Infant Care</h3>
+                    <p class="service-description">
+                        Specialized care for your newborn with trained pediatric nurses who provide round-the-clock attention,
+                        feeding support, and developmental monitoring.
+                    </p>
+                    <a href="#contact" class="btn">Learn More</a>
                 </div>
             </div>
+            
+            <!-- Maternal Care -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1588776814546-15c115e6b9de?q=80&w=800&auto=format&fit=crop" class="service-img" alt="Elderly Care">
+                <img src="https://images.unsplash.com/photo-1517120026326-d87759a7b0bb?q=80&w=2070&auto=format&fit=crop" alt="Maternal Care" class="service-img">
+                <div class="service-content">
+                    <i class="fas fa-female service-icon"></i>
+                    <h3 class="service-title">Maternal Care</h3>
+                    <p class="service-description">Comprehensive postpartum care for new mothers including recovery support, breastfeeding assistance, and emotional well-being checks.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Elderly Care -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=2070&auto=format&fit=crop" alt="Elderly Care" class="service-img">
+                <div class="service-content">
+                    <i class="fas fa-user-md service-icon"></i>
+                    <h3 class="service-title">Elderly Care</h3>
+                    <p class="service-description">Compassionate geriatric care with medication management, mobility assistance, and companionship to enhance quality of life.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Post-Surgical Care -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?q=80&w=2070&auto=format&fit=crop" alt="Post-Surgical Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-procedures service-icon"></i>
-                    <h3 class="service-title">Elderly Care</h3>
-                    <p class="service-description">Comprehensive care plans for seniors to maintain independence and health.</p>
+                    <h3 class="service-title">Post-Surgical Care</h3>
+                    <p class="service-description">Professional wound care, rehabilitation exercises, and recovery monitoring to ensure optimal healing after procedures.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Chronic Condition Management -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop" alt="Chronic Condition Management" class="service-img">
+                <div class="service-content">
+                    <i class="fas fa-heartbeat service-icon"></i>
+                    <h3 class="service-title">Chronic Condition Management</h3>
+                    <p class="service-description">Specialized care plans for diabetes, hypertension, COPD and other chronic illnesses with regular health monitoring.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Palliative Care -->
+            <div class="service-card">
+                <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?q=80&w=2070&auto=format&fit=crop" alt="Palliative Care" class="service-img">
+                <div class="service-content">
+                    <i class="fas fa-hands-helping service-icon"></i>
+                    <h3 class="service-title">Palliative Care</h3>
+                    <p class="service-description">Comfort-focused care with pain management and emotional support for patients with serious illnesses.</p>
+                    <a href="#contact" class="btn">Learn More</a>
                 </div>
             </div>
         </div>
@@ -673,18 +762,52 @@
     <section class="about" id="about">
         <div class="about-container">
             <div class="about-img">
-                <img src="https://images.unsplash.com/photo-1600185361463-6ab28a4b591f?q=80&w=800&auto=format&fit=crop" alt="About SwiftNurse">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2070&auto=format&fit=crop" alt="SwiftNurse Team">
             </div>
             <div class="about-content">
-                <h2 class="about-title">About SwiftNurse</h2>
-                <p class="about-text">SwiftNurse connects patients with professional healthcare providers, ensuring timely and efficient care at home.</p>
+                <h2 class="about-title">Why Choose SwiftNurse?</h2>
+                <p class="about-text">SwiftNurse Homecare Solutions brings professional medical care to the comfort of your home. Our team of certified nurses and caregivers are dedicated to providing compassionate, personalized care that promotes healing and independence.</p>
+                <p class="about-text">We understand that every patient has unique needs, which is why we create customized care plans for each individual we serve.</p>
+                
                 <ul class="features-list">
-                    <li>Certified and experienced nurses</li>
-                    <li>24/7 availability</li>
-                    <li>Affordable and transparent pricing</li>
-                    <li>Personalized care plans</li>
+                    <li>Licensed and certified healthcare professionals</li>
+                    <li>Personalized care plans tailored to your needs</li>
+                    <li>24/7 availability for urgent care needs</li>
+                    <li>Regular health monitoring and reporting</li>
+                    <li>Compassionate, patient-centered approach</li>
+                    <li>Continuous caregiver training and development</li>
                 </ul>
-                <a href="#contact" class="btn">Book a Nurse</a>
+                
+                <a href="#contact" class="btn">Contact Us Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-title">
+            <h2>What Our Clients Say</h2>
+        </div>
+        <div class="testimonials-slider">
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1974&auto=format&fit=crop" alt="Client" class="client-img">
+                <p class="client-quote">"The maternal care I received from SwiftNurse after my C-section was exceptional. The nurse was knowledgeable, patient, and helped me through my recovery with such compassion."</p>
+                <h4 class="client-name">Sarah M.</h4>
+                <p class="client-role">New Mother</p>
+            </div>
+            
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" alt="Client" class="client-img">
+                <p class="client-quote">"Having SwiftNurse care for my elderly father has been a blessing. Their professionalism and genuine care have made such a difference in his quality of life."</p>
+                <h4 class="client-name">James K.</h4>
+                <p class="client-role">Son of Patient</p>
+            </div>
+            
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop" alt="Client" class="client-img">
+                <p class="client-quote">"The infant care specialist from SwiftNurse helped us so much in those first overwhelming weeks with our newborn. We couldn't have done it without her!"</p>
+                <h4 class="client-name">The Wanjiru Family</h4>
+                <p class="client-role">New Parents</p>
             </div>
         </div>
     </section>
@@ -692,30 +815,87 @@
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="section-title">
-            <h2>Contact Us</h2>
+            <h2>Get In Touch</h2>
         </div>
         <div class="contact-container">
             <div class="contact-info">
-                <h3 class="contact-title">Get in Touch</h3>
+                <h3 class="contact-title">Contact Information</h3>
                 <ul class="contact-details">
-                    <li><i class="fas fa-map-marker-alt contact-icon"></i>123 Health Street, Wellness City</li>
-                    <li><i class="fas fa-phone contact-icon"></i>+123 456 7890</li>
-                    <li><i class="fas fa-envelope contact-icon"></i>contact@swiftnurse.com</li>
+                    <li>
+                        <i class="fas fa-phone contact-icon"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>0727681122</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>swiftnursehomecare.org</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Nairobi, Kenya</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock contact-icon"></i>
+                        <div>
+                            <h4>Working Hours</h4>
+                            <p>24/7 Emergency Services Available</p>
+                            <p>Monday - Sunday: 8:00 AM - 8:00 PM</p>
+                        </div>
+                    </li>
                 </ul>
+                
+                <div class="social-links">
+                    <a href="https://www.instagram.com/swiftnurse_homecare?igsh=eTB4YWFoMGRjdTF6" class="social-link" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
             </div>
+            
             <div class="contact-form">
+                <h3 class="contact-title">Send Us a Message</h3>
                 <form id="booking-form">
                     <div class="form-group">
-                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                        <input type="text" class="form-control" name="user_name" placeholder="Your Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                        <input type="email" class="form-control" name="user_email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" class="form-control" placeholder="Your Message" required></textarea>
+                        <input type="tel" class="form-control" name="user_phone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="service_needed" required>
+                            <option value="">Select Service Needed</option>
+                            <option>Infant Care</option>
+                            <option>Maternal Care</option>
+                            <option>Elderly Care</option>
+                            <option>Post-Surgical Care</option>
+                            <option>Chronic Condition Management</option>
+                            <option>Palliative Care</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Send Message</button>
-                    <div class="form-message" id="form-message"></div>
                 </form>
             </div>
         </div>
@@ -726,57 +906,117 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>SwiftNurse</h3>
-                <p>Your trusted healthcare partner.</p>
+                <p>Providing compassionate, professional home healthcare services tailored to your unique needs.</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/swiftnurse_homecare?igsh=eTB4YWFoMGRjdTF6" class="social-link" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
             </div>
+            
             <div class="footer-col">
-                <h3>Links</h3>
+                <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="#about">About</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
+            
             <div class="footer-col">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                </div>
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Infant Care</a></li>
+                    <li><a href="#">Maternal Care</a></li>
+                    <li><a href="#">Elderly Care</a></li>
+                    <li><a href="#">Post-Surgical Care</a></li>
+                    <li><a href="#">Chronic Condition Management</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> 0727681122</li>
+                    <li><i class="fas fa-envelope"></i> swiftnursehomecare.org</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
+                </ul>
             </div>
         </div>
+        
         <div class="copyright">
-            &copy; 2025 SwiftNurse. All rights reserved.
+            <p>&copy; 2023 SwiftNurse Homecare Solutions. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script>
-        (function() {
-            emailjs.init("aNt7HVW9ZnYMbAceL"); // Your EmailJS public key
-        })();
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+    (function() {
+        emailjs.init("aNt7HVW9ZnYMbAceL"); // ✅ Your EmailJS public key
+    })();
 
-        const form = document.getElementById('booking-form');
-        const formMessage = document.getElementById('form-message');
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+    });
 
-        form.addEventListener('submit', function(e){
+    // Sticky Header
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
+    });
+
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+            if (window.innerWidth <= 768) navMenu.style.display = 'none';
+        });
+    });
+
+    // Testimonials Slider
+    let currentTestimonial = 0;
+    const testimonials = document.querySelectorAll('.testimonial-card');
+    function showTestimonial(index) {
+        testimonials.forEach((testimonial, i) => {
+            testimonial.style.display = i === index ? 'block' : 'none';
+        });
+    }
+    function nextTestimonial() {
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        showTestimonial(currentTestimonial);
+    }
+    showTestimonial(0);
+    setInterval(nextTestimonial, 5000);
+
+    // ✅ EmailJS Form Submission Fix
+    const contactForm = document.getElementById('booking-form');
+    if(contactForm){
+        contactForm.addEventListener('submit', function(e){
             e.preventDefault();
             emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
-            .then(() => {
-                formMessage.textContent = "Your message has been sent successfully!";
-                formMessage.className = "form-message success";
-                formMessage.style.display = "block";
-                form.reset();
-            }, (error) => {
-                formMessage.textContent = "Oops! Something went wrong. Please try again.";
-                formMessage.className = "form-message error";
-                formMessage.style.display = "block";
-                console.error(error);
+            .then(function() {
+                alert("✅ Thank you! Your message has been sent successfully.");
+                contactForm.reset();
+            }, function(error) {
+                alert("❌ Oops! Something went wrong. Please try again later.");
+                console.error("EmailJS error:", error);
             });
         });
-    </script>
+    }
+</script>
 </body>
 </html>
