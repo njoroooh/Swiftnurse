@@ -869,37 +869,36 @@
                 </div>
             </div>
             
-           <div class="contact-form">
-    <h3 class="contact-title">Send Us a Message</h3>
-    <form>
-        <div class="form-group">
-            <input type="text" class="form-control" name="from_name" placeholder="Your Name" required>
-        </div>
-        <div class="form-group">
-            <input type="email" class="form-control" name="from_email" placeholder="Your Email" required>
-        </div>
-        <div class="form-group">
-            <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required>
-        </div>
-        <div class="form-group">
-            <select class="form-control" name="service" required>
-                <option value="">Select Service Needed</option>
-                <option>Infant Care</option>
-                <option>Maternal Care</option>
-                <option>Elderly Care</option>
-                <option>Post-Surgical Care</option>
-                <option>Chronic Condition Management</option>
-                <option>Palliative Care</option>
-                <option>Other</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
-        </div>
-        <input type="hidden" name="to_email" value="paulnkamande10877@gmail.com">
-        <button type="submit" class="submit-btn">Send Message</button>
-    </form>
-</div>
+            <div class="contact-form">
+                <h3 class="contact-title">Send Us a Message</h3>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" class="form-control" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" required>
+                            <option value="">Select Service Needed</option>
+                            <option>Infant Care</option>
+                            <option>Maternal Care</option>
+                            <option>Elderly Care</option>
+                            <option>Post-Surgical Care</option>
+                            <option>Chronic Condition Management</option>
+                            <option>Palliative Care</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
         </div>
     </section>
 
@@ -961,27 +960,35 @@
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
     // Initialize EmailJS
-    emailjs.init("aNt7HVW9ZnYMbAceL");
-    console.log("EmailJS ready!");
+    (function() {
+        emailjs.init("aNt7HVW9ZnYMbAceL"); // 🔑 Replace with your EmailJS Public Key
+    })();
 
-    // Mobile Menu
+    // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navMenu = document.getElementById('nav-menu');
     mobileMenuBtn.addEventListener('click', () => {
         navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Smooth Scroll
+    // Sticky Header
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
+    });
+
+    // Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             document.querySelector(this.getAttribute('href')).scrollIntoView({
                 behavior: 'smooth'
             });
+            if (window.innerWidth <= 768) navMenu.style.display = 'none';
         });
     });
 
-    // Testimonials
+    // Testimonials Slider
     let currentTestimonial = 0;
     const testimonials = document.querySelectorAll('.testimonial-card');
     function showTestimonial(index) {
@@ -989,59 +996,32 @@
             testimonial.style.display = i === index ? 'block' : 'none';
         });
     }
-    showTestimonial(0);
-    setInterval(() => {
+    function nextTestimonial() {
         currentTestimonial = (currentTestimonial + 1) % testimonials.length;
         showTestimonial(currentTestimonial);
-    }, 5000);
+    }
+    showTestimonial(0);
+    setInterval(nextTestimonial, 5000);
 
-    // ✅ IMMEDIATE AUTO-REPLY EmailJS
-    document.querySelector('.contact-form form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        console.log("🚀 Sending emails IMMEDIATELY...");
-        
-        // Get form data for auto-reply
-        const formData = {
-            from_name: this.from_name.value,
-            from_email: this.from_email.value,
-            phone: this.phone.value,
-            service: this.service.value,
-            message: this.message.value
-        };
-        
-        // Send BOTH emails simultaneously for immediate delivery
-        const sendToSwiftNurse = emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this);
-        const sendAutoReply = emailjs.send("service_9rfro2l", "template_dw5tn6b", formData);
+    // ✅ EmailJS Form Submission
+    const contactForm = document.querySelector('.contact-form form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        // Wait for both to complete (or fail)
-        Promise.allSettled([sendToSwiftNurse, sendAutoReply])
-            .then(results => {
-                const swiftResult = results[0];
-                const replyResult = results[1];
-
-                const swiftSuccess = swiftResult.status === "fulfilled";
-                const replySuccess = replyResult.status === "fulfilled";
-
-                console.log("SwiftNurse email:", swiftSuccess ? "✅" : "❌");
-                console.log("Auto-reply email:", replySuccess ? "✅" : "❌");
-
-                if (swiftSuccess && replySuccess) {
-                    alert("✅ Thank you! Your message has been sent and you should receive a confirmation email shortly.");
-                } else if (swiftSuccess) {
-                    alert("✅ Message received! We'll contact you soon. (Confirmation email may be delayed)");
-                } else {
-                    alert("❌ Failed to send message. Please try again or call us at 0727681122");
-                }
-
-                this.reset();
-            })
-            .catch((error) => {
-                console.error("Unexpected error:", error);
-                alert("❌ Something went wrong. Please try again.");
-            });
-    });
+            emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
+                .then(() => {
+                    alert("✅ Thank you for your message! We will contact you shortly.");
+                    this.reset();
+                }, (error) => {
+                    alert("❌ Failed to send message. Please try again later.");
+                    console.error(error);
+                });
+        });
+    }
 </script>
 
    
+    </script>
 </body>
-</html> 
+</html>
