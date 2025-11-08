@@ -1004,7 +1004,7 @@
     showTestimonial(0);
     setInterval(nextTestimonial, 5000);
 
- // ✅ EmailJS Form Submission - WITH AUTO-REPLY
+// ✅ EmailJS Form Submission - WITH BETTER ERROR HANDLING
 const contactForm = document.querySelector('.contact-form form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
@@ -1021,25 +1021,30 @@ if (contactForm) {
             message: this.message.value
         };
         
-        console.log("Sending to SwiftNurse...");
-        
         // 1. Send to YOURSELF (SwiftNurse)
         emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
             .then((response) => {
                 console.log('✅ Inquiry sent to SwiftNurse');
                 
-                // 2. Send AUTO-REPLY to customer
-                console.log("Sending auto-reply to customer...");
-                return emailjs.send("service_9rfro2l", "YOUR_AUTO_REPLY_TEMPLATE_ID", formData);
+                // 2. Try to send AUTO-REPLY to customer
+                console.log("Attempting auto-reply...");
+                return emailjs.send("service_9rfro2l", "template_dw5tn6b", formData)
+                    .then((response) => {
+                        console.log('✅ Auto-reply sent to customer');
+                    })
+                    .catch((autoReplyError) => {
+                        console.log('⚠️ Auto-reply failed, but inquiry was sent:', autoReplyError);
+                        // Continue anyway - don't let auto-reply failure stop the success message
+                    });
             })
-            .then((response) => {
-                console.log('✅ Auto-reply sent to customer');
-                alert("✅ Thank you! We've sent a confirmation email to you.");
+            .then(() => {
+                // Show success message regardless of auto-reply result
+                alert("✅ Thank you for your message! We will contact you shortly.");
                 this.reset();
             })
             .catch((error) => {
-                console.log('❌ Error:', error);
-                alert("❌ Failed to send message. Please try again.");
+                console.log('❌ Main email failed:', error);
+                alert("❌ Failed to send message. Please try again later.");
             });
     });
 }
