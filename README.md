@@ -1004,7 +1004,7 @@
     showTestimonial(0);
     setInterval(nextTestimonial, 5000);
 
-// ✅ EmailJS Form Submission - WITH BETTER ERROR HANDLING
+// ✅ EmailJS Form Submission - COMPLETE DATA
 const contactForm = document.querySelector('.contact-form form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
@@ -1012,39 +1012,33 @@ if (contactForm) {
         
         console.log("📧 Starting email process...");
         
-        // Get form data for auto-reply
+        // Get ALL form data including message
         const formData = {
             from_name: this.from_name.value,
             from_email: this.from_email.value,
             phone: this.phone.value,
             service: this.service.value,
-            message: this.message.value
+            message: this.message.value  // Make sure this is included!
         };
         
-        // 1. Send to YOURSELF (SwiftNurse)
+        console.log("All form data:", formData);
+        
+        // 1. Send to SwiftNurse
         emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
             .then((response) => {
                 console.log('✅ Inquiry sent to SwiftNurse');
                 
-                // 2. Try to send AUTO-REPLY to customer
-                console.log("Attempting auto-reply...");
-                return emailjs.send("service_9rfro2l", "template_dw5tn6b", formData)
-                    .then((response) => {
-                        console.log('✅ Auto-reply sent to customer');
-                    })
-                    .catch((autoReplyError) => {
-                        console.log('⚠️ Auto-reply failed, but inquiry was sent:', autoReplyError);
-                        // Continue anyway - don't let auto-reply failure stop the success message
-                    });
+                // 2. Send auto-reply with COMPLETE data
+                return emailjs.send("service_9rfro2l", "YOUR_AUTO_REPLY_TEMPLATE_ID", formData);
             })
-            .then(() => {
-                // Show success message regardless of auto-reply result
-                alert("✅ Thank you for your message! We will contact you shortly.");
+            .then((response) => {
+                console.log('✅ Auto-reply sent with complete data');
+                alert("✅ Thank you! We've received your message and sent a confirmation email.");
                 this.reset();
             })
             .catch((error) => {
-                console.log('❌ Main email failed:', error);
-                alert("❌ Failed to send message. Please try again later.");
+                console.log('❌ Error:', error);
+                alert("❌ Failed to send message. Please try again.");
             });
     });
 }
