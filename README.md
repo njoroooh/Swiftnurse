@@ -869,36 +869,36 @@
                 </div>
             </div>
             
-            <div class="contact-form">
-                <h3 class="contact-title">Send Us a Message</h3>
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" class="form-control" placeholder="Phone Number" required>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" required>
-                            <option value="">Select Service Needed</option>
-                            <option>Infant Care</option>
-                            <option>Maternal Care</option>
-                            <option>Elderly Care</option>
-                            <option>Post-Surgical Care</option>
-                            <option>Chronic Condition Management</option>
-                            <option>Palliative Care</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" placeholder="Your Message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-            </div>
+           <div class="contact-form">
+    <h3 class="contact-title">Send Us a Message</h3>
+    <form>
+        <div class="form-group">
+            <input type="text" class="form-control" name="from_name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="from_email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+            <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required>
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="service" required>
+                <option value="">Select Service Needed</option>
+                <option>Infant Care</option>
+                <option>Maternal Care</option>
+                <option>Elderly Care</option>
+                <option>Post-Surgical Care</option>
+                <option>Chronic Condition Management</option>
+                <option>Palliative Care</option>
+                <option>Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+</div>
         </div>
     </section>
 
@@ -1003,25 +1003,87 @@
     showTestimonial(0);
     setInterval(nextTestimonial, 5000);
 
-    // ✅ EmailJS Form Submission
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+    // Initialize EmailJS
+    (function() {
+        emailjs.init("aNt7HVW9ZnYMbAceL");
+    })();
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Sticky Header
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
+    });
+
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+            if (window.innerWidth <= 768) navMenu.style.display = 'none';
+        });
+    });
+
+    // Testimonials Slider
+    let currentTestimonial = 0;
+    const testimonials = document.querySelectorAll('.testimonial-card');
+    function showTestimonial(index) {
+        testimonials.forEach((testimonial, i) => {
+            testimonial.style.display = i === index ? 'block' : 'none';
+        });
+    }
+    function nextTestimonial() {
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        showTestimonial(currentTestimonial);
+    }
+    showTestimonial(0);
+    setInterval(nextTestimonial, 5000);
+
+    // ✅ AUTO-REPLY EmailJS Form Submission
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this)
+            // Get all form data for auto-reply
+            const formData = {
+                from_name: this.from_name.value,
+                from_email: this.from_email.value,
+                phone: this.phone.value,
+                service: this.service.value,
+                message: this.message.value
+            };
+
+            console.log("Sending emails with data:", formData);
+
+            // Send both emails simultaneously
+            const sendToSwiftNurse = emailjs.sendForm("service_9rfro2l", "template_vxztb8d", this);
+            const sendAutoReply = emailjs.send("service_9rfro2l", "template_dw5tn6b", formData);
+
+            // Wait for both emails to complete
+            Promise.all([sendToSwiftNurse, sendAutoReply])
                 .then(() => {
-                    alert("✅ Thank you for your message! We will contact you shortly.");
+                    alert("✅ Thank you for your message! We've sent a confirmation email to " + formData.from_email);
                     this.reset();
-                }, (error) => {
+                })
+                .catch((error) => {
+                    console.error("Email error:", error);
                     alert("❌ Failed to send message. Please try again later.");
-                    console.error(error);
                 });
         });
     }
 </script>
-
    
-    </script>
+   
 </body>
 </html>
