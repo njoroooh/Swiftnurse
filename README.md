@@ -709,7 +709,7 @@
                     <i class="fas fa-female service-icon"></i>
                     <h3 class="service-title">Maternal Care</h3>
                     <p class="service-description">Comprehensive postpartum care for new mothers including recovery support, breastfeeding assistance, and emotional well-being checks.</p>
-                    <a href="#contact" class="btn">Learn More</a>
+                    <a href="about.html" class="btn">Learn More</a>
                 </div>
             </div>
             
