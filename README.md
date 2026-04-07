@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-pink: #ff6b9e;
-            --light-pink: #ffebf1;
-            --dark-pink: #e84393;
-            --primary-blue: #0984e3;
-            --light-blue: #e3f2fd;
-            --dark-blue: #0a79df;
-            --pure-white: #ffffff;
-            --light-gray: #f5f6fa;
+            --primary-pink:var(--dark-pink)(36 2% 56% / 0.733);
+            --light-pink: #f6f3f2;
+            --dark-pink: #453935;
+            --primary-blue: #0a0604;
+            --light-blue: #453935;
+            --dark-blue: #040238;
+            --pure-white: #3a0808;
+            --light-gray: #f3f1f0d3;
         }
 
         * {
@@ -27,7 +27,7 @@
 
         body {
             background-color: var(--light-gray);
-            color: #333;
+            color: #df5b0e;
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -45,24 +45,26 @@
         }
 
         .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between logo image and tagline */
+}
 
-        .logo-icon {
-            font-size: 2rem;
-            color: var(--pure-white);
-        }
+.logo-icon {
+    width: 120px;   /* tweak until it fits nicely */
+    height: auto;
+    display: block;
+}
+
+
+
+
 
         .logo-text {
             font-size: 1.5rem;
@@ -77,10 +79,13 @@
         }
 
         nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
 
         nav a {
             color: var(--pure-white);
@@ -92,20 +97,14 @@
             transition: all 0.3s ease;
         }
 
-        nav a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--pure-white);
-            bottom: 0;
-            left: 0;
-            transition: width 0.3s ease;
-        }
+       nav a:after {
+    transition: width 0.3s ease;
+}
 
-        nav a:hover:after {
-            width: 100%;
-        }
+
+      nav a:hover:after {
+    width: 100%;
+}
 
         .mobile-menu-btn {
             display: none;
@@ -120,7 +119,7 @@
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(255, 107, 158, 0.7), rgba(9, 132, 227, 0.7)), 
-                        url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop') center/cover;
+                        url('https://i.pinimg.com/736x/54/4b/7e/544b7e409bdcd339901e25b5a37d2c46.jpg') center/cover;
             display: flex;
             align-items: center;
             text-align: center;
@@ -646,29 +645,27 @@
 </head>
 <body>
     <!-- Header -->
-    <header id="header">
-        <div class="header-container">
-            <div class="logo">
-                <i class="fas fa-heartbeat logo-icon"></i>
-                <div>
-                    <div class="logo-text">SwiftNurse</div>
-                    <div class="logo-tagline">Healthcare solution close to you</div>
-                </div>
-            </div>
-            <nav>
-                <ul id="nav-menu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <button class="mobile-menu-btn" id="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
+   <header id="header">
+    <div class="header-container">
+        <div class="logo">
+           <img src="pictures/logo.png" alt="SwiftNurse Logo" class="logo-icon">
+
         </div>
-    </header>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -697,41 +694,41 @@
             Specialized care for your newborn with trained pediatric nurses who provide round-the-clock attention,
             feeding support, and developmental monitoring.
         </p>
-        <a href="#contact" class="btn">Learn More</a>
+        <a href="infant.html" class="btn">Learn More</a>
     </div>
 </div>
 
             
             <!-- Maternal Care -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1517120026326-d87759a7b0bb?q=80&w=2070&auto=format&fit=crop" alt="Maternal Care" class="service-img">
+                <img src="https://i.pinimg.com/736x/fb/9b/9c/fb9b9c8253bde0541540858445a2f505.jpg" alt="Maternal Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-female service-icon"></i>
                     <h3 class="service-title">Maternal Care</h3>
                     <p class="service-description">Comprehensive postpartum care for new mothers including recovery support, breastfeeding assistance, and emotional well-being checks.</p>
-                    <a href="about.html" class="btn">Learn More</a>
+                    <a href="maternity.html" class="btn">Learn More</a>
                 </div>
             </div>
             
             <!-- Elderly Care -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=2070&auto=format&fit=crop" alt="Elderly Care" class="service-img">
+                <img src="https://i.pinimg.com/736x/ce/78/04/ce780459ede1747854ce7d3cb6f80a8d.jpg" alt="Elderly Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-user-md service-icon"></i>
                     <h3 class="service-title">Elderly Care</h3>
                     <p class="service-description">Compassionate geriatric care with medication management, mobility assistance, and companionship to enhance quality of life.</p>
-                    <a href="#contact" class="btn">Learn More</a>
+                    <a href="elderly.html" class="btn">Learn More</a>
                 </div>
             </div>
             
             <!-- Post-Surgical Care -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?q=80&w=2070&auto=format&fit=crop" alt="Post-Surgical Care" class="service-img">
+                <img src="https://i.pinimg.com/1200x/2c/35/7e/2c357e9831a6fae514f9a5c4068544d4.jpg" alt="Post-Surgical Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-procedures service-icon"></i>
                     <h3 class="service-title">Post-Surgical Care</h3>
                     <p class="service-description">Professional wound care, rehabilitation exercises, and recovery monitoring to ensure optimal healing after procedures.</p>
-                    <a href="#contact" class="btn">Learn More</a>
+                    <a href="Post-Surgical.html" class="btn">Learn More</a>
                 </div>
             </div>
             
@@ -742,18 +739,18 @@
                     <i class="fas fa-heartbeat service-icon"></i>
                     <h3 class="service-title">Chronic Condition Management</h3>
                     <p class="service-description">Specialized care plans for diabetes, hypertension, COPD and other chronic illnesses with regular health monitoring.</p>
-                    <a href="#contact" class="btn">Learn More</a>
+                    <a href="Chronic.html" class="btn">Learn More</a>
                 </div>
             </div>
             
             <!-- Palliative Care -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?q=80&w=2070&auto=format&fit=crop" alt="Palliative Care" class="service-img">
+                <img src="https://i.pinimg.com/736x/e0/98/45/e09845d1da6a34f87a75c8a5c08f256a.jpg" alt="Palliative Care" class="service-img">
                 <div class="service-content">
                     <i class="fas fa-hands-helping service-icon"></i>
                     <h3 class="service-title">Palliative Care</h3>
                     <p class="service-description">Comfort-focused care with pain management and emotional support for patients with serious illnesses.</p>
-                    <a href="#contact" class="btn">Learn More</a>
+                    <a href="Paliative.html" class="btn">Learn More</a>
                 </div>
             </div>
         </div>
@@ -763,7 +760,7 @@
     <section class="about" id="about">
         <div class="about-container">
             <div class="about-img">
-                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2070&auto=format&fit=crop" alt="SwiftNurse Team">
+                <img src="https://i.pinimg.com/1200x/85/90/08/859008b3faf7f31d0b378acd6d99aaf6.jpg" alt="SwiftNurse Team">
             </div>
             <div class="about-content">
                 <h2 class="about-title">Why Choose SwiftNurse?</h2>
