@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftNurse Homecare - Post Surgical Care</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --red: #e63946;
+            --dark-red: #c1121f;
+            --blue: #1d3557;
+            --light-blue: #457b9d;
+            --pink: #ff85a1;
+            --light-pink: #ffc8dd;
+            --pale-pink: #fff0f3;
+            --white: #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--blue);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo span { color: var(--pink); }
+        .logo-icon { font-size: 2rem; }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--pink); }
+
+        .nav-btn {
+            background: var(--red);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: background 0.3s !important;
+        }
+
+        .nav-btn:hover {
+            background: var(--dark-red) !important;
+            color: white !important;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--light-blue) 50%, var(--pink) 100%);
+            display: flex;
+            align-items: center;
+            padding: 100px 40px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,133,161,0.15);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            max-width: 650px;
+            color: white;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            background: rgba(255,133,161,0.3);
+            border: 1px solid var(--pink);
+            color: var(--light-pink);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero h1 span { color: var(--light-pink); }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 35px;
+            line-height: 1.7;
+            animation: fadeInLeft 1.2s ease;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1.4s ease;
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(230,57,70,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            padding: 14px 30px;
+            border: 2px solid white;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--blue);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            animation: fadeInUp 1.6s ease;
+        }
+
+        .stat h3 {
+            font-size: 2rem;
+            color: var(--light-pink);
+        }
+
+        .stat p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        /* FLOATING CARDS */
+        .hero-cards {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 15px 20px;
+            border-radius: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 1s ease;
+            transition: transform 0.3s;
+        }
+
+        .hero-card:hover { transform: translateX(-5px); }
+        .hero-card-icon { font-size: 1.8rem; }
+
+        .hero-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .hero-card p {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        /* SECTIONS */
+        section { padding: 80px 40px; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            color: var(--red);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--blue);
+            margin: 10px 0;
+        }
+
+        .section-header p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* RECOVERY STEPS */
+        .recovery {
+            background: white;
+        }
+
+        .steps-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .step-card {
+            background: var(--pale-pink);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--pink);
+            box-shadow: 0 15px 40px rgba(255,133,161,0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--red), var(--pink));
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin: 15px 0 15px;
+            display: block;
+        }
+
+        .step-card h3 {
+            color: var(--blue);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            color: #666;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        /* SERVICES */
+        .services { background: var(--pale-pink); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--red), var(--pink));
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: var(--light-pink);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            color: var(--blue);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .service-card .learn-more {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--red);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .service-card .learn-more:hover { text-decoration: underline; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            animation: slideInUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .modal h3 {
+            color: var(--blue);
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .modal ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .modal ul li {
+            padding: 6px 0;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modal ul li::before {
+            content: '✓';
+            color: var(--red);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .modal-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--red), var(--pink));
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .modal-btn:hover { opacity: 0.9; }
+
+        /* WHY US */
+        .why-us { background: white; }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .why-image {
+            background: linear-gradient(135deg, var(--light-blue), var(--blue));
+            border-radius: 20px;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10rem;
+            box-shadow: 0 20px 60px rgba(29,53,87,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(255,133,161,0.3));
+        }
+
+        .why-features {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .why-feature {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            padding: 20px;
+            border-radius: 15px;
+            transition: background 0.3s;
+        }
+
+        .why-feature:hover { background: var(--pale-pink); }
+
+        .why-feature-icon {
+            background: linear-gradient(135deg, var(--red), var(--pink));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .why-feature h4 { color: var(--blue); margin-bottom: 6px; }
+
+        .why-feature p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* SURGERY TYPES */
+        .surgery-types { background: var(--pale-pink); }
+
+        .surgery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .surgery-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 4px solid var(--red);
+        }
+
+        .surgery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(230,57,70,0.15);
+        }
+
+        .surgery-card .surgery-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+        .surgery-card h4 { color: var(--blue); font-size: 1rem; margin-bottom: 6px; }
+        .surgery-card p { color: #777; font-size: 0.82rem; line-height: 1.5; }
+
+        /* PRICING */
+        .pricing {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--light-blue) 100%);
+        }
+
+        .pricing .section-header h2 { color: white; }
+        .pricing .section-tag { color: var(--light-pink); }
+        .pricing .section-header p { color: rgba(255,255,255,0.7); }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 35px 30px;
+            color: white;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--pink);
+            background: rgba(255,133,161,0.2);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--red);
+            color: white;
+            padding: 4px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pricing-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--light-pink);
+            margin: 15px 0;
+        }
+
+        .price span { font-size: 1rem; opacity: 0.7; }
+
+        .pricing-card ul { list-style: none; margin: 20px 0; }
+
+        .pricing-card ul li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .pricing-card ul li::before {
+            content: '✓';
+            color: var(--pink);
+            font-weight: bold;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--pink);
+            background: transparent;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .pricing-btn:hover, .pricing-card.popular .pricing-btn {
+            background: var(--pink);
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials { background: white; }
+
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: var(--pale-pink);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .testimonial-card.active { display: block; }
+
+        .stars { color: #ffd700; font-size: 1.3rem; margin-bottom: 15px; }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #444;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .author-info h4 { color: var(--blue); font-size: 1rem; }
+        .author-info p { color: #888; font-size: 0.85rem; }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .slider-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--red);
+            background: transparent;
+            color: var(--red);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-btn:hover { background: var(--red); color: white; }
+
+        .slider-dots { display: flex; gap: 8px; }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--light-pink);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active { background: var(--red); }
+
+        /* FAQ */
+        .faq { background: var(--pale-pink); }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover { background: var(--pale-pink); }
+
+        .faq-icon {
+            font-size: 1.3rem;
+            color: var(--red);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 25px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding: 0 25px 20px;
+        }
+
+        /* CONTACT */
+        .contact { background: white; }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 { color: var(--blue); font-size: 1.6rem; margin-bottom: 20px; }
+
+        .contact-info p { color: #666; line-height: 1.7; margin-bottom: 30px; }
+
+        .contact-details { display: flex; flex-direction: column; gap: 20px; }
+
+        .contact-item { display: flex; align-items: center; gap: 15px; }
+
+        .contact-icon {
+            background: linear-gradient(135deg, var(--red), var(--pink));
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-item h4 { color: var(--blue); font-size: 0.9rem; }
+        .contact-item p { color: #666; font-size: 0.9rem; margin: 0; }
+
+        .contact-form {
+            background: var(--pale-pink);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .contact-form h3 { color: var(--blue); margin-bottom: 25px; font-size: 1.4rem; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
+            display: block;
+            color: var(--blue);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light-pink);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+            background: white;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus { border-color: var(--red); }
+
+        .form-group textarea { height: 100px; resize: none; }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--red), var(--pink));
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(230,57,70,0.4);
+        }
+
+        .success-msg {
+            display: none;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--blue);
+            color: white;
+            padding: 60px 40px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.6);
+            margin-top: 15px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .footer-col h4 { color: var(--light-pink); margin-bottom: 20px; font-size: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover { color: var(--pink); }
+
+        .social-links { display: flex; gap: 10px; margin-top: 15px; }
+
+        .social-link {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
+
+        .social-link:hover { background: var(--red); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 25px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* SCROLL TO TOP */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--red);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(230,57,70,0.4);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .scroll-top:hover { background: var(--dark-red); transform: translateY(-3px); }
+        .scroll-top.show { display: flex; }
+
+        /* EMERGENCY BANNER */
+        .emergency-banner {
+            background: var(--red);
+            color: white;
+            padding: 12px 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            position: fixed;
+            top: 70px;
+            width: 100%;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emergency-banner strong { font-size: 1rem; }
+
+        .emergency-banner .close-banner {
+            position: absolute;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* ALERT BOX */
+        .alert-box {
+            background: linear-gradient(135deg, #fff3cd, #ffe8a1);
+            border-left: 5px solid #e6a817;
+            border-radius: 12px;
+            padding: 18px 22px;
+            max-width: 1100px;
+            margin: -20px auto 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #7d5a00;
+            font-size: 0.95rem;
+        }
+
+        .alert-box span { font-size: 1.6rem; }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-cards { display: none; }
+            .why-grid { grid-template-columns: 1fr; }
+            .why-image { height: 250px; }
+            .contact-container { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            nav { padding: 15px 20px; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--blue);
+                padding: 20px;
+                gap: 15px;
+            }
+            .nav-links.open { display: flex; }
+            .hamburger { display: flex; }
+            .hero { padding: 130px 20px 60px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { gap: 20px; }
+            section { padding: 60px 20px; }
+            .section-header h2 { font-size: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .contact-form { padding: 25px; }
+            .alert-box { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- EMERGENCY BANNER -->
+    <div class="emergency-banner" id="emergencyBanner">
+        🚨 <strong>24/7 SwiftNurse Post-Surgical Emergency Line:</strong> Call us now at <strong>📞 1-800-SWIFT-247</strong>
+        <button class="close-banner" onclick="document.getElementById('emergencyBanner').style.display='none'">✕</button>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <span class="logo-icon">🏥</span>
+            SwiftNurse<span> Homecare</span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#recovery">Recovery Steps</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#surgery-types">Surgery Types</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQs</a></li>
+            <li><a href="#contact" class="nav-btn">Book Now</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">🩺 SwiftNurse Homecare — Post Surgical Care Specialists</div>
+            <h1>Expert Recovery Care <span>In The Comfort</span> Of Your Home</h1>
+            <p>SwiftNurse Homecare provides professional post-surgical support — helping patients heal faster, safer, and more comfortably at home after any procedure.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary">📋 Book a Free Assessment</a>
+                <a href="#services" class="btn-outline">🔍 Explore Services</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <h3 id="counter1">0</h3>
+                    <p>Patients Recovered</p>
+                </div>
+                <div class="stat">
+                    <h3 id="counter2">0</h3>
+                    <p>Specialist Nurses</p>
+                </div>
+                <div class="stat">
+                    <h3 id="counter3">0</h3>
+                    <p>Years Experience</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-cards">
+            <div class="hero-card">
+                <div class="hero-card-icon">🩹</div>
+                <div>
+                    <h4>Wound Care</h4>
+                    <p>Expert dressing & monitoring</p>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-icon">💊</div>
+                <div>
+                    <h4>Pain Management</h4>
+                    <p>Medication support & relief</p>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-icon">🦾</div>
+                <div>
+                    <h4>Physiotherapy</h4>
+                    <p>Guided rehabilitation exercises</p>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-icon">📋</div>
+                <div>
+                    <h4>Care Coordination</h4>
+                    <p>Liaison with your hospital team</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECOVERY STEPS -->
+    <section class="recovery" id="recovery">
+        <div class="section-header fade-in">
+            <div class="section-tag">🗓️ Your Recovery Journey</div>
+            <h2>How SwiftNurse Supports Your Recovery</h2>
+            <p>From the moment you leave hospital to full recovery, SwiftNurse Homecare is with you every step of the way.</p>
+        </div>
+
+        <div class="alert-box fade-in">
+            <span>⚠️</span>
+            <div><strong>Important:</strong> Always follow your surgeon's discharge instructions. SwiftNurse Homecare works alongside your medical team — never replacing professional medical advice.</div>
+        </div>
+
+        <div class="steps-container">
+            <div class="step-card fade-in">
+                <div class="step-number">1</div>
+                <span class="step-icon">🏥</span>
+                <h3>Hospital Discharge</h3>
+                <p>SwiftNurse coordinates directly with your hospital team to prepare a full post-surgical care plan before you leave.</p>
+            </div>
+            <div class="step-card fade-in">
+                <div class="step-number">2</div>
+                <span class="step-icon">🏠</span>
+                <h3>Home Setup</h3>
+                <p>We prepare your home environment for safe recovery — from bed positioning to safety rails and equipment.</p>
+            </div>
+            <div class="step-card fade-in">
+                <div class="step-number">3</div>
+                <span class="step-icon">🩹</span>
+                <h3>Wound & Pain Care</h3>
+                <p>Daily wound dressing changes, infection monitoring, and structured pain management support.</p>
+            </div>
+            <div class="step-card fade-in">
+                <div class="step-number">4</div>
+                <span class="step-icon">🦾</span>
+                <h3>Rehabilitation</h3>
+                <p>Guided physiotherapy exercises and gentle mobility support to rebuild strength and function.</p>
+            </div>
+            <div class="step-card fade-in">
+                <div class="step-number">5</div>
+                <span class="step-icon">✅</span>
+                <h3>Full Recovery</h3>
+                <p>Ongoing monitoring, follow-up appointments and transition back to independent living with confidence.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="section-header fade-in">
+            <div class="section-tag">❤️ Our Post-Surgical Services</div>
+            <h2>Comprehensive Post-Surgical Care</h2>
+            <p>SwiftNurse Homecare offers a full suite of post-operative services tailored to your specific surgical recovery needs.</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card fade-in" onclick="openModal('wound')">
+                <span class="service-icon">🩹</span>
+                <h3>Wound Care & Dressing</h3>
+                <p>Professional wound assessment, dressing changes, suture monitoring and infection prevention by trained SwiftNurse nurses.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('medication')">
+                <span class="service-icon">💊</span>
+                <h3>Medication Management</h3>
+                <p>Structured post-surgical medication schedules including pain relief, antibiotics, and anticoagulants managed safely.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('physio')">
+                <span class="service-icon">🦾</span>
+                <h3>Physiotherapy Support</h3>
+                <p>Guided rehabilitation exercises, mobility support and strength-building programmes tailored to your surgery type.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('personal')">
+                <span class="service-icon">🛁</span>
+                <h3>Personal Care Assistance</h3>
+                <p>Dignified help with bathing, dressing and grooming while mobility is limited following your surgical procedure.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('nutrition')">
+                <span class="service-icon">🥗</span>
+                <h3>Nutrition & Meal Prep</h3>
+                <p>Surgeon-approved meal preparation, hydration support and dietary management to accelerate healing post-operation.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('monitoring')">
+                <span class="service-icon">📊</span>
+                <h3>Vital Signs Monitoring</h3>
+                <p>Regular monitoring of blood pressure, temperature, pulse and oxygen levels with immediate escalation if required.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('transport')">
+                <span class="service-icon">🚗</span>
+                <h3>Medical Transport</h3>
+                <p>Safe, reliable transport to follow-up appointments, outpatient clinics and physiotherapy sessions post-surgery.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('emotional')">
+                <span class="service-icon">💬</span>
+                <h3>Emotional & Mental Support</h3>
+                <p>Compassionate companionship and emotional wellbeing support to combat anxiety and low mood during recovery.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('housekeeping')">
+                <span class="service-icon">🏡</span>
+                <h3>Domestic Support</h3>
+                <p>Light housekeeping, laundry, shopping and home management while you focus entirely on your recovery.</p>
+                <a class="learn-more">Learn More →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+        <div class="modal" id="serviceModal">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-icon" id="modalIcon"></div>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+            <ul id="modalList"></ul>
+            <button class="modal-btn" onclick="document.getElementById('modalOverlay').classList.remove('show'); document.body.style.overflow=''; document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">
+                📋 Book This Service with SwiftNurse
+            </button>
+        </div>
+    </div>
+
+    <!-- SURGERY TYPES -->
+    <section class="surgery-types" id="surgery-types">
+        <div class="section-header fade-in">
+            <div class="section-tag">🔬 Specialisations</div>
+            <h2>Surgery Types We Support</h2>
+            <p>SwiftNurse Homecare has specialist experience supporting recovery across a wide range of surgical procedures.</p>
+        </div>
+
+        <div class="surgery-grid">
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">🦴</span>
+                <h4>Orthopaedic Surgery</h4>
+                <p>Hip replacements, knee surgery, spinal procedures & fracture repairs</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">❤️</span>
+                <h4>Cardiac Surgery</h4>
+                <p>Heart bypass, valve replacement & cardiac catheterisation recovery</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">🫁</span>
+                <h4>Abdominal Surgery</h4>
+                <p>Bowel resection, hernia repair, appendectomy & gallbladder surgery</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">🎗️</span>
+                <h4>Cancer Surgery</h4>
+                <p>Post-oncology surgical recovery with specialist emotional support</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">🧠</span>
+                <h4>Neurological Surgery</h4>
+                <p>Brain surgery, spinal decompression & nerve repair recovery care</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">👁️</span>
+                <h4>Ophthalmic Surgery</h4>
+                <p>Cataract surgery, glaucoma procedures & retinal detachment care</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">🦷</span>
+                <h4>Maxillofacial Surgery</h4>
+                <p>Jaw surgery, oral procedures & facial reconstructive recovery</p>
+            </div>
+            <div class="surgery-card fade-in">
+                <span class="surgery-icon">🔬</span>
+                <h4>Gynaecological Surgery</h4>
+                <p>Hysterectomy, laparoscopic surgery & caesarean section recovery</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why-us" id="why-us">
+        <div class="section-header fade-in">
+            <div class="section-tag">🌟 Why Choose SwiftNurse</div>
+            <h2>Recovery You Can Trust</h2>
+            <p>SwiftNurse Homecare brings clinical expertise and genuine compassion directly to your door after surgery.</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-image fade-in">
+                <span style="z-index:1;">🩺</span>
+            </div>
+            <div class="why-features">
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon">👩‍⚕️</div>
+                    <div>
+                        <h4>Qualified SwiftNurse Clinical Staff</h4>
+                        <p>All post-surgical care is delivered by registered nurses and trained healthcare assistants with specialist post-op experience.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon">🏥</div>
+                    <div>
+                        <h4>Hospital Liaison Service</h4>
+                        <p>SwiftNurse Homecare works directly with your surgical team to ensure a seamless, safe transition from hospital to home.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon">📋</div>
+                    <div>
+                        <h4>Personalised Recovery Plans</h4>
+                        <p>Every patient receives an individualised SwiftNurse recovery plan based on their surgery, health, and home environment.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon">📞</div>
+                    <div>
+                        <h4>24/7 Clinical Support Line</h4>
+                        <p>Access our SwiftNurse clinical team around the clock for post-surgical concerns, questions or emergencies.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon">⚡</div>
+                    <div>
+                        <h4>Swift Same-Day Starts</h4>
+                        <p>SwiftNurse can mobilise post-surgical care on the same day as hospital discharge — because recovery shouldn't wait.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="section-header fade-in">
+            <div class="section-tag">💷 SwiftNurse Packages</div>
+            <h2>Post-Surgical Care Packages</h2>
+            <p>Transparent, flexible SwiftNurse post-surgical packages. Free assessment included with every enquiry.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <h3>🩹 Recovery Starter</h3>
+                <div class="price">£22<span>/hr</span></div>
+                <p style="opacity:0.7;font-size:0.9rem;">For short-term post-op support</p>
+                <ul>
+                    <li>Daily wound care & dressing</li>
+                    <li>Medication reminders</li>
+                    <li>Personal care assistance</li>
+                    <li>Vital signs monitoring</li>
+                    <li>Up to 4 hrs/day</li>
+                </ul>
+                <button class="pricing-btn" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </div>
+            <div class="pricing-card popular fade-in">
+                <div class="popular-badge">⭐ Most Popular</div>
+                <h3>🏥 Full Recovery Care</h3>
+                <div class="price">£30<span>/hr</span></div>
+                <p style="opacity:0.7;font-size:0.9rem;">Complete post-surgical support</p>
+                <ul>
+                    <li>All Starter services</li>
+                    <li>Physiotherapy support</li>
+                    <li>Nutritional meal preparation</li>
+                    <li>Medical transport</li>
+                    <li>Hospital liaison</li>
+                    <li>Dedicated SwiftNurse coordinator</li>
+                    <li>Up to 8 hrs/day</li>
+                </ul>
+                <button class="pricing-btn">Get Started</button>
+            </div>
+            <div class="pricing-card fade-in">
+                <h3>🌟 Live-In Recovery</h3>
+                <div class="price">£1,150<span>/wk</span></div>
+                <p style="opacity:0.7;font-size:0.9rem;">Round-the-clock surgical recovery</p>
+                <ul>
+                    <li>All Full Recovery services</li>
+                    <li>24hr live-in SwiftNurse carer</li>
+                    <li>Night-time monitoring</li>
+                    <li>Emergency escalation plan</li>
+                    <li>Daily family updates</li>
+                    <li>Full domestic support</li>
+                </ul>
+                <button class="pricing-btn" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header fade-in">
+            <div class="section-tag">💬 Patient Stories</div>
+            <h2>What Our Patients Say About SwiftNurse</h2>
+            <p>Real recovery stories from patients and families who trusted SwiftNurse Homecare after surgery.</p>
+        </div>
+
+        <div class="testimonials-slider fade-in">
+            <div class="testimonial-card active">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"After my hip replacement I was terrified about going home. SwiftNurse sent a brilliant nurse on the same day I was discharged. She managed my wound care, helped me with exercises and made me feel completely safe. My recovery was so much faster than expected!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background: linear-gradient(135deg, #e63946, #ff85a1);">D</div>
+                    <div class="author-info">
+                        <h4>David Hartley, 68</h4>
+                        <p>Hip Replacement Patient — SwiftNurse client</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"My mother had open heart surgery and we needed immediate post-op care at home. SwiftNurse arranged everything within hours of discharge. Their nurse was exceptional — professional, warm and incredibly knowledgeable. Mum recovered beautifully."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background: linear-gradient(135deg, #1d3557, #457b9d);">A</div>
+                    <div class="author-info">
+                        <h4>Amanda Chen</h4>
+                        <p>Daughter of cardiac surgery patient — SwiftNurse client</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Following my cancer surgery I was emotionally and physically exhausted. My SwiftNurse carer was an angel — managing my medications, wounds and providing such compassionate support. I honestly don't know how I would have managed without them."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background: linear-gradient(135deg, #ff85a1, #ffc8dd);">L</div>
+                    <div class="author-info">
+                        <h4>Linda Morrison, 57</h4>
+                        <p>Cancer surgery patient — SwiftNurse live-in client</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"SwiftNurse Homecare arranged post-surgical care for my knee replacement within 24 hours. The physiotherapy support alone was worth every penny — I was walking confidently weeks ahead of schedule. An absolutely outstanding service!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background: linear-gradient(135deg, #e63946, #1d3557);">R</div>
+                    <div class="author-info">
+                        <h4>Robert Singh, 72</h4>
+                        <p>Knee replacement patient — SwiftNurse client</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-controls">
+                <button class="slider-btn" onclick="changeSlide(-1)">←</button>
+                <div class="slider-dots" id="sliderDots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <button class="slider-btn" onclick="changeSlide(1)">→</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="section-header fade-in">
+            <div class="section-tag">❓ Common Questions</div>
+            <h2>Post-Surgical Care FAQs</h2>
+            <p>Answers to the most common questions about SwiftNurse Homecare post-surgical support.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How quickly can SwiftNurse arrange post-surgical care?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">SwiftNurse Homecare can arrange post-surgical care on the same day as hospital discharge in most cases. We recommend contacting us at least 48 hours before planned discharge to ensure the smoothest transition possible.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Are SwiftNurse post-surgical carers medically qualified?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Yes. All SwiftNurse post-surgical care is delivered by registered nurses (RN) or trained healthcare assistants supervised by registered nurses. Every carer has specialist post-operative care training and full DBS clearance.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Can SwiftNurse work alongside my NHS care team?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Absolutely. SwiftNurse Homecare works seamlessly alongside NHS district nurses, GPs and physiotherapists. We provide detailed care notes and reports to your medical team and can attend hospital follow-up appointments with you.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How long will I need post-surgical home care?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Recovery timelines vary by surgery type and individual patient health. Minor procedures may require 1–2 weeks of support, while major surgeries such as cardiac or orthopaedic operations may benefit from 4–12 weeks of SwiftNurse support. We reassess regularly.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Is post-surgical home care covered by insurance or NHS funding?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Some private health insurance policies cover post-surgical home care. NHS continuing healthcare funding may also be available in some cases. The SwiftNurse Homecare team can help you explore all funding options during your free assessment.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What happens if my condition changes during recovery?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">SwiftNurse carers are trained to identify and respond to changes in patient condition. If a concern arises, our clinical team will escalate immediately — contacting your GP, surgical team, or emergency services as appropriate. Your safety is always our priority.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="section-header fade-in">
+            <div class="section-tag">📞 Get In Touch</div>
+            <h2>Book Your Free SwiftNurse Assessment</h2>
+            <p>Contact SwiftNurse Homecare today for a free, no-obligation post-surgical care assessment. Same-day arrangements available.</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info fade-in">
+                <h3>SwiftNurse Is Here For Your Recovery 💙</h3>
+                <p>Whether your surgery is planned or you need urgent post-operative support, the SwiftNurse Homecare team is ready to create a personalised recovery plan for you or your loved one.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h4>Call SwiftNurse</h4>
+                            <p>0800 794 3896 (Free)</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h4>Email SwiftNurse</h4>
+                            <p>surgical@swiftnursehomecare.co.uk</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h4>SwiftNurse Head Office</h4>
+                            <p>15 Harmony Lane, London, EC1A 1BB</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">⚡</div>
+                        <div>
+                            <h4>Same-Day Discharge Support</h4>
+                            <p>Call before 2pm for same-day care arrangements</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form fade-in">
+                <h3>📋 Request a SwiftNurse Post-Surgical Assessment</h3>
+                <form id="contactForm" onsubmit="submitForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Patient Name *</label>
+                            <input type="text" placeholder="e.g. Jane Smith" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" placeholder="07700 000000" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" placeholder="jane@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Surgery Type</label>
+                        <select>
+                            <option value="">Select surgery type...</option>
+                            <option>Orthopaedic (Hip/Knee/Spine)</option>
+                            <option>Cardiac Surgery</option>
+                            <option>Abdominal Surgery</option>
+                            <option>Cancer Surgery</option>
+                            <option>Neurological Surgery</option>
+                            <option>Ophthalmic Surgery</option>
+                            <option>Gynaecological Surgery</option>
+                            <option>Maxillofacial Surgery</option>
+                            <option>Other / Not Listed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Expected Discharge Date</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Tell SwiftNurse About Your Recovery Needs</label>
+                        <textarea placeholder="Please describe the surgery, current situation, and any specific care requirements..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">📨 Send My SwiftNurse Request</button>
+                    <div class="success-msg" id="successMsg">
+                        ✅ Thank you! The SwiftNurse post-surgical team will contact you within 2 hours.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">🏥 SwiftNurse<span> Homecare</span></div>
+                <p>SwiftNurse Homecare delivers expert post-surgical and elderly care at home since 2005. Rated 'Outstanding' by the CQC.</p>
+                <div class="social-links" style="margin-top:20px;">
+                    <div class="social-link">📘</div>
+                    <div class="social-link">🐦</div>
+                    <div class="social-link">📸</div>
+                    <div class="social-link">▶️</div>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Post-Surgical Services</h4>
+                <ul>
+                    <li><a href="#">Wound Care</a></li>
+                    <li><a href="#">Medication Management</a></li>
+                    <li><a href="#">Physiotherapy Support</a></li>
+                    <li><a href="#">Vital Signs Monitoring</a></li>
+                    <li><a href="#">Live-In Recovery</a></li>
+                    <li><a href="#">Emotional Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>SwiftNurse</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Clinical Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">CQC Rating</a></li>
+                    <li><a href="#">News & Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Funding Guide</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Complaints</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 SwiftNurse Homecare Ltd. All Rights Reserved. | Registered in England & Wales No. 08234567 | CQC Registered</p>
+        </div>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // ===== MODAL DATA =====
+        const modalData = {
+            wound: {
+                icon: '🩹',
+                title: 'Wound Care & Dressing',
+                desc: 'SwiftNurse registered nurses provide expert post-surgical wound management to prevent infection and promote optimal healing at home.',
+                list: ['Daily surgical wound assessment', 'Sterile dressing changes', 'Suture and staple monitoring', 'Drain and catheter management', 'Infection signs monitoring & reporting', 'Wound photography & progress documentation', 'GP / surgical team escalation if required']
+            },
+            medication: {
+                icon: '💊',
+                title: 'Medication Management',
+                desc: 'SwiftNurse Homecare ensures all post-surgical medications are administered safely, on schedule and with careful monitoring for adverse effects.',
+                list: ['Structured pain management schedule', 'Antibiotic administration support', 'Anticoagulant therapy monitoring', 'Prescription collection service', 'Side effect monitoring & reporting', 'Liaison with prescribing doctors', 'Detailed medication records for family']
+            },
+            physio: {
+                icon: '🦾',
+                title: 'Physiotherapy Support',
+                desc: 'SwiftNurse physiotherapy-trained carers deliver guided rehabilitation exercises to restore strength, mobility and function following surgery.',
+                list: ['Surgeon-approved exercise programmes', 'Gentle mobility and range of motion work', 'Strength building and conditioning', 'Safe transfer and mobility assistance', 'Walking aid and equipment support', 'Progress tracking and reporting', 'Liaison with NHS physiotherapy team']
+            },
+            personal: {
+                icon: '🛁',
+                title: 'Personal Care Assistance',
+                desc: 'SwiftNurse provides dignified, respectful personal care while surgical recovery limits your mobility and independence.',
+                list: ['Adapted bathing and showering', 'Wound-aware dressing assistance', 'Hair care and grooming support', 'Continence management if required', 'Oral hygiene assistance', 'Compression stocking fitting & application', 'Pressure area care and skin monitoring']
+            },
+            nutrition: {
+                icon: '🥗',
+                title: 'Nutrition & Meal Preparation',
+                desc: 'SwiftNurse carers prepare nutritious, surgeon-approved meals that support tissue healing, immune function and energy during recovery.',
+                list: ['Post-surgical nutrition meal planning', 'High-protein healing-focused meals', 'Specialist diet management (diabetic, low-sodium)', 'Hydration monitoring and encouragement', 'Soft/modified texture diets if required', 'Grocery shopping and delivery coordination', 'Nutritional intake logging for medical team']
+            },
+            monitoring: {
+                icon: '📊',
+                title: 'Vital Signs Monitoring',
+                desc: 'Regular clinical observations by SwiftNurse nurses ensure early detection of post-surgical complications before they escalate.',
+                list: ['Blood pressure monitoring', 'Temperature and fever detection', 'Pulse rate and rhythm observation', 'Oxygen saturation monitoring', 'Pain score assessment and management', 'Urine output and fluid balance monitoring', 'Immediate emergency escalation protocols']
+            },
+            transport: {
+                icon: '🚗',
+                title: 'Medical Transportation',
+                desc: 'SwiftNurse provides safe, comfortable transport to all post-surgical appointments, ensuring you never miss critical follow-up care.',
+                list: ['Hospital outpatient clinic transport', 'GP and district nurse appointments', 'Physiotherapy and rehabilitation sessions', 'Pharmacy prescription collection', 'Wheelchair and mobility aid support', 'Post-surgical comfort travel planning', 'Accompanied waiting room support']
+            },
+            emotional: {
+                icon: '💬',
+                title: 'Emotional & Mental Wellbeing',
+                desc: 'Recovery is not just physical. SwiftNurse carers provide genuine emotional support to help patients through the psychological challenges of post-surgical recovery.',
+                list: ['Compassionate daily companionship', 'Anxiety and worry management support', 'Recovery goal-setting and motivation', 'Family communication and reassurance', 'Mental health monitoring and referral', 'Creative and therapeutic activities', 'Post-surgical depression awareness']
+            },
+            housekeeping: {
+                icon: '🏡',
+                title: 'Domestic & Home Support',
+                desc: 'SwiftNurse takes care of the home so you can focus entirely on healing — removing the stress of household tasks during recovery.',
+                list: ['Light cleaning and vacuuming', 'Laundry and ironing service', 'Kitchen cleaning and dish washing', 'Bed linen changing', 'Post-surgical home safety assessment', 'Shopping and errand running', 'Home environment adaptation support']
+            }
+        };
+
+        function openModal(service) {
+            const data = modalData[service];
+            document.getElementById('modalIcon').textContent = data.icon;
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalDesc').textContent = data.desc;
+            const list = document.getElementById('modalList');
+            list.innerHTML = data.list.map(item => `<li>${item}</li>`).join('');
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOutside(e) {
+            if (e.target === document.getElementById('modalOverlay')) closeModal();
+        }
+
+        // ===== FAQ =====
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+
+        // ===== SLIDER =====
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.testimonial-card:not(:last-child)');
+        const dots = document.querySelectorAll('.dot');
+
+        function changeSlide(dir) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + dir + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                slides[currentSlide].classList.remove('active');
+                dots[currentSlide].classList.remove('active');
+                currentSlide = i;
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            });
+        });
+
+        setInterval(() => changeSlide(1), 5000);
+
+        // ===== COUNTERS =====
+        function animateCounter(id, target, suffix = '+') {
+            let count = 0;
+            const el = document.getElementById(id);
+            const step = Math.ceil(target / 60);
+            const timer = setInterval(() => {
+                count += step;
+                if (count >= target) { count = target; clearInterval(timer); }
+                el.textContent = count + suffix;
+            }, 30);
+        }
+
+        let countersStarted = false;
+        function startCounters() {
+            if (!countersStarted) {
+                countersStarted = true;
+                animateCounter('counter1', 3800);
+                animateCounter('counter2', 200);
+                animateCounter('counter3', 19);
+            }
+        }
+
+        // ===== SCROLL ANIMATIONS =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        setTimeout(startCounters, 800);
+
+        // ===== SCROLL TO TOP =====
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('scrollTop');
+            btn.classList.toggle('show', window.scrollY > 400);
+        });
+
+        // ===== HAMBURGER =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+            });
+        });
+
+        // ===== FORM =====
+        function submitForm(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.submit-btn');
+            btn.textContent = '⏳ Sending to SwiftNurse...';
+            btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('successMsg').style.display = 'block';
+                btn.textContent = '✅ Request Sent to SwiftNurse!';
+                btn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                document.getElementById('contactForm').reset();
+            }, 1500);
+        }
+
+        // ===== ACTIVE NAV =====
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                if (window.scrollY >= section.offsetTop - 150) current = section.getAttribute('id');
+            });
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.style.color = '#ccc';
+                if (link.getAttribute('href') === '#' + current) link.style.color = '#ff85a1';
+            });
+        });
+    </script>
+</body>
+</html>

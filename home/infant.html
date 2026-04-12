@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Infant Care – SwftNurse Homecare</title>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0a2d6e; --blue:#1b5bd6; --sky:#5ba4f5;
+  --red:#c0293b;  --crimson:#e84057; --pink:#f4a7b5;
+  --blush:#fce8ec; --rose:#f9d0d8;
+  --yellow:#ffe066; --mint:#b8f0d8; --lav:#e2d4f8;
+  --white:#fff; --light:#f4f8ff; --text:#1a1a2e; --muted:#5a6480;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;color:var(--text);background:#fffbfe;overflow-x:hidden}
+
+#bg-bubbles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bbl{position:absolute;border-radius:50%;opacity:0;animation:rise linear infinite}
+@keyframes rise{
+  0%{transform:translateY(110vh) scale(.6);opacity:0}
+  8%{opacity:.07} 92%{opacity:.07}
+  100%{transform:translateY(-15vh) scale(1.3);opacity:0}
+}
+
+nav{
+  position:fixed;top:0;width:100%;z-index:200;
+  background:rgba(10,45,110,.97);backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 5%;box-shadow:0 2px 30px rgba(10,45,110,.4)
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{
+  width:42px;height:42px;background:var(--crimson);
+  border-radius:12px;display:grid;place-items:center;
+  font-size:1.5rem;animation:wob 3s ease-in-out infinite
+}
+@keyframes wob{0%,100%{transform:rotate(0)}20%{transform:rotate(-9deg)}40%{transform:rotate(9deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(4deg)}}
+.logo-text{font-family:'Bubblegum Sans',cursive;color:#fff;font-size:1.4rem;letter-spacing:1px}
+.logo-text span{color:var(--pink)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.9rem;font-weight:700;transition:color .2s}
+.nav-links a:hover{color:var(--yellow)}
+.nav-cta{
+  background:var(--crimson);color:#fff;border:none;
+  padding:.55rem 1.4rem;border-radius:50px;font-weight:800;
+  font-size:.88rem;cursor:pointer;font-family:'Nunito',sans-serif;
+  transition:background .2s,transform .2s
+}
+.nav-cta:hover{background:var(--red);transform:scale(1.06)}
+
+.hero{
+  min-height:100vh;
+  background:linear-gradient(155deg,var(--navy) 0%,#0e2870 55%,#1a3d94 100%);
+  display:flex;align-items:center;position:relative;overflow:hidden;padding-top:80px
+}
+.hero-inner{
+  position:relative;z-index:2;
+  max-width:1100px;margin:0 auto;padding:5rem 5%;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:2rem
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,224,102,.13);border:2px solid rgba(255,224,102,.45);
+  color:var(--yellow);padding:.5rem 1.3rem;border-radius:50px;
+  font-size:.85rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  font-family:'Bubblegum Sans',cursive
+}
+.hero h1{
+  font-family:'Bubblegum Sans',cursive;
+  font-size:clamp(2.8rem,7vw,5rem);
+  color:#fff;line-height:1.1;letter-spacing:1px
+}
+.hero h1 .pk{color:var(--pink)} .hero h1 .yl{color:var(--yellow)}
+.hero-sub{color:rgba(255,255,255,.78);font-size:1.1rem;line-height:1.85;font-weight:500;max-width:640px}
+.hero-stats{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+.h-stat{
+  background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:20px;padding:1.2rem 2rem;text-align:center;
+  backdrop-filter:blur(10px);transition:transform .3s
+}
+.h-stat:hover{transform:translateY(-6px) scale(1.04)}
+.h-stat-num{font-family:'Bubblegum Sans',cursive;font-size:2.4rem;color:var(--yellow);line-height:1}
+.h-stat-lbl{color:rgba(255,255,255,.7);font-size:.82rem;font-weight:700;margin-top:.3rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.btn-pri{
+  background:linear-gradient(135deg,var(--crimson),var(--red));
+  color:#fff;padding:.9rem 2.2rem;border-radius:50px;
+  font-weight:800;font-size:1rem;border:none;cursor:pointer;
+  font-family:'Nunito',sans-serif;
+  box-shadow:0 8px 28px rgba(192,41,59,.45);
+  transition:transform .25s,box-shadow .25s;text-decoration:none;display:inline-block
+}
+.btn-pri:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 36px rgba(192,41,59,.55)}
+.btn-ghost{
+  background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,.45);padding:.9rem 2.2rem;
+  border-radius:50px;font-weight:800;font-size:1rem;cursor:pointer;
+  font-family:'Nunito',sans-serif;transition:all .25s;text-decoration:none;display:inline-block
+}
+.btn-ghost:hover{border-color:var(--yellow);color:var(--yellow)}
+.fe{position:absolute;font-size:2rem;animation:fef ease-in-out infinite;pointer-events:none;z-index:1}
+@keyframes fef{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(22deg)}}
+
+section{padding:6rem 5%;position:relative;z-index:1}
+.si{max-width:1200px;margin:0 auto}
+.stag{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--crimson);font-weight:800;font-size:.82rem;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem;
+  font-family:'Bubblegum Sans',cursive
+}
+.stitle{
+  font-family:'Bubblegum Sans',cursive;
+  font-size:clamp(2rem,4vw,2.9rem);
+  color:var(--navy);line-height:1.2;margin-bottom:1rem;letter-spacing:.5px
+}
+.stitle .r{color:var(--crimson)} .stitle .b{color:var(--blue)}
+.ssub{color:var(--muted);font-size:1rem;line-height:1.85;max-width:600px;font-weight:600}
+.center-head{text-align:center} .center-head .ssub{margin:0 auto}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* FLIP CARDS */
+.sec-svc{background:linear-gradient(180deg,#f0f7ff,#fdf0f3)}
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.8rem;margin-top:3.5rem}
+.flip-wrap{height:280px;perspective:1000px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,.2,.2,1)}
+.flip-wrap:hover .flip-inner,.flip-wrap.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.flip-front{background:#fff;border:3px solid var(--sky);box-shadow:0 8px 30px rgba(10,45,110,.08)}
+.flip-back{background:linear-gradient(135deg,var(--navy),var(--blue));transform:rotateY(180deg);color:#fff}
+.flip-front.rb{border-color:var(--pink)} .flip-front.rp{border-color:var(--rose)}
+.flip-front.rm{border-color:var(--mint)} .flip-front.rl{border-color:var(--lav)} .flip-front.ry{border-color:var(--yellow)}
+.f-emoji{font-size:3.2rem;margin-bottom:.8rem;animation:bce 2s ease-in-out infinite}
+@keyframes bce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.flip-front h3{font-family:'Bubblegum Sans',cursive;color:var(--navy);font-size:1.3rem;letter-spacing:.5px}
+.flip-front p{color:var(--muted);font-size:.85rem;margin-top:.5rem;font-weight:600}
+.flip-hint{font-size:.75rem;color:var(--crimson);font-weight:800;margin-top:.8rem;font-family:'Bubblegum Sans',cursive}
+.flip-back h3{font-family:'Bubblegum Sans',cursive;font-size:1.15rem;margin-bottom:1rem;color:var(--yellow)}
+.flip-back ul{list-style:none;text-align:left}
+.flip-back li{display:flex;gap:7px;font-size:.85rem;margin-bottom:.45rem;font-weight:700;color:rgba(255,255,255,.9)}
+.flip-back li::before{content:'✓';color:var(--mint);flex-shrink:0;font-weight:900}
+
+/* MILESTONE TIMELINE */
+.sec-mile{background:#fff}
+.mile-track{display:flex;overflow-x:auto;gap:0;margin-top:3rem;padding-bottom:1.5rem;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--pink) var(--blush)}
+.mile-track::-webkit-scrollbar{height:6px}
+.mile-track::-webkit-scrollbar-track{background:var(--blush);border-radius:3px}
+.mile-track::-webkit-scrollbar-thumb{background:var(--pink);border-radius:3px}
+.mile-step{min-width:220px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;position:relative;padding:0 1rem}
+.mile-step::after{content:'';position:absolute;top:30px;left:calc(50% + 30px);width:calc(100% - 60px);height:3px;background:linear-gradient(90deg,var(--blue),var(--pink));}
+.mile-step:last-child::after{display:none}
+.mile-dot{width:60px;height:60px;border-radius:50%;background:white;border:4px solid var(--blue);display:grid;place-items:center;font-size:1.6rem;box-shadow:0 4px 20px rgba(10,45,110,.2);z-index:1;position:relative;cursor:pointer;transition:transform .3s,box-shadow .3s;animation:milePulse 3s ease-in-out infinite}
+@keyframes milePulse{0%,100%{box-shadow:0 4px 20px rgba(10,45,110,.2)}50%{box-shadow:0 4px 30px rgba(27,91,214,.5)}}
+.mile-dot:hover{transform:scale(1.15)}
+.mile-dot.rd{border-color:var(--crimson)} .mile-dot.pk{border-color:var(--pink)} .mile-dot.yl{border-color:var(--yellow)}
+.mile-age{font-family:'Bubblegum Sans',cursive;color:var(--navy);font-size:1rem;margin-top:.7rem;text-align:center}
+.mile-detail-wrap{margin-top:2.5rem}
+.mile-detail{display:none;background:linear-gradient(135deg,var(--navy),#1a3d94);border-radius:24px;padding:2rem;color:#fff;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.mile-detail.show{display:block}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.mile-detail h3{font-family:'Bubblegum Sans',cursive;color:var(--yellow);font-size:1.5rem;margin-bottom:1rem}
+.mile-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.md-box{background:rgba(255,255,255,.1);border-radius:14px;padding:1rem}
+.md-box h4{font-family:'Bubblegum Sans',cursive;color:var(--pink);font-size:.95rem;margin-bottom:.6rem}
+.md-box li{list-style:none;display:flex;gap:6px;font-size:.84rem;color:rgba(255,255,255,.88);margin-bottom:.4rem;font-weight:600}
+.md-box li::before{content:'🌟';font-size:.7rem;flex-shrink:0;margin-top:2px}
+
+/* ROUTINE */
+.sec-routine{background:linear-gradient(180deg,#fdf0f3,#f4f8ff)}
+.routine-scroll{display:flex;gap:1.2rem;overflow-x:auto;margin-top:3rem;padding-bottom:1.2rem;scroll-snap-type:x mandatory}
+.routine-scroll::-webkit-scrollbar{height:6px}
+.routine-scroll::-webkit-scrollbar-track{background:var(--rose);border-radius:3px}
+.routine-scroll::-webkit-scrollbar-thumb{background:var(--crimson);border-radius:3px}
+.r-card{min-width:240px;scroll-snap-align:start;background:#fff;border-radius:22px;padding:1.6rem;border-top:5px solid var(--blue);box-shadow:0 6px 24px rgba(10,45,110,.07);transition:transform .3s,box-shadow .3s;cursor:pointer}
+.r-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 18px 44px rgba(10,45,110,.13)}
+.r-card.rt{border-color:var(--crimson)} .r-card.rp{border-color:var(--pink)} .r-card.ry{border-color:var(--yellow)} .r-card.rm{border-color:var(--mint)}
+.r-time{font-family:'Bubblegum Sans',cursive;color:var(--blue);font-size:.82rem;letter-spacing:1px;margin-bottom:.4rem}
+.r-card.rt .r-time{color:var(--crimson)} .r-card.rp .r-time{color:var(--red)} .r-card.ry .r-time{color:#b8900a} .r-card.rm .r-time{color:#1a8f5a}
+.r-emoji{font-size:2.2rem;margin-bottom:.6rem;display:block}
+.r-card h4{font-family:'Bubblegum Sans',cursive;color:var(--navy);font-size:1rem;margin-bottom:.5rem}
+.r-card p{color:var(--muted);font-size:.84rem;line-height:1.65;font-weight:600}
+
+/* QUIZ */
+.sec-quiz{background:linear-gradient(135deg,var(--navy),#1a3a8a)}
+.sec-quiz .stitle{color:#fff} .sec-quiz .stag{color:var(--yellow)} .sec-quiz .ssub{color:rgba(255,255,255,.7)}
+.quiz-shell{max-width:740px;margin:3rem auto 0}
+.quiz-box{background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.15);backdrop-filter:blur(14px);border-radius:28px;padding:2.5rem}
+.q-bar-wrap{background:rgba(255,255,255,.15);border-radius:50px;height:8px;margin-bottom:1.5rem;overflow:hidden}
+.q-bar{height:8px;background:linear-gradient(90deg,var(--pink),var(--yellow));border-radius:50px;transition:width .5s ease}
+.q-meta{display:flex;justify-content:space-between;color:rgba(255,255,255,.55);font-size:.85rem;font-weight:700;margin-bottom:1rem}
+.q-text{font-family:'Bubblegum Sans',cursive;color:#fff;font-size:1.4rem;margin-bottom:1.5rem;line-height:1.4}
+.q-opts{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.q-opt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);color:#fff;padding:.95rem 1.1rem;border-radius:16px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'Nunito',sans-serif;text-align:left;transition:all .25s}
+.q-opt:hover{background:rgba(255,255,255,.2);border-color:var(--yellow);transform:scale(1.02)}
+.q-opt.correct{background:rgba(0,200,100,.25);border-color:#00c864;color:#7fffba}
+.q-opt.wrong{background:rgba(232,64,87,.25);border-color:var(--crimson);color:var(--pink)}
+.q-fb{margin-top:1.3rem;padding:1rem 1.4rem;border-radius:14px;font-weight:700;font-size:.92rem;display:none;line-height:1.6}
+.q-fb.show{display:block} .q-fb.ok{background:rgba(0,200,100,.2);color:#7fffba} .q-fb.no{background:rgba(232,64,87,.2);color:var(--pink)}
+.q-next{margin-top:1.2rem;background:var(--crimson);color:#fff;border:none;padding:.8rem 2rem;border-radius:50px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:'Nunito',sans-serif;display:none;transition:transform .2s}
+.q-next:hover{transform:scale(1.06)} .q-next.show{display:inline-block}
+.q-score-wrap{text-align:center;display:none}
+.q-score-wrap.show{display:block;animation:popIn .5s cubic-bezier(.34,1.56,.64,1)}
+.score-ring{width:140px;height:140px;border-radius:50%;background:conic-gradient(var(--yellow) 0%, transparent 0%);display:grid;place-items:center;margin:0 auto 1.2rem;border:6px solid rgba(255,255,255,.15);transition:background 1s ease}
+.score-num{font-family:'Bubblegum Sans',cursive;font-size:2.8rem;color:var(--yellow)}
+.score-msg{color:#fff;font-size:1.1rem;font-weight:700;margin-bottom:1.5rem}
+.q-restart{background:var(--yellow);color:var(--navy);border:none;padding:.8rem 2rem;border-radius:50px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s}
+.q-restart:hover{transform:scale(1.05)}
+
+/* DANGER SIGNS */
+.sec-danger{background:linear-gradient(180deg,#fdf0f3,#fff)}
+.d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.4rem;margin-top:3rem}
+.d-card{background:#fff;border-radius:22px;padding:1.6rem;border:3px solid var(--rose);text-align:center;cursor:pointer;transition:transform .3s,box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+.d-card:hover{transform:translateY(-7px) scale(1.02);box-shadow:0 20px 50px rgba(192,41,59,.14);border-color:var(--crimson)}
+.d-card::before{content:'⚠️ ALERT';position:absolute;top:0;left:0;right:0;background:var(--crimson);color:#fff;font-family:'Bubblegum Sans',cursive;font-size:.78rem;letter-spacing:2px;padding:.3rem;transform:translateY(-100%);transition:transform .3s}
+.d-card:hover::before{transform:translateY(0)}
+.d-icon{font-size:2.8rem;margin-bottom:.8rem;display:block}
+.d-card h4{font-family:'Bubblegum Sans',cursive;color:var(--navy);font-size:1rem;margin-bottom:.5rem}
+.d-card p{color:var(--muted);font-size:.84rem;line-height:1.65;font-weight:600}
+
+/* COUNTER */
+.sec-counter{background:var(--navy);padding:4rem 5%}
+.counter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;max-width:1100px;margin:0 auto;text-align:center}
+.c-item{position:relative;padding:1.5rem}
+.c-num{font-family:'Bubblegum Sans',cursive;font-size:3.5rem;color:var(--yellow);line-height:1}
+.c-lbl{color:rgba(255,255,255,.7);font-size:.9rem;font-weight:700;margin-top:.4rem}
+.c-ico{font-size:1.8rem;margin-bottom:.5rem;display:block;animation:bce 2.5s ease-in-out infinite}
+
+/* ACCORDION */
+.sec-tips{background:#fff}
+.acc{margin-top:3rem;display:flex;flex-direction:column;gap:1rem;max-width:820px}
+.acc-item{background:var(--light);border-radius:20px;border:2px solid var(--rose);overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.acc-item.open{border-color:var(--blue);box-shadow:0 8px 30px rgba(10,45,110,.1)}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;cursor:pointer;transition:background .2s;gap:12px}
+.acc-head:hover{background:var(--blush)}
+.acc-left{display:flex;align-items:center;gap:12px}
+.acc-ico{font-size:1.8rem;transition:transform .3s}
+.acc-item.open .acc-ico{transform:rotate(20deg) scale(1.15)}
+.acc-head h4{font-family:'Bubblegum Sans',cursive;color:var(--navy);font-size:1.05rem}
+.acc-arr{font-size:1.1rem;color:var(--crimson);transition:transform .3s;font-weight:900;flex-shrink:0}
+.acc-item.open .acc-arr{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease;padding:0 1.5rem}
+.acc-item.open .acc-body{max-height:400px;padding-bottom:1.5rem}
+.acc-body ul{list-style:none;margin-top:.6rem}
+.acc-body li{display:flex;gap:9px;font-size:.92rem;color:var(--muted);margin-bottom:.55rem;font-weight:600;line-height:1.55}
+.acc-body li::before{content:'🌈';flex-shrink:0}
+
+/* CTA */
+.sec-cta{background:linear-gradient(135deg,var(--crimson),var(--red),#8b0f1e);text-align:center;position:relative;overflow:hidden}
+.sec-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,.1),transparent 70%)}
+.sec-cta h2{font-family:'Bubblegum Sans',cursive;font-size:clamp(2rem,4vw,3rem);color:#fff;margin-bottom:1rem;position:relative;letter-spacing:1px}
+.sec-cta p{color:rgba(255,255,255,.82);font-size:1rem;margin-bottom:2.5rem;position:relative;font-weight:600}
+.cta-emojis{font-size:2.2rem;margin-bottom:1.4rem;letter-spacing:.8rem;position:relative}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+.btn-w{background:#fff;color:var(--crimson);padding:.9rem 2.2rem;border-radius:50px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.22);transition:transform .2s,box-shadow .2s;text-decoration:none;display:inline-block}
+.btn-w:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 34px rgba(0,0,0,.32)}
+.btn-ow{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6);padding:.9rem 2.2rem;border-radius:50px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-ow:hover{border-color:var(--yellow);color:var(--yellow)}
+
+footer{background:#050f2e;padding:3rem 5% 1.5rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.ft-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.ft-logo .logo-icon{width:36px;height:36px;border-radius:10px;font-size:1.1rem;animation:none}
+.ft-logo .logo-text{font-size:1.2rem}
+.ft-links{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center}
+.ft-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.88rem;transition:color .2s;font-weight:700}
+.ft-links a:hover{color:var(--yellow)}
+.ft-div{width:100%;height:1px;background:rgba(255,255,255,.06)}
+.ft-copy{color:rgba(255,255,255,.3);font-size:.8rem;text-align:center;font-weight:600}
+
+.starburst{position:fixed;pointer-events:none;z-index:9999;font-size:1.4rem;animation:sbFly 1s ease forwards}
+@keyframes sbFly{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-100px) scale(0);opacity:0}}
+
+@media(max-width:700px){.q-opts{grid-template-columns:1fr}.hero-stats{gap:1rem}.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<div id="bg-bubbles"></div>
+
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-icon">🍼</div>
+    <span class="logo-text">Swft<span>Nurse</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#milestones">Milestones</a></li>
+    <li><a href="#routine">Routine</a></li>
+    <li><a href="#quiz">Baby Quiz</a></li>
+    <li><a href="#tips">Care Tips</a></li>
+  </ul>
+  <button class="nav-cta">Book a Nurse 🌟</button>
+</nav>
+
+<section class="hero">
+  <span class="fe" style="top:18%;left:6%;animation-duration:5s;">⭐</span>
+  <span class="fe" style="top:24%;right:8%;animation-duration:6s;animation-delay:.8s;">✨</span>
+  <span class="fe" style="top:65%;left:10%;animation-duration:4.5s;animation-delay:1.5s;">🌟</span>
+  <span class="fe" style="top:70%;right:6%;animation-duration:7s;animation-delay:.3s;">💫</span>
+  <span class="fe" style="top:10%;right:25%;animation-duration:5.5s;animation-delay:1s;">🎀</span>
+  <span class="fe" style="top:50%;left:4%;animation-duration:6s;animation-delay:2s;">🐣</span>
+  <div class="hero-inner">
+    <div class="hero-badge">🍼 SwftNurse Infant Care Programme</div>
+    <h1>Expert Care for Your<br><span class="pk">Little</span> <span class="yl">African</span> Star</h1>
+    <p class="hero-sub">From the very first breath to those wobbly first steps — SwftNurse Homecare delivers certified, loving, professional infant care right in the comfort of your home.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-num" data-target="2400">0</div><div class="h-stat-lbl">Babies Cared For</div></div>
+      <div class="h-stat"><div class="h-stat-num" data-target="99">0</div><div class="h-stat-lbl">% Satisfaction Rate</div></div>
+      <div class="h-stat"><div class="h-stat-num" data-target="15">0</div><div class="h-stat-lbl">Years of Experience</div></div>
+      <div class="h-stat"><div class="h-stat-num" data-target="24">0</div><div class="h-stat-lbl">Hours Available Daily</div></div>
+    </div>
+    <div class="hero-btns">
+      <a href="#services" class="btn-pri">Explore Services 🌈</a>
+      <a href="#quiz" class="btn-ghost">Take Baby Quiz ✨</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec-svc" id="services">
+  <div class="si">
+    <div class="reveal">
+      <span class="stag">🌈 What We Offer</span>
+      <h2 class="stitle">Our <span class="r">Infant Care</span> Services</h2>
+      <p class="ssub">Hover or tap each card to reveal what our nurses do for your baby every single day.</p>
+    </div>
+    <div class="flip-grid reveal">
+      <div class="flip-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front"><span class="f-emoji">👶</span><h3>Newborn Care</h3><p>Ages 0–4 weeks</p><div class="flip-hint">Flip to see details ↩</div></div>
+          <div class="flip-back"><h3>Newborn Care</h3><ul><li>Vital signs assessment</li><li>Umbilical cord stump care</li><li>Jaundice monitoring</li><li>Safe sleeping guidance</li><li>Nappy rash prevention</li><li>Temperature regulation</li></ul></div>
+        </div>
+      </div>
+      <div class="flip-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front rb"><span class="f-emoji">🍼</span><h3>Feeding Support</h3><p>Breastfeeding & Formula</p><div class="flip-hint">Flip to see details ↩</div></div>
+          <div class="flip-back"><h3>Feeding Support</h3><ul><li>Breastfeeding latch assessment</li><li>Formula preparation</li><li>Burping & reflux management</li><li>Solid food introduction</li><li>Weight gain monitoring</li><li>Milk supply guidance</li></ul></div>
+        </div>
+      </div>
+      <div class="flip-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front rp"><span class="f-emoji">🛁</span><h3>Hygiene & Skin Care</h3><p>Bathing & Baby Massage</p><div class="flip-hint">Flip to see details ↩</div></div>
+          <div class="flip-back"><h3>Hygiene & Skin Care</h3><ul><li>Sponge & tub bathing</li><li>African baby massage</li><li>Cradle cap & eczema care</li><li>Oral gum hygiene</li><li>Nail trimming</li><li>Nappy infection prevention</li></ul></div>
+        </div>
+      </div>
+      <div class="flip-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front rm"><span class="f-emoji">💉</span><h3>Health Monitoring</h3><p>Preventive & Ongoing Care</p><div class="flip-hint">Flip to see details ↩</div></div>
+          <div class="flip-back"><h3>Health Monitoring</h3><ul><li>Weight, length & head tracking</li><li>Fever monitoring</li><li>Immunisation schedule support</li><li>Vitamin D & iron guidance</li><li>Colic & gas relief</li><li>Paediatrician referral</li></ul></div>
+        </div>
+      </div>
+      <div class="flip-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front rl"><span class="f-emoji">🧠</span><h3>Developmental Play</h3><p>Brain & Body Stimulation</p><div class="flip-hint">Flip to see details ↩</div></div>
+          <div class="flip-back"><h3>Developmental Play</h3><ul><li>Sensory & visual stimulation</li><li>Tummy time coaching</li><li>African lullabies & language</li><li>Motor skill support</li><li>Milestone tracking</li><li>Early intervention referral</li></ul></div>
+        </div>
+      </div>
+      <div class="flip-wrap" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front ry"><span class="f-emoji">😴</span><h3>Sleep Training</h3><p>Rest for Baby & Parents</p><div class="flip-hint">Flip to see details ↩</div></div>
+          <div class="flip-back"><h3>Sleep Training</h3><ul><li>Sleep pattern education</li><li>Safe sleep setup (SIDS)</li><li>Gentle sleep training</li><li>Day/night correction</li><li>Nap scheduling</li><li>Parent fatigue support</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-mile" id="milestones">
+  <div class="si">
+    <div class="reveal center-head">
+      <span class="stag">🌱 Growth Journey</span>
+      <h2 class="stitle">Baby <span class="b">Milestones</span> We Track</h2>
+      <p class="ssub">Tap a milestone dot to explore your baby's development at each exciting stage!</p>
+    </div>
+    <div class="mile-track reveal" id="mileTrack">
+      <div class="mile-step"><div class="mile-dot" onclick="showMile(0)">🌸</div><div class="mile-age">0–1<br>Month</div></div>
+      <div class="mile-step"><div class="mile-dot rd" onclick="showMile(1)">😊</div><div class="mile-age">2–3<br>Months</div></div>
+      <div class="mile-step"><div class="mile-dot pk" onclick="showMile(2)">🙌</div><div class="mile-age">4–6<br>Months</div></div>
+      <div class="mile-step"><div class="mile-dot" onclick="showMile(3)">🧸</div><div class="mile-age">7–9<br>Months</div></div>
+      <div class="mile-step"><div class="mile-dot rd" onclick="showMile(4)">🚶</div><div class="mile-age">10–12<br>Months</div></div>
+      <div class="mile-step"><div class="mile-dot pk" onclick="showMile(5)">🗣️</div><div class="mile-age">12–18<br>Months</div></div>
+      <div class="mile-step" style="min-width:220px"><div class="mile-dot yl" onclick="showMile(6)">🏃</div><div class="mile-age">18–24<br>Months</div></div>
+    </div>
+    <div class="mile-detail-wrap"><div class="mile-detail" id="mileDetail"></div></div>
+  </div>
+</section>
+
+<section class="sec-routine" id="routine">
+  <div class="si">
+    <div class="reveal">
+      <span class="stag">⏰ Daily Schedule</span>
+      <h2 class="stitle">A <span class="r">Typical Day</span> With Our Infant Nurses</h2>
+      <p class="ssub">Scroll through our structured, loving daily care routine designed for your baby's growth and wellbeing.</p>
+    </div>
+    <div class="routine-scroll reveal">
+      <div class="r-card"><span class="r-emoji">🌅</span><div class="r-time">6:00 AM</div><h4>Morning Assessment</h4><p>Nurse arrives, checks vital signs, assesses baby's skin, weight, and overall wellbeing. Morning breastfeeding or bottle feeding session supported.</p></div>
+      <div class="r-card rt"><span class="r-emoji">🛁</span><div class="r-time">7:30 AM</div><h4>Bathing & Hygiene</h4><p>Warm sponge or tub bath, cord/navel care, African baby massage, fresh nappy change, and skin moisturising with baby-safe products.</p></div>
+      <div class="r-card ry"><span class="r-emoji">🧠</span><div class="r-time">9:00 AM</div><h4>Developmental Play</h4><p>Tummy time, sensory activities, singing African lullabies, reading, and visual stimulation exercises tailored to baby's age and stage.</p></div>
+      <div class="r-card rp"><span class="r-emoji">😴</span><div class="r-time">10:00 AM</div><h4>Morning Nap</h4><p>Baby settled in safe back-sleeping position. Nurse monitors breathing, temperature, and comfort while updating care notes.</p></div>
+      <div class="r-card"><span class="r-emoji">🍼</span><div class="r-time">12:00 PM</div><h4>Afternoon Feed</h4><p>Midday feeding with careful burping, reflux positioning if needed. Weekly weight recorded against WHO growth standards.</p></div>
+      <div class="r-card rm"><span class="r-emoji">📋</span><div class="r-time">2:00 PM</div><h4>Documentation & Education</h4><p>Clinical notes completed, baby's daily progress discussed with parents. Guidance on upcoming milestones and health observations shared.</p></div>
+      <div class="r-card rt"><span class="r-emoji">🌙</span><div class="r-time">6:00 PM</div><h4>Evening & Handover</h4><p>Evening feed, calming bedtime routine, final vital signs check, and thorough handover to parents with full observations and care plan updates.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-quiz" id="quiz">
+  <div class="si center-head">
+    <div class="reveal">
+      <span class="stag">🎮 Fun & Learn</span>
+      <h2 class="stitle" style="color:#fff;">How Much Do You Know About <span style="color:var(--yellow)">Your Baby?</span></h2>
+      <p class="ssub" style="margin:0 auto;">Test your African infant care knowledge — 6 questions, instant feedback!</p>
+    </div>
+    <div class="quiz-shell reveal">
+      <div class="quiz-box">
+        <div id="qMain">
+          <div class="q-meta"><span id="qProg">Question 1 of 6</span><span id="qScoreLive">Score: 0</span></div>
+          <div class="q-bar-wrap"><div class="q-bar" id="qBar" style="width:16.6%"></div></div>
+          <div class="q-text" id="qText"></div>
+          <div class="q-opts" id="qOpts"></div>
+          <div class="q-fb" id="qFb"></div>
+          <button class="q-next" id="qNext" onclick="nextQ()">Next ➡️</button>
+        </div>
+        <div class="q-score-wrap" id="qResult">
+          <div class="score-ring" id="scoreRing"><div class="score-num" id="scoreNum"></div></div>
+          <div class="score-msg" id="scoreMsg"></div>
+          <button class="q-restart" onclick="restartQ()">Play Again 🔄</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-danger" id="danger">
+  <div class="si">
+    <div class="reveal">
+      <span class="stag">🚨 Safety First</span>
+      <h2 class="stitle">Infant <span class="r">Danger Signs</span> — Act Immediately</h2>
+      <p class="ssub">Hover each card to reveal the alert. If you see any of these signs, call us or go to hospital right away.</p>
+    </div>
+    <div class="d-grid reveal">
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">🌡️</span><h4>High Fever</h4><p>Temperature above <strong>38°C</strong> in a baby under 3 months is a medical emergency. Their immune system cannot fight infection alone.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">💙</span><h4>Blue Lips or Skin</h4><p>Bluish discolouration around the lips, tongue, or fingertips (cyanosis) indicates the baby is not getting enough oxygen. Call 999 immediately.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">😮‍💨</span><h4>Difficulty Breathing</h4><p>Fast, noisy, or laboured breathing, nostril flaring, or chest muscles pulling inward with each breath — seek emergency care immediately.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">🍼</span><h4>Refusing All Feeds</h4><p>A baby who refuses two or more feeds in a row and appears lethargic or limp may be seriously unwell. Do not wait — seek care now.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">😰</span><h4>Sunken Fontanelle</h4><p>A deeply sunken soft spot on the head indicates severe dehydration. The baby needs IV fluids urgently — go to hospital immediately.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">⚡</span><h4>Convulsions / Seizures</h4><p>Any jerking, shaking, or loss of consciousness is an emergency. Do not restrain the baby — protect from injury and call for help.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">💛</span><h4>Severe Jaundice</h4><p>Yellowing spreading to the tummy, arms, and legs, or appearing in the first 24 hours of life requires urgent phototherapy treatment.</p></div>
+      <div class="d-card" onclick="boom(event)"><span class="d-icon">📢</span><h4>High-Pitched Cry</h4><p>A persistent, unusual high-pitched cry — different from the baby's normal cry — can signal pain, brain irritation, or serious illness.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-counter">
+  <div class="counter-grid">
+    <div class="c-item"><span class="c-ico">👶</span><div class="c-num" data-target="2400">0</div><div class="c-lbl">African Babies Cared For</div></div>
+    <div class="c-item"><span class="c-ico">🩺</span><div class="c-num" data-target="48">0</div><div class="c-lbl">Certified Nurses</div></div>
+    <div class="c-item"><span class="c-ico">🌍</span><div class="c-num" data-target="12">0</div><div class="c-lbl">Cities Served</div></div>
+    <div class="c-item"><span class="c-ico">⭐</span><div class="c-num" data-target="99">0</div><div class="c-lbl">% Satisfaction Rate</div></div>
+  </div>
+</section>
+
+<section class="sec-tips" id="tips">
+  <div class="si">
+    <div class="reveal">
+      <span class="stag">💡 Expert Tips</span>
+      <h2 class="stitle">Top <span class="r">Infant Care</span> Tips From Our Nurses</h2>
+      <p class="ssub">Practical, evidence-based advice for raising a happy, healthy African baby. Tap to expand!</p>
+    </div>
+    <div class="acc reveal">
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleA(this)"><div class="acc-left"><span class="acc-ico">🤱</span><h4>Breastfeeding Like a Pro</h4></div><span class="acc-arr">▼</span></div>
+        <div class="acc-body"><ul>
+          <li>Ensure a deep latch — baby's mouth covers most of the areola, not just the nipple tip</li>
+          <li>Feed on demand, approximately every 2–3 hours for newborns including at night</li>
+          <li>Listen for swallowing sounds and a soft breast post-feed as signs of success</li>
+          <li>Stay well hydrated and eat a balanced diet rich in iron, calcium, and protein</li>
+          <li>If pain or latching issues persist, contact our lactation consultant immediately</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleA(this)"><div class="acc-left"><span class="acc-ico">😴</span><h4>Safe Sleep — Preventing SIDS</h4></div><span class="acc-arr">▼</span></div>
+        <div class="acc-body"><ul>
+          <li>Always place baby on their BACK — never on their side or tummy to sleep</li>
+          <li>Use a firm, flat mattress with no pillows, bumpers, or loose bedding</li>
+          <li>Keep room temperature between 16–20°C; avoid heavy blankets on baby</li>
+          <li>Avoid co-sleeping, especially when tired or after feeding</li>
+          <li>A pacifier at sleep time has been shown to reduce SIDS risk significantly</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleA(this)"><div class="acc-left"><span class="acc-ico">🧠</span><h4>Boosting Your Baby's Brain Development</h4></div><span class="acc-arr">▼</span></div>
+        <div class="acc-body"><ul>
+          <li>Talk, sing African lullabies, and read aloud from day one — language starts at birth</li>
+          <li>Maintain eye contact and respond to every coo, babble, and expression</li>
+          <li>Tummy time from day 1 builds neck, shoulder, and core strength</li>
+          <li>Zero screen time for babies under 18–24 months — interaction is the best stimulation</li>
+          <li>Skin-to-skin contact boosts bonding, brain development, and immune function</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleA(this)"><div class="acc-left"><span class="acc-ico">💊</span><h4>African Immunisation & Vitamins Schedule</h4></div><span class="acc-arr">▼</span></div>
+        <div class="acc-body"><ul>
+          <li>At birth: BCG (TB prevention), Hepatitis B, and Oral Polio Vaccine (OPV0)</li>
+          <li>At 6 weeks: DPT-HepB-Hib, PCV (pneumococcal), OPV1, and Rotavirus vaccine</li>
+          <li>Vitamin D drops (400 IU/day) recommended for all exclusively breastfed babies</li>
+          <li>Iron supplementation critical for preterm or low-birth-weight African babies</li>
+          <li>Our nurses track your child's vaccination record and send timely reminders</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleA(this)"><div class="acc-left"><span class="acc-ico">🩺</span><h4>Colic, Gas & Common Baby Complaints</h4></div><span class="acc-arr">▼</span></div>
+        <div class="acc-body"><ul>
+          <li>Colic: crying for more than 3 hours a day, 3 days a week — usually resolves by 3–4 months</li>
+          <li>Gas relief: bicycle leg movements, tummy massage, and keeping baby upright post-feed</li>
+          <li>Nappy rash: change frequently, use zinc oxide cream, allow air time daily</li>
+          <li>Cradle cap: gently massage baby oil on scalp and wash with mild shampoo</li>
+          <li>Teething (from 4–6 months): chilled teething rings, gentle gum massage</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-cta" id="contact">
+  <div class="cta-emojis">👶 🍼 💙 🌍 🤱</div>
+  <h2>Ready to Give Your Baby the Very Best? 🎀</h2>
+  <p>Join thousands of African families who trust SwftNurse Homecare with their most precious treasure. Available 24/7.</p>
+  <div class="cta-btns">
+    <a href="tel:+254700000000" class="btn-w">📞 Call Us Now</a>
+    <a href="mailto:care@swftnurse.com" class="btn-ow">✉️ Send an Enquiry</a>
+  </div>
+</section>
+
+<footer>
+  <a class="ft-logo logo" href="#"><div class="logo-icon" style="animation:none;">🍼</div><span class="logo-text">Swft<span>Nurse</span> Homecare</span></a>
+  <nav class="ft-links">
+    <a href="#">Infant Care</a><a href="#">Maternity Care</a><a href="#">Elder Care</a><a href="#">Wound Care</a><a href="#">Our Team</a><a href="#">Privacy Policy</a>
+  </nav>
+  <div class="ft-div"></div>
+  <p class="ft-copy">© 2025 SwftNurse Homecare · All rights reserved · Certified & Insured Healthcare Professionals 💙</p>
+</footer>
+
+<script>
+const BC=['#1b5bd6','#e84057','#f4a7b5','#ffe066','#c8f0e0','#e2d4f8','#0a2d6e'];
+const bg=document.getElementById('bg-bubbles');
+for(let i=0;i<22;i++){const b=document.createElement('div');b.className='bbl';const s=Math.random()*140+40;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${BC[Math.floor(Math.random()*BC.length)]};animation-duration:${Math.random()*18+10}s;animation-delay:${Math.random()*14}s;`;bg.appendChild(b);}
+
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>ro.observe(r));
+
+const STARS=['⭐','✨','🌟','💫','🎉','🍼','💙'];
+function boom(e){for(let i=0;i<14;i++){const sp=document.createElement('span');sp.className='starburst';sp.textContent=STARS[Math.floor(Math.random()*STARS.length)];sp.style.cssText=`left:${e.clientX+(Math.random()-.5)*80}px;top:${e.clientY+(Math.random()-.5)*30}px;animation-delay:${Math.random()*.3}s;font-size:${Math.random()*1+1}rem;`;document.body.appendChild(sp);setTimeout(()=>sp.remove(),1300);}}
+
+function animCount(el,target){let cur=0;const step=Math.ceil(target/60);const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=cur+(el.dataset.target==='99'?'%':'+');if(cur>=target)clearInterval(t);},28);}
+const cro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('[data-target]').forEach(el=>animCount(el,+el.dataset.target));cro.unobserve(e.target);}});},{threshold:.3});
+document.querySelectorAll('.hero-stats,.counter-grid').forEach(el=>cro.observe(el));
+
+const MILES=[
+  {age:'0–1 Month',emoji:'🌸',cats:[{t:'Vision',list:['Focuses on faces 20–30 cm away','Follows moving objects slowly','Sensitive to bright light','Prefers high-contrast patterns']},{t:'Movement',list:['Reflexive arm & leg movements','Root & suck reflex present','Brings fists near face','Head bobs — needs full support']},{t:'Communication',list:['Cries to express all needs','Startles to loud sounds','Makes small throaty sounds','Calms to familiar voices']},{t:'Social',list:['Gazes at caregivers face','Recognises parents voices','Calms when held or swaddled','Enjoys skin-to-skin contact']}]},
+  {age:'2–3 Months',emoji:'😊',cats:[{t:'Vision',list:['Tracks moving objects side to side','Recognises familiar faces','Begins to see colours more clearly','Follows faces at distance']},{t:'Movement',list:['Lifts head during tummy time','Kicks legs actively','Holds head briefly when sitting','Grasps objects placed in hand']},{t:'Communication',list:['First social SMILES appear!','Coos and makes vowel sounds','Laughs and giggles beginning','Responds differently to voice tones']},{t:'Social',list:['Recognises & responds to parents','Begins to self-soothe slightly','Shows excitement with arms & legs','Gazes at own hands with interest']}]},
+  {age:'4–6 Months',emoji:'🙌',cats:[{t:'Movement',list:['Rolls from tummy to back','Sits with support','Reaches & grasps for objects','Bears weight on legs when held upright']},{t:'Feeding',list:['Ready for solid foods at 6 months','Shows interest in food on plates','Can move food to back of mouth','Drinks from cup with help']},{t:'Communication',list:['Babbles consonants (ba, ma, da)','Laughs loudly and squeals','Responds to own name','Imitates sounds and expressions']},{t:'Social',list:['Recognises familiar people','Enjoys playing with others','Begins to express displeasure','Loves own reflection in mirror']}]},
+  {age:'7–9 Months',emoji:'🧸',cats:[{t:'Movement',list:['Sits without support','Crawling begins','Pulls objects toward self','Passes toys between hands']},{t:'Cognitive',list:['Object permanence begins','Explores by banging & shaking','Looks at pictures in books','Copies gestures like clapping']},{t:'Communication',list:['Says mama & dada (not specific)','Responds to own name','Understands No','Waves bye-bye — first gestures!']},{t:'Social',list:['Stranger anxiety develops','Clings to familiar caregivers','Plays peek-a-boo with joy','Tests reactions by dropping objects']}]},
+  {age:'10–12 Months',emoji:'🚶',cats:[{t:'Movement',list:['Pulls to standing position','Cruises along furniture','May take first solo steps!','Pincer grasp — picks up tiny objects']},{t:'Cognitive',list:['Imitates actions (banging, stirring)','Tries to use cup and spoon','Follows simple instructions','Puts objects in and out of containers']},{t:'Communication',list:['First true words appear','Vocabulary of 1–3 words','Understands many words','Uses gestures + sounds to communicate']},{t:'Social',list:['Separation anxiety peaks','Shows affection openly','Repeats actions that get laughs','Asserts preferences strongly']}]},
+  {age:'12–18 Months',emoji:'🗣️',cats:[{t:'Movement',list:['Walks independently','Begins to climb stairs','Throws a ball underhand','Scribbles with a crayon']},{t:'Cognitive',list:['Pretend play begins','Points to body parts named','Sorts shapes and colours','Understands cause & effect']},{t:'Communication',list:['Vocabulary grows to 10–20 words','Points to what they want','Follows 2-step commands','Uses names of objects']},{t:'Self-Care',list:['Drinks well from a cup','Uses spoon (messily)','Tries to undress self','Shows interest in potty']}]},
+  {age:'18–24 Months',emoji:'🏃',cats:[{t:'Movement',list:['Runs (though falls often)','Kicks a ball forward','Jumps with both feet','Walks up stairs holding rail']},{t:'Cognitive',list:['50+ word vocabulary by 24 months','Combines 2-word phrases','Sorts objects by colour & shape','Completes simple puzzles']},{t:'Communication',list:['Talks about things not present','Asks "what\'s that?" constantly','Names pictures in books','Sings parts of familiar songs']},{t:'Social',list:['Plays alongside other children','Shows empathy to upset others','Tantrums peak — totally normal!','Tests boundaries actively']}]}
+];
+let activeMile=-1;
+function showMile(idx){const d=document.getElementById('mileDetail');if(activeMile===idx){d.className='mile-detail';activeMile=-1;return;}activeMile=idx;const m=MILES[idx];d.innerHTML=`<h3>${m.emoji} ${m.age} Milestones</h3><div class="mile-detail-grid">${m.cats.map(c=>`<div class="md-box"><h4>${c.t}</h4><ul>${c.list.map(l=>`<li>${l}</li>`).join('')}</ul></div>`).join('')}</div>`;d.className='mile-detail show';d.scrollIntoView({behavior:'smooth',block:'nearest'});boom({clientX:window.innerWidth/2,clientY:window.innerHeight/2});}
+
+const QS=[
+  {q:"At what age should solid foods be introduced to an African baby?",opts:["2 months","4 months","6 months","12 months"],ans:2,fb:"✅ WHO recommends exclusive breastfeeding for 6 months, then introducing soft solid foods alongside continued breastfeeding."},
+  {q:"Which vaccine is given to African babies at BIRTH?",opts:["Rotavirus","MMR","BCG (TB Prevention)","Varicella"],ans:2,fb:"✅ BCG is given at birth to protect against tuberculosis — critical in Africa where TB remains prevalent. Hepatitis B and OPV0 are also given at birth."},
+  {q:"A baby under 3 months has a temperature of 38.5°C. What should you do?",opts:["Give paracetamol and wait","Wrap them in extra blankets","Seek emergency medical care IMMEDIATELY","Offer more feeds and monitor"],ans:2,fb:"🚨 Any fever ≥38°C in a baby under 3 months is a medical emergency. Their immune system cannot fight infection — immediate hospital care is needed."},
+  {q:"How should every baby be placed to sleep to prevent SIDS?",opts:["On their tummy","On their side","On their back","Any comfortable position"],ans:2,fb:"✅ Always on the BACK — every sleep, every time. This reduces SIDS risk by over 50%."},
+  {q:"What is the main purpose of tummy time for babies?",opts:["To help digestion only","To strengthen neck, shoulder & core muscles","It has no proven benefit","Only to tire them out for sleep"],ans:1,fb:"✅ Tummy time builds muscles needed for rolling, sitting, crawling, and walking. Start from day 1!"},
+  {q:"When does a baby typically say their FIRST real words?",opts:["2–3 months","4–6 months","6–9 months","Around 10–12 months"],ans:3,fb:"✅ First true words with meaning appear around 10–12 months. Before this, babies babble 'mama' and 'dada' without specific meaning from about 6–7 months."}
+];
+let cQ=0,score=0,answered=false;
+function loadQ(){const q=QS[cQ];document.getElementById('qProg').textContent=`Question ${cQ+1} of ${QS.length}`;document.getElementById('qScoreLive').textContent=`Score: ${score}`;document.getElementById('qBar').style.width=`${(cQ/QS.length)*100}%`;document.getElementById('qText').textContent=q.q;const opts=document.getElementById('qOpts');opts.innerHTML='';q.opts.forEach((o,i)=>{const b=document.createElement('button');b.className='q-opt';b.textContent=o;b.onclick=()=>pickQ(i,b);opts.appendChild(b);});document.getElementById('qFb').className='q-fb';document.getElementById('qFb').textContent='';document.getElementById('qNext').className='q-next';answered=false;}
+function pickQ(idx,btn){if(answered)return;answered=true;const q=QS[cQ];document.querySelectorAll('.q-opt').forEach(b=>b.style.pointerEvents='none');const fb=document.getElementById('qFb');if(idx===q.ans){btn.classList.add('correct');fb.className='q-fb ok show';score++;boom({clientX:window.innerWidth/2,clientY:window.innerHeight*.6});}else{btn.classList.add('wrong');document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');fb.className='q-fb no show';}fb.textContent=q.fb;document.getElementById('qNext').className='q-next show';document.getElementById('qScoreLive').textContent=`Score: ${score}`;}
+function nextQ(){cQ++;if(cQ<QS.length){loadQ();}else{document.getElementById('qMain').style.display='none';const r=document.getElementById('qResult');r.className='q-score-wrap show';const pct=Math.round((score/QS.length)*100);document.getElementById('scoreNum').textContent=`${score}/${QS.length}`;document.getElementById('scoreRing').style.background=`conic-gradient(var(--yellow) ${pct}%, rgba(255,255,255,.15) 0%)`;const msgs=['Keep learning! 📚','Getting there! 👏','Not bad! 🌟','Well done! 🎉','Great job! 🏅','Baby Care Expert! 🏆'];document.getElementById('scoreMsg').textContent=msgs[score]||msgs[5];boom({clientX:window.innerWidth/2,clientY:window.innerHeight/2});}}
+function restartQ(){cQ=0;score=0;answered=false;document.getElementById('qMain').style.display='block';document.getElementById('qResult').className='q-score-wrap';loadQ();}
+loadQ();
+
+function toggleA(head){const item=head.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');}
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+</script>
+</body>
+</html>

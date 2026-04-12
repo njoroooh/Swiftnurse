@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maternity Care – SwftNurse Homecare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a2d6e;
+      --blue: #1b5bd6;
+      --sky: #3f8ef5;
+      --red: #c0293b;
+      --crimson: #e84057;
+      --pink: #f4a7b5;
+      --blush: #fce8ec;
+      --rose: #f9d0d8;
+      --white: #ffffff;
+      --light: #f5f8ff;
+      --text: #1a1a2e;
+      --muted: #5a6480;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10, 45, 110, 0.97);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5%;
+      box-shadow: 0 2px 24px rgba(10,45,110,0.3);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon {
+      width: 38px; height: 38px; background: var(--crimson);
+      border-radius: 10px; display: grid; place-items: center;
+      font-size: 1.2rem;
+    }
+    .logo-text { color: var(--white); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo-text span { color: var(--pink); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-cta {
+      background: var(--crimson); color: white; border: none;
+      padding: 0.55rem 1.4rem; border-radius: 50px; font-weight: 600;
+      font-size: 0.88rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: background .2s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--red); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, #112f7a 50%, #1b3e8e 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden; padding-top: 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -100px; right: -120px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(244,167,181,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(63,142,245,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse 8s ease-in-out infinite reverse;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto; padding: 0 5%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(244,167,181,0.15); border: 1px solid rgba(244,167,181,0.4);
+      color: var(--pink); padding: 0.4rem 1rem; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '♥'; font-size: 0.9rem; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      color: var(--white); line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em { color: var(--pink); font-style: italic; }
+    .hero p {
+      color: rgba(255,255,255,0.75); font-size: 1.05rem;
+      line-height: 1.8; margin-bottom: 2rem; font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--crimson), var(--red));
+      color: white; padding: 0.85rem 2rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 8px 24px rgba(192,41,59,0.4);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(192,41,59,0.5); }
+    .btn-outline {
+      background: transparent; color: white;
+      border: 2px solid rgba(255,255,255,0.4);
+      padding: 0.85rem 2rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.95rem; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: border-color .2s, background .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--pink); background: rgba(244,167,181,0.1); }
+
+    .hero-visual {
+      position: relative; display: flex; justify-content: center; align-items: center;
+    }
+    .hero-card-main {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 24px; padding: 2.5rem;
+      width: 320px; text-align: center;
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    .hero-icon-large { font-size: 4rem; margin-bottom: 1rem; }
+    .hero-card-main h3 { color: white; font-family: 'Playfair Display',serif; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .hero-card-main p { color: rgba(255,255,255,0.65); font-size: 0.9rem; line-height: 1.6; }
+    .hero-stat-cards {
+      position: absolute; display: flex; flex-direction: column; gap: 1rem;
+      right: -20px; top: 50%; transform: translateY(-50%);
+    }
+    .stat-card {
+      background: white; border-radius: 16px; padding: 1rem 1.4rem;
+      box-shadow: 0 8px 32px rgba(10,45,110,0.2);
+      display: flex; align-items: center; gap: 12px;
+      animation: slideIn .5s ease forwards; opacity: 0;
+    }
+    .stat-card:nth-child(1) { animation-delay: .3s; }
+    .stat-card:nth-child(2) { animation-delay: .5s; }
+    .stat-card:nth-child(3) { animation-delay: .7s; }
+    @keyframes slideIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+    .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; font-size: 1rem; flex-shrink: 0; }
+    .stat-icon.blue { background: var(--light); }
+    .stat-icon.red { background: var(--blush); }
+    .stat-icon.pink { background: var(--rose); }
+    .stat-num { font-weight: 700; font-size: 1.1rem; color: var(--navy); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 5%; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      color: var(--crimson); font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--navy); line-height: 1.25; margin-bottom: 1rem;
+    }
+    .section-title span { color: var(--crimson); }
+    .section-sub { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 580px; }
+
+    /* ── SERVICES ── */
+    .services { background: var(--light); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem; margin-top: 3.5rem;
+    }
+    .service-card {
+      background: white; border-radius: 20px;
+      padding: 2rem; border: 1px solid #e8edf8;
+      position: relative; overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(10,45,110,0.12); }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 4px;
+    }
+    .service-card.blue-top::before { background: linear-gradient(90deg, var(--blue), var(--sky)); }
+    .service-card.red-top::before { background: linear-gradient(90deg, var(--crimson), var(--red)); }
+    .service-card.pink-top::before { background: linear-gradient(90deg, var(--pink), var(--rose)); }
+    .card-icon {
+      width: 54px; height: 54px; border-radius: 15px;
+      display: grid; place-items: center; font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .card-icon.blue { background: var(--light); }
+    .card-icon.red { background: var(--blush); }
+    .card-icon.pink { background: var(--rose); }
+    .service-card h3 { font-family: 'Playfair Display',serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 0.7rem; }
+    .service-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.2rem; }
+    .service-list { list-style: none; }
+    .service-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.88rem; color: var(--text); margin-bottom: 0.5rem;
+    }
+    .service-list li::before { content: '✓'; color: var(--crimson); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── TIMELINE ── */
+    .timeline-header { text-align: center; margin-bottom: 4rem; }
+    .timeline-header .section-sub { margin: 0 auto; }
+    .timeline {
+      position: relative; max-width: 900px; margin: 0 auto;
+    }
+    .timeline::before {
+      content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 3px; background: linear-gradient(to bottom, var(--blue), var(--crimson), var(--pink));
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: grid; grid-template-columns: 1fr 60px 1fr;
+      gap: 1.5rem; margin-bottom: 3rem; align-items: center;
+    }
+    .timeline-item:nth-child(odd) .t-content { grid-column: 1; text-align: right; }
+    .timeline-item:nth-child(odd) .t-empty { grid-column: 3; }
+    .timeline-item:nth-child(even) .t-content { grid-column: 3; text-align: left; }
+    .timeline-item:nth-child(even) .t-empty { grid-column: 1; }
+    .t-dot {
+      grid-column: 2; width: 54px; height: 54px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 1.3rem;
+      border: 3px solid white;
+      box-shadow: 0 0 0 4px var(--blue), 0 8px 20px rgba(10,45,110,0.25);
+      z-index: 2; margin: 0 auto;
+      background: white;
+    }
+    .t-dot.red-dot { box-shadow: 0 0 0 4px var(--crimson), 0 8px 20px rgba(192,41,59,0.25); }
+    .t-dot.pink-dot { box-shadow: 0 0 0 4px var(--pink), 0 8px 20px rgba(244,167,181,0.4); }
+    .t-content {
+      background: white; border-radius: 16px; padding: 1.5rem;
+      border: 1px solid #e8edf8;
+      box-shadow: 0 4px 20px rgba(10,45,110,0.06);
+    }
+    .t-week {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 0.4rem;
+    }
+    .t-week.blue { color: var(--blue); }
+    .t-week.red { color: var(--crimson); }
+    .t-week.pink { color: var(--red); }
+    .t-content h4 { font-family: 'Playfair Display',serif; color: var(--navy); font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .t-content p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+
+    /* ── PROCEDURES ── */
+    .procedures { background: var(--light); }
+    .procedures-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem; margin-top: 3.5rem;
+    }
+    .proc-card {
+      background: white; border-radius: 18px; padding: 1.8rem;
+      border: 1px solid #e8edf8; text-align: center;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .proc-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(10,45,110,0.1); }
+    .proc-num {
+      font-family: 'Playfair Display',serif; font-size: 2.2rem;
+      font-weight: 700; line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .proc-num.blue { color: var(--blue); }
+    .proc-num.red { color: var(--crimson); }
+    .proc-num.pink { color: var(--red); }
+    .proc-card h4 { font-family: 'Playfair Display',serif; color: var(--navy); font-size: 1rem; margin-bottom: 0.6rem; }
+    .proc-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.65; }
+    .proc-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+
+    /* ── TEAM ── */
+    .team-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem; margin-top: 3.5rem;
+    }
+    .team-card {
+      background: white; border-radius: 20px; padding: 2rem;
+      text-align: center; border: 1px solid #e8edf8;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .team-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(10,45,110,0.1); }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.2rem;
+      display: grid; place-items: center; font-size: 2rem;
+      border: 3px solid var(--blush);
+    }
+    .team-avatar.b { background: var(--light); border-color: rgba(63,142,245,0.3); }
+    .team-avatar.r { background: var(--blush); border-color: rgba(232,64,87,0.3); }
+    .team-avatar.p { background: var(--rose); border-color: rgba(244,167,181,0.5); }
+    .team-card h4 { font-family: 'Playfair Display',serif; color: var(--navy); margin-bottom: 0.3rem; }
+    .team-card .role { color: var(--crimson); font-size: 0.82rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .team-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.65; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      background: linear-gradient(135deg, var(--navy), #112f7a);
+      position: relative; overflow: hidden;
+    }
+    .testimonials::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .testimonials .section-title { color: white; }
+    .testimonials .section-tag { color: var(--pink); }
+    .testimonials .section-sub { color: rgba(255,255,255,0.65); }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem; margin-top: 3.5rem; position: relative; z-index: 1;
+    }
+    .testi-card {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px); border-radius: 20px; padding: 2rem;
+      position: relative;
+    }
+    .testi-card::before { content: '"'; position: absolute; top: 1rem; right: 1.5rem; font-size: 4rem; color: rgba(244,167,181,0.2); font-family: 'Playfair Display',serif; line-height: 1; }
+    .stars { color: var(--pink); font-size: 0.95rem; margin-bottom: 1rem; }
+    .testi-card p { color: rgba(255,255,255,0.8); font-size: 0.92rem; line-height: 1.75; margin-bottom: 1.5rem; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--crimson), var(--pink));
+      display: grid; place-items: center; font-size: 1rem; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+    .author-name { color: white; font-weight: 600; font-size: 0.9rem; }
+    .author-loc { color: rgba(255,255,255,0.5); font-size: 0.8rem; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--crimson) 0%, var(--red) 50%, #8b0f1e 100%);
+      padding: 5rem 5%; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+    }
+    .cta-banner h2 {
+      font-family: 'Playfair Display',serif; font-size: clamp(2rem,4vw,3rem);
+      color: white; margin-bottom: 1rem; position: relative;
+    }
+    .cta-banner p { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 2.5rem; position: relative; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-white {
+      background: white; color: var(--crimson);
+      padding: 0.9rem 2.2rem; border-radius: 50px;
+      font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer;
+      font-family: 'DM Sans',sans-serif; transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      text-decoration: none; display: inline-block;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0,0,0,0.3); }
+    .btn-outline-white {
+      background: transparent; color: white;
+      border: 2px solid rgba(255,255,255,0.6); padding: 0.9rem 2.2rem;
+      border-radius: 50px; font-weight: 600; font-size: 0.95rem;
+      cursor: pointer; font-family: 'DM Sans',sans-serif;
+      transition: border-color .2s, background .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #050f2e; padding: 3rem 5% 1.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .footer-logo .logo-icon { width: 34px; height: 34px; border-radius: 8px; font-size: 1rem; }
+    .footer-logo .logo-text { font-size: 1.1rem; }
+    .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--pink); }
+    .footer-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); }
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 0.8rem; text-align: center; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero-visual { display: none; }
+      .timeline::before { left: 28px; }
+      .timeline-item { grid-template-columns: 60px 1fr !important; }
+      .timeline-item .t-dot { grid-column: 1 !important; }
+      .timeline-item .t-content { grid-column: 2 !important; text-align: left !important; }
+      .timeline-item .t-empty { display: none; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero-btns { justify-content: center; }
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s, transform .6s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-icon">🏥</div>
+    <div class="logo-text">Swft<span>Nurse</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Maternity Care</a></li>
+    <li><a href="#">Our Team</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Book a Nurse</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">Maternity Care Program</div>
+      <h1>Expert <em>Maternal Care</em> in the Comfort of Your Home</h1>
+      <p>SwftNurse Homecare brings professional, compassionate maternity support directly to you — from prenatal care through postpartum recovery. Because every mother deserves the best.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Book a Consultation</a>
+        <a href="#services" class="btn-outline">Our Services</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-main">
+        <div class="hero-icon-large">🤱</div>
+        <h3>24/7 Maternal Support</h3>
+        <p>Round-the-clock care for mothers and newborns by certified professionals</p>
+      </div>
+      <div class="hero-stat-cards">
+        <div class="stat-card">
+          <div class="stat-icon blue">💙</div>
+          <div>
+            <div class="stat-num">2,400+</div>
+            <div class="stat-label">Moms Supported</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">❤️</div>
+          <div>
+            <div class="stat-num">99%</div>
+            <div class="stat-label">Satisfaction Rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon pink">🌸</div>
+          <div>
+            <div class="stat-num">15+ yrs</div>
+            <div class="stat-label">Experience</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">What We Offer</span>
+      <h2 class="section-title">Comprehensive <span>Maternity</span> Services</h2>
+      <p class="section-sub">From the first trimester to postpartum healing, our certified nurses provide full-spectrum maternal healthcare at home.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card blue-top reveal">
+        <div class="card-icon blue">🤰</div>
+        <h3>Prenatal Care</h3>
+        <p>Professional monitoring and support throughout pregnancy for both mother and baby.</p>
+        <ul class="service-list">
+          <li>Weekly vital signs monitoring (BP, pulse, weight)</li>
+          <li>Fetal heartbeat monitoring at home</li>
+          <li>Nutritional counseling & meal planning</li>
+          <li>Antenatal exercises & breathing techniques</li>
+          <li>Edema assessment & management</li>
+          <li>Lab specimen collection & coordination</li>
+          <li>High-risk pregnancy monitoring</li>
+        </ul>
+      </div>
+      <div class="service-card red-top reveal">
+        <div class="card-icon red">👶</div>
+        <h3>Labour & Delivery Support</h3>
+        <p>Skilled birth assistance and comfort care during your labour journey.</p>
+        <ul class="service-list">
+          <li>Early labour assessment & monitoring</li>
+          <li>Contraction timing & pain management</li>
+          <li>Accompany & support at delivery facility</li>
+          <li>Comfort techniques — massage, positioning</li>
+          <li>Emotional & psychological support</li>
+          <li>Birth plan coordination with hospital team</li>
+          <li>Post-delivery immediate newborn care</li>
+        </ul>
+      </div>
+      <div class="service-card pink-top reveal">
+        <div class="card-icon pink">🌸</div>
+        <h3>Postpartum Care</h3>
+        <p>Expert recovery support and newborn care in the critical weeks after birth.</p>
+        <ul class="service-list">
+          <li>Postpartum wound & episiotomy care</li>
+          <li>C-section incision dressing & monitoring</li>
+          <li>Breastfeeding consultation & support</li>
+          <li>Newborn bathing, cord, & skin care</li>
+          <li>Postpartum depression screening</li>
+          <li>Uterine involution monitoring</li>
+          <li>Baby feeding schedule & weight tracking</li>
+        </ul>
+      </div>
+      <div class="service-card blue-top reveal">
+        <div class="card-icon blue">💊</div>
+        <h3>Medication & Health Management</h3>
+        <p>Safe administration and monitoring of maternity medications at home.</p>
+        <ul class="service-list">
+          <li>Iron, folic acid & supplement administration</li>
+          <li>Gestational diabetes insulin management</li>
+          <li>Blood pressure medication monitoring</li>
+          <li>IV fluid administration if prescribed</li>
+          <li>Medication side-effect assessment</li>
+          <li>Coordination with OB/GYN physician</li>
+        </ul>
+      </div>
+      <div class="service-card red-top reveal">
+        <div class="card-icon red">🧠</div>
+        <h3>Mental & Emotional Wellness</h3>
+        <p>Holistic emotional support for the mental health of new mothers.</p>
+        <ul class="service-list">
+          <li>Postpartum depression & anxiety screening</li>
+          <li>Counseling & emotional support sessions</li>
+          <li>Stress management techniques</li>
+          <li>Family bonding & attachment guidance</li>
+          <li>Referral to mental health professionals</li>
+          <li>Support group recommendations</li>
+        </ul>
+      </div>
+      <div class="service-card pink-top reveal">
+        <div class="card-icon pink">📋</div>
+        <h3>Education & Training</h3>
+        <p>Empowering mothers and families with the knowledge they need.</p>
+        <ul class="service-list">
+          <li>Newborn care training for parents</li>
+          <li>Safe sleep practices & SIDS prevention</li>
+          <li>Breastfeeding & formula preparation</li>
+          <li>Immunisation schedule guidance</li>
+          <li>Danger signs recognition training</li>
+          <li>Postpartum self-care education</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARE JOURNEY TIMELINE -->
+<section id="journey">
+  <div class="section-inner">
+    <div class="timeline-header reveal">
+      <span class="section-tag">Your Care Journey</span>
+      <h2 class="section-title">A Roadmap Through <span>Every Stage</span></h2>
+      <p class="section-sub">SwftNurse supports you from the very first weeks of pregnancy all the way through postpartum recovery.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <div class="t-week blue">Weeks 1 – 12</div>
+          <h4>First Trimester Monitoring</h4>
+          <p>Initial health assessment, booking visit, blood pressure and weight baseline, nutritional counseling, morning sickness management, and lifestyle guidance.</p>
+        </div>
+        <div class="t-dot">🌱</div>
+        <div class="t-empty"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-empty"></div>
+        <div class="t-dot red-dot">💛</div>
+        <div class="t-content">
+          <div class="t-week red">Weeks 13 – 26</div>
+          <h4>Second Trimester Support</h4>
+          <p>Fetal heartbeat monitoring, gestational diabetes screening support, anaemia management, antenatal exercises, and birth plan discussions begin.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <div class="t-week pink">Weeks 27 – 40</div>
+          <h4>Third Trimester Preparation</h4>
+          <p>Intensive monitoring of blood pressure, fetal movement counts, oedema assessment, labour preparation classes, hospital bag guidance, and birth plan finalisation.</p>
+        </div>
+        <div class="t-dot pink-dot">🌟</div>
+        <div class="t-empty"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-empty"></div>
+        <div class="t-dot red-dot">❤️</div>
+        <div class="t-content">
+          <div class="t-week red">Labour Day</div>
+          <h4>Labour & Delivery Support</h4>
+          <p>Active labour monitoring, pain management techniques, emotional support, hospital escort and coordination with the delivery team for a safe birth.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <div class="t-week blue">Days 1 – 7</div>
+          <h4>Immediate Postpartum</h4>
+          <p>Daily home visits, wound care, breastfeeding initiation support, newborn assessment, jaundice monitoring, and postpartum complication screening.</p>
+        </div>
+        <div class="t-dot">🤱</div>
+        <div class="t-empty"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-empty"></div>
+        <div class="t-dot pink-dot">🌸</div>
+        <div class="t-content">
+          <div class="t-week pink">Weeks 2 – 6</div>
+          <h4>Extended Postpartum Recovery</h4>
+          <p>Continued wound healing, family adjustment support, postpartum depression monitoring, baby development milestones tracking, and discharge planning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICAL PROCEDURES -->
+<section class="procedures" id="procedures">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">Clinical Procedures</span>
+      <h2 class="section-title">Evidence-Based <span>Procedures</span> We Perform</h2>
+      <p class="section-sub">All procedures are performed by registered nurses following internationally recognised maternal healthcare standards.</p>
+    </div>
+    <div class="procedures-grid">
+      <div class="proc-card reveal">
+        <div class="proc-icon">🩺</div>
+        <div class="proc-num blue">01</div>
+        <h4>Vital Signs Monitoring</h4>
+        <p>Regular blood pressure, pulse, temperature, and respiratory rate checks for both mother and newborn.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">💉</div>
+        <div class="proc-num red">02</div>
+        <h4>Blood Specimen Collection</h4>
+        <p>Home phlebotomy for full blood count, blood glucose, HIV, hepatitis, and other prenatal panels.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🎧</div>
+        <div class="proc-num pink">03</div>
+        <h4>Fetal Heart Rate Assessment</h4>
+        <p>Doppler monitoring of fetal heartbeat to assess baby's wellbeing throughout pregnancy.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🩹</div>
+        <div class="proc-num blue">04</div>
+        <h4>Wound & Episiotomy Care</h4>
+        <p>Sterile dressing, cleaning, and monitoring of perineal tears, episiotomies, and caesarean incisions.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🍼</div>
+        <div class="proc-num red">05</div>
+        <h4>Infant Feeding Support</h4>
+        <p>Latch assessment, nipple care, milk supply guidance, and formula preparation education.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🛁</div>
+        <div class="proc-num pink">06</div>
+        <h4>Newborn Hygiene Care</h4>
+        <p>Sponge and tub bathing, umbilical cord stump care, nappy care, and skin condition assessment.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">📊</div>
+        <div class="proc-num blue">07</div>
+        <h4>Growth & Development Tracking</h4>
+        <p>Regular weight checks, length measurements, head circumference, and developmental milestone screening.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🧪</div>
+        <div class="proc-num red">08</div>
+        <h4>Urine & Blood Glucose Testing</h4>
+        <p>Point-of-care urinalysis and blood glucose monitoring for gestational diabetes management.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">💊</div>
+        <div class="proc-num pink">09</div>
+        <h4>Medication Administration</h4>
+        <p>Safe oral, IM, and IV medication administration as prescribed by the attending obstetrician.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🧠</div>
+        <div class="proc-num blue">10</div>
+        <h4>Psychological Assessment</h4>
+        <p>Edinburgh Postnatal Depression Scale (EPDS) screening and mental health referral coordination.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">📝</div>
+        <div class="proc-num red">11</div>
+        <h4>Comprehensive Documentation</h4>
+        <p>Detailed clinical notes, care plans, and real-time reporting shared with the mother's healthcare team.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-icon">🚨</div>
+        <div class="proc-num pink">12</div>
+        <h4>Emergency Triage & Referral</h4>
+        <p>Rapid assessment of danger signs (eclampsia, PPH, sepsis) and immediate emergency coordination.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;">
+      <span class="section-tag">Our Team</span>
+      <h2 class="section-title">Dedicated <span>Maternal Health</span> Specialists</h2>
+      <p class="section-sub" style="margin:0 auto;">Our multidisciplinary team is composed of highly qualified, empathetic professionals committed to your wellbeing.</p>
+    </div>
+    <div class="team-cards">
+      <div class="team-card reveal">
+        <div class="team-avatar b">👩‍⚕️</div>
+        <h4>Certified Midwives</h4>
+        <div class="role">Labour & Delivery</div>
+        <p>Registered midwives skilled in normal delivery support, labour monitoring, and immediate newborn care.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar r">🩺</div>
+        <h4>Maternal-Neonatal Nurses</h4>
+        <div class="role">Prenatal & Postnatal</div>
+        <p>Specialised RNs providing evidence-based prenatal monitoring and comprehensive postpartum care.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar p">🧘‍♀️</div>
+        <h4>Lactation Consultants</h4>
+        <div class="role">Breastfeeding Support</div>
+        <p>IBCLC-certified consultants guiding mothers through successful breastfeeding journeys.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar b">🧠</div>
+        <h4>Mental Health Nurses</h4>
+        <div class="role">Psychological Wellness</div>
+        <p>Specialists in perinatal mental health, postpartum depression assessment, and emotional support.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar r">🥗</div>
+        <h4>Nutrition Counselors</h4>
+        <div class="role">Dietary Guidance</div>
+        <p>Registered dietitians specialising in pregnancy nutrition, gestational diabetes, and postnatal recovery diets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;">
+      <span class="section-tag">Testimonials</span>
+      <h2 class="section-title">Words from <span style="color:var(--pink)">Our Mothers</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Real experiences from mothers who trusted SwftNurse with their most important journey.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>My SwftNurse midwife was absolutely amazing throughout my entire pregnancy. She came to my home every week, monitored my blood pressure closely since I was high-risk, and I felt genuinely cared for every single visit.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div>
+            <div class="author-name">Amara Diallo</div>
+            <div class="author-loc">Nairobi, Kenya</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>After my C-section, I was nervous about wound care at home. The SwftNurse team visited daily, changed my dressings professionally, and my recovery was faster than I expected. Their postpartum support was incredible.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">F</div>
+          <div>
+            <div class="author-name">Fatima Osei</div>
+            <div class="author-loc">Accra, Ghana</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>The lactation consultant helped me establish breastfeeding when I was struggling. She was so patient, knowledgeable, and encouraging. My baby is now thriving and I could not have done it without SwftNurse.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">G</div>
+          <div>
+            <div class="author-name">Grace Mensah</div>
+            <div class="author-loc">Lagos, Nigeria</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner" id="contact">
+  <h2>Ready to Begin Your Maternity Care Journey?</h2>
+  <p>Speak with our maternal health coordinator today. We serve families 24 hours a day, 7 days a week.</p>
+  <div class="cta-btns">
+    <a href="tel:+254700000000" class="btn-white">📞 Call Us Now</a>
+    <a href="mailto:care@swftnurse.com" class="btn-outline-white">✉️ Send an Enquiry</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo logo" href="#">
+    <div class="logo-icon">🏥</div>
+    <div class="logo-text">Swft<span>Nurse</span> Homecare</div>
+  </a>
+  <nav class="footer-links">
+    <a href="#">Maternity Care</a>
+    <a href="#">Elder Care</a>
+    <a href="#">Wound Care</a>
+    <a href="#">IV Therapy</a>
+    <a href="#">Our Team</a>
+    <a href="#">Privacy Policy</a>
+  </nav>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© 2025 SwftNurse Homecare. All rights reserved. Licensed & insured healthcare professionals.</p>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>

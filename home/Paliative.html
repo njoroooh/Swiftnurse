@@ -1,0 +1,2976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftNurse Homecare - Palliative Care</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --red: #c0392b;
+            --dark-red: #96281b;
+            --light-red: #e74c3c;
+            --blue: #1a237e;
+            --light-blue: #1565c0;
+            --bright-blue: #2196f3;
+            --pale-blue: #e3f2fd;
+            --black: #0a0a0a;
+            --dark: #111827;
+            --charcoal: #1f2937;
+            --white: #ffffff;
+            --gold: #f39c12;
+            --silver: #bdc3c7;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* PARTICLES */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+            animation: drift linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.08; }
+            90% { opacity: 0.08; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,10,0.97);
+            backdrop-filter: blur(20px);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(192,57,43,0.4);
+        }
+
+        .logo-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--bright-blue); }
+
+        .logo-sub {
+            font-size: 0.68rem;
+            color: rgba(192,57,43,0.9);
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            padding-left: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--bright-blue);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: white; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-btn {
+            background: var(--red) !important;
+            color: white !important;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-weight: 700 !important;
+            border: none;
+            transition: all 0.3s !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-btn:hover {
+            background: var(--dark-red) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192,57,43,0.4) !important;
+        }
+
+        .nav-btn::after { display: none !important; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px; height: 3px;
+            background: var(--bright-blue);
+            border-radius: 3px;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(26,35,126,0.6) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(192,57,43,0.25) 0%, transparent 50%),
+                linear-gradient(160deg, var(--black) 0%, #0d0d1a 50%, #1a0000 100%);
+            display: flex;
+            align-items: center;
+            padding: 120px 40px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(33,150,243,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(33,150,243,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-glow-1 {
+            position: absolute;
+            top: 20%; left: 5%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(26,35,126,0.35), transparent 70%);
+            border-radius: 50%;
+            animation: glowPulse 5s ease-in-out infinite;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            bottom: 15%; right: 10%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(192,57,43,0.2), transparent 70%);
+            border-radius: 50%;
+            animation: glowPulse 7s ease-in-out infinite reverse;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .hero-content {
+            max-width: 680px;
+            color: white;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(33,150,243,0.1);
+            border: 1px solid rgba(33,150,243,0.4);
+            color: #90caf9;
+            padding: 9px 20px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero-badge .badge-dot {
+            width: 8px; height: 8px;
+            background: var(--bright-blue);
+            border-radius: 50%;
+            animation: blink 1.5s ease infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.12;
+            margin-bottom: 22px;
+            font-weight: 800;
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero h1 .line-1 { color: white; display: block; }
+
+        .hero h1 .line-2 {
+            color: var(--bright-blue);
+            display: block;
+            position: relative;
+        }
+
+        .hero h1 .line-3 {
+            color: rgba(192,57,43,0.9);
+            display: block;
+            font-size: 2.4rem;
+        }
+
+        .hero-divider {
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--bright-blue));
+            margin: 22px 0;
+            border-radius: 3px;
+        }
+
+        .hero p {
+            font-size: 1.08rem;
+            color: #9ca3af;
+            margin-bottom: 35px;
+            line-height: 1.85;
+            animation: fadeInLeft 1.2s ease;
+            max-width: 580px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1.4s ease;
+            margin-bottom: 55px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), var(--light-blue));
+            color: white;
+            padding: 15px 32px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(26,35,126,0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(33,150,243,0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #e74c3c;
+            padding: 15px 32px;
+            border: 1.5px solid rgba(192,57,43,0.6);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(192,57,43,0.1);
+            border-color: var(--red);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 0;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 500px;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+            padding: 18px 15px;
+            border-right: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            transition: background 0.3s;
+        }
+
+        .stat:last-child { border-right: none; }
+        .stat:hover { background: rgba(33,150,243,0.08); }
+
+        .stat h3 {
+            font-size: 1.9rem;
+            color: var(--bright-blue);
+            font-weight: 800;
+        }
+
+        .stat p {
+            font-size: 0.72rem;
+            color: #6b7280;
+            margin: 3px 0 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* FLOATING SIDE CARDS */
+        .hero-cards {
+            position: absolute;
+            right: 55px; top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(33,150,243,0.2);
+            padding: 14px 18px;
+            border-radius: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            animation: slideInRight 1s ease;
+            min-width: 220px;
+        }
+
+        .hero-card:hover {
+            transform: translateX(-8px);
+            background: rgba(33,150,243,0.08);
+            border-color: rgba(33,150,243,0.4);
+        }
+
+        .hero-card-icon { font-size: 1.7rem; }
+
+        .hero-card h4 {
+            font-size: 0.86rem;
+            margin-bottom: 2px;
+            color: #90caf9;
+            font-weight: 600;
+        }
+
+        .hero-card p {
+            font-size: 0.72rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* TRUST BAR */
+        .trust-bar {
+            background: var(--charcoal);
+            border-top: 1px solid rgba(33,150,243,0.15);
+            border-bottom: 1px solid rgba(33,150,243,0.15);
+            padding: 18px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #9ca3af;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .trust-item span { font-size: 1.3rem; }
+
+        .trust-item strong { color: white; }
+
+        /* TICKER */
+        .ticker-wrapper {
+            background: linear-gradient(90deg, var(--blue), var(--light-blue));
+            padding: 11px 0;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: ticker 35s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-content span {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.85rem;
+            padding: 0 35px;
+            font-weight: 500;
+        }
+
+        .ticker-content span::after {
+            content: '🕊️';
+            margin-left: 35px;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* SECTIONS */
+        section { padding: 90px 40px; position: relative; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 65px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            color: var(--bright-blue);
+        }
+
+        .section-header h2 {
+            font-size: 2.6rem;
+            margin: 10px 0;
+            font-weight: 800;
+            line-height: 1.2;
+            color: white;
+        }
+
+        .section-header h2 .accent-red { color: var(--light-red); }
+        .section-header h2 .accent-blue { color: var(--bright-blue); }
+        .section-header h2 .dark-h2 { color: var(--dark); }
+
+        .section-header p {
+            max-width: 630px;
+            margin: 0 auto;
+            line-height: 1.85;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .section-header p.light-p { color: rgba(255,255,255,0.6); }
+
+        /* LIGHT SECTION */
+        .light-section { background: #f8fafc; }
+        .light-section .section-tag { color: var(--red); }
+        .light-section .section-header h2 { color: var(--dark); }
+
+        /* DARK SECTION */
+        .dark-section {
+            background: linear-gradient(160deg, var(--black), var(--dark));
+        }
+
+        /* PHILOSOPHY */
+        .philosophy { background: var(--pale-blue); }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .philosophy-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            transition: all 0.4s;
+            border-top: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 3px;
+            background: linear-gradient(90deg, var(--blue), var(--red));
+            transition: width 0.4s;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 45px rgba(26,35,126,0.15);
+        }
+
+        .philosophy-card:hover::after { width: 100%; }
+
+        .philosophy-card:nth-child(1) { border-top-color: var(--blue); }
+        .philosophy-card:nth-child(2) { border-top-color: var(--red); }
+        .philosophy-card:nth-child(3) { border-top-color: var(--bright-blue); }
+        .philosophy-card:nth-child(4) { border-top-color: var(--dark-red); }
+
+        .philosophy-icon {
+            font-size: 3rem;
+            margin-bottom: 18px;
+            display: block;
+            animation: floatSoft 3s ease-in-out infinite;
+        }
+
+        .philosophy-card:nth-child(2) .philosophy-icon { animation-delay: 0.5s; }
+        .philosophy-card:nth-child(3) .philosophy-icon { animation-delay: 1s; }
+        .philosophy-card:nth-child(4) .philosophy-icon { animation-delay: 1.5s; }
+
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        .philosophy-card h3 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .philosophy-card p {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* SERVICES */
+        .services { background: linear-gradient(160deg, var(--black), #0d0d2a, #1a0a0a); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 32px 22px;
+            text-align: left;
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card .card-accent {
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: linear-gradient(180deg, var(--blue), var(--red));
+            transition: width 0.3s;
+        }
+
+        .service-card:hover .card-accent { width: 6px; }
+
+        .service-card:hover {
+            transform: translateY(-6px) translateX(4px);
+            border-color: rgba(33,150,243,0.25);
+            background: rgba(33,150,243,0.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .service-icon {
+            font-size: 2.6rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .service-card h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            margin-bottom: 15px;
+        }
+
+        .service-card .learn-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--bright-blue);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: gap 0.3s;
+        }
+
+        .service-card .learn-more:hover { gap: 10px; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: linear-gradient(160deg, #0d0d1a, #1a0505);
+            border: 1px solid rgba(33,150,243,0.3);
+            border-radius: 14px;
+            padding: 45px;
+            max-width: 560px;
+            width: 92%;
+            position: relative;
+            animation: slideInUp 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 60px rgba(26,35,126,0.3), 0 0 30px rgba(192,57,43,0.1);
+        }
+
+        .modal-top-bar {
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--red));
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px; right: 22px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #6b7280;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 34px; height: 34px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(192,57,43,0.2);
+            color: white;
+            border-color: var(--red);
+        }
+
+        .modal-icon { font-size: 4rem; text-align: center; margin-bottom: 12px; }
+
+        .modal h3 {
+            color: var(--bright-blue);
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .modal p {
+            color: #9ca3af;
+            line-height: 1.8;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+        }
+
+        .modal ul { list-style: none; margin-bottom: 25px; }
+
+        .modal ul li {
+            padding: 9px 0;
+            color: #d1d5db;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .modal ul li .check {
+            color: var(--bright-blue);
+            font-weight: bold;
+            flex-shrink: 0;
+            background: rgba(33,150,243,0.1);
+            width: 22px; height: 22px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            margin-top: 1px;
+        }
+
+        .modal-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--blue), var(--light-blue));
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33,150,243,0.4);
+        }
+
+        /* WHY US */
+        .why-us {
+            background: linear-gradient(160deg, var(--black), #0d0d2a);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .why-visual { position: relative; }
+
+        .why-main-box {
+            background: linear-gradient(160deg, var(--blue), #0d0d3a);
+            border-radius: 16px;
+            height: 430px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(33,150,243,0.2);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-main-box::before {
+            content: '';
+            position: absolute;
+            top: -30%; right: -20%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(192,57,43,0.15), transparent);
+            border-radius: 50%;
+        }
+
+        .why-main-box::after {
+            content: '';
+            position: absolute;
+            bottom: -20%; left: -10%;
+            width: 250px; height: 250px;
+            background: radial-gradient(circle, rgba(33,150,243,0.15), transparent);
+            border-radius: 50%;
+        }
+
+        .why-big-icon {
+            font-size: 7rem;
+            animation: floatSoft 4s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .why-main-box h4 {
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 0 30px;
+            font-size: 1.05rem;
+            margin-top: 20px;
+            z-index: 1;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .why-main-box h4 strong { color: var(--bright-blue); }
+
+        .floating-stat {
+            position: absolute;
+            background: rgba(10,10,10,0.95);
+            border: 1px solid rgba(33,150,243,0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: floatSoft 3s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        .floating-stat:nth-child(3) { top: 12%; left: -20%; animation-delay: 0.3s; }
+        .floating-stat:nth-child(4) { bottom: 18%; right: -18%; animation-delay: 0.8s; }
+        .floating-stat:nth-child(5) { top: 55%; left: -22%; animation-delay: 1.3s; }
+
+        .floating-stat .fs-icon { font-size: 1.5rem; }
+
+        .floating-stat .fs-text h5 {
+            color: white;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .floating-stat .fs-text p {
+            color: #6b7280;
+            font-size: 0.72rem;
+            margin: 0;
+        }
+
+        .why-features { display: flex; flex-direction: column; gap: 18px; }
+
+        .why-feature {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .why-feature:hover {
+            background: rgba(33,150,243,0.06);
+            border-color: rgba(33,150,243,0.2);
+            transform: translateX(6px);
+        }
+
+        .why-feature-icon {
+            width: 50px; height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .why-feature-icon.blue-icon {
+            background: rgba(33,150,243,0.15);
+            border: 1px solid rgba(33,150,243,0.3);
+        }
+
+        .why-feature-icon.red-icon {
+            background: rgba(192,57,43,0.15);
+            border: 1px solid rgba(192,57,43,0.3);
+        }
+
+        .why-feature h4 {
+            color: white;
+            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 0.98rem;
+        }
+
+        .why-feature p {
+            color: #6b7280;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        /* PROCESS */
+        .process { background: var(--pale-blue); }
+
+        .process-steps {
+            max-width: 1050px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0;
+            position: relative;
+        }
+
+        .process-steps::after {
+            content: '';
+            position: absolute;
+            top: 55px; left: 10%;
+            width: 80%; height: 2px;
+            background: linear-gradient(90deg, var(--blue), var(--red));
+            z-index: 0;
+        }
+
+        .process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-circle {
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .step-circle.blue-circle {
+            background: var(--blue);
+            border-color: rgba(33,150,243,0.5);
+            box-shadow: 0 0 0 6px rgba(26,35,126,0.15);
+        }
+
+        .step-circle.red-circle {
+            background: var(--red);
+            border-color: rgba(192,57,43,0.5);
+            box-shadow: 0 0 0 6px rgba(192,57,43,0.15);
+        }
+
+        .process-step:hover .step-circle {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 10px rgba(33,150,243,0.12);
+        }
+
+        .process-step h4 {
+            color: var(--dark);
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .process-step p {
+            color: #555;
+            font-size: 0.83rem;
+            line-height: 1.6;
+        }
+
+        /* TEAM */
+        .team { background: linear-gradient(160deg, var(--black), #0d0d2a); }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 22px;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 30px 22px;
+            text-align: center;
+            transition: all 0.4s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(33,150,243,0.3);
+            background: rgba(33,150,243,0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .team-avatar {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid rgba(33,150,243,0.4);
+            position: relative;
+        }
+
+        .team-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1px solid rgba(192,57,43,0.3);
+        }
+
+        .team-card h4 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            color: var(--bright-blue);
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .team-card p {
+            color: #6b7280;
+            font-size: 0.83rem;
+            line-height: 1.65;
+        }
+
+        .team-badge {
+            display: inline-block;
+            background: rgba(192,57,43,0.15);
+            color: #e74c3c;
+            padding: 3px 12px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            border: 1px solid rgba(192,57,43,0.3);
+            margin-top: 10px;
+        }
+
+        /* PRICING */
+        .pricing { background: var(--pale-blue); }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+            gap: 22px;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 14px;
+            padding: 38px 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(26,35,126,0.15);
+            border-color: var(--bright-blue);
+        }
+
+        .pricing-card.popular {
+            background: linear-gradient(160deg, var(--blue), #0d1f5c);
+            color: white;
+            transform: scale(1.02);
+            border-color: var(--bright-blue);
+        }
+
+        .pricing-card.popular:hover { transform: scale(1.02) translateY(-8px); }
+
+        .popular-badge {
+            position: absolute;
+            top: -14px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--red);
+            color: white;
+            padding: 5px 22px;
+            border-radius: 4px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            white-space: nowrap;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 6px;
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        .pricing-card.popular h3 { color: white; }
+
+        .price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--blue);
+            margin: 14px 0;
+        }
+
+        .pricing-card.popular .price { color: #90caf9; }
+        .price span { font-size: 1rem; font-weight: 400; opacity: 0.6; }
+
+        .pricing-desc {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card.popular .pricing-desc { color: rgba(255,255,255,0.6); }
+
+        .pricing-card ul { list-style: none; margin: 0 0 25px; }
+
+        .pricing-card ul li {
+            padding: 9px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #374151;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .pricing-card.popular ul li {
+            color: rgba(255,255,255,0.88);
+            border-bottom-color: rgba(255,255,255,0.08);
+        }
+
+        .pricing-card ul li::before {
+            content: '✓';
+            color: var(--blue);
+            font-weight: 800;
+            background: var(--pale-blue);
+            width: 20px; height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-card.popular ul li::before {
+            color: var(--blue);
+            background: #90caf9;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid var(--blue);
+            background: transparent;
+            color: var(--blue);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-btn:hover {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 5px 20px rgba(26,35,126,0.3);
+        }
+
+        .pricing-card.popular .pricing-btn {
+            background: var(--bright-blue);
+            color: white;
+            border-color: var(--bright-blue);
+        }
+
+        .pricing-card.popular .pricing-btn:hover {
+            background: white;
+            color: var(--blue);
+        }
+
+        /* TESTIMONIALS */
+        .testimonials {
+            background: linear-gradient(160deg, var(--black), #0d0d2a, #1a0505);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(26,35,126,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(192,57,43,0.1) 0%, transparent 50%);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -5px; left: 20px;
+            font-size: 7rem;
+            color: rgba(33,150,243,0.08);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(33,150,243,0.2);
+            background: rgba(33,150,243,0.04);
+        }
+
+        .stars { color: var(--gold); font-size: 1rem; margin-bottom: 12px; }
+
+        .testimonial-text {
+            font-size: 0.93rem;
+            line-height: 1.82;
+            color: #9ca3af;
+            font-style: italic;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 18px;
+        }
+
+        .author-avatar {
+            width: 48px; height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .author-info h4 {
+            color: white;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .author-info p {
+            color: #6b7280;
+            font-size: 0.78rem;
+            margin: 2px 0 0;
+        }
+
+        .care-badge {
+            display: inline-block;
+            background: rgba(26,35,126,0.3);
+            color: #90caf9;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            border: 1px solid rgba(33,150,243,0.25);
+            margin-top: 5px;
+        }
+
+        /* FAQ */
+        .faq { background: #f8fafc; }
+
+        .faq-container {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(33,150,243,0.4);
+            box-shadow: 0 4px 20px rgba(26,35,126,0.08);
+        }
+
+        .faq-item.open {
+            border-color: rgba(33,150,243,0.4);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 0.97rem;
+            transition: background 0.3s;
+            gap: 15px;
+        }
+
+        .faq-question:hover { background: var(--pale-blue); }
+
+        .faq-icon {
+            font-size: 1.1rem;
+            color: var(--blue);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            background: var(--pale-blue);
+            width: 30px; height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            background: var(--blue);
+            color: white;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            padding: 0 25px;
+            color: #4b5563;
+            line-height: 1.82;
+            font-size: 0.93rem;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 25px 22px;
+        }
+
+        /* SUPPORT RESOURCES */
+        .resources {
+            background: linear-gradient(160deg, var(--black), #0d0d2a);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .resource-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 28px 22px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(192,57,43,0.3);
+            background: rgba(192,57,43,0.04);
+        }
+
+        .resource-icon { font-size: 2.8rem; margin-bottom: 14px; display: block; }
+
+        .resource-card h4 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .resource-card p {
+            color: #6b7280;
+            font-size: 0.85rem;
+            line-height: 1.65;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--bright-blue);
+            font-size: 0.83rem;
+            font-weight: 600;
+            margin-top: 12px;
+            text-decoration: none;
+            transition: gap 0.3s;
+            cursor: pointer;
+        }
+
+        .resource-link:hover { gap: 10px; color: white; }
+
+        /* CONTACT */
+        .contact {
+            background: linear-gradient(160deg, #0a0a1a, #1a0505);
+            border-top: 1px solid rgba(33,150,243,0.1);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            color: var(--bright-blue);
+            font-size: 1.7rem;
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .contact-info > p {
+            color: #9ca3af;
+            line-height: 1.85;
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+        }
+
+        .contact-details { display: flex; flex-direction: column; gap: 18px; }
+
+        .contact-item { display: flex; align-items: flex-start; gap: 15px; }
+
+        .contact-icon {
+            color: white;
+            width: 46px; height: 46px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-icon.blue-ci { background: rgba(33,150,243,0.2); border: 1px solid rgba(33,150,243,0.3); }
+        .contact-icon.red-ci { background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.3); }
+
+        .contact-item h4 {
+            color: #90caf9;
+            font-size: 0.82rem;
+            margin-bottom: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .contact-item p {
+            color: #d1d5db;
+            font-size: 0.92rem;
+            margin: 0;
+        }
+
+        .contact-form {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 40px;
+        }
+
+        .contact-form h3 {
+            color: white;
+            margin-bottom: 6px;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .contact-form .form-subtitle {
+            color: #6b7280;
+            font-size: 0.88rem;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            color: #90caf9;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 0.93rem;
+            outline: none;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+            color: white;
+        }
+
+        .form-group select option { background: var(--dark); color: white; }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: #4b5563; }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--bright-blue);
+            background: rgba(33,150,243,0.06);
+            box-shadow: 0 0 0 3px rgba(33,150,243,0.1);
+        }
+
+        .form-group textarea { height: 110px; resize: none; }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px; height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--bright-blue);
+        }
+
+        .checkbox-group label {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            cursor: pointer;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--blue), var(--light-blue));
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(33,150,243,0.4);
+        }
+
+        .success-msg {
+            display: none;
+            background: rgba(33,150,243,0.12);
+            border: 1px solid rgba(33,150,243,0.4);
+            color: #90caf9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.92rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--black);
+            color: white;
+            padding: 65px 40px 30px;
+            border-top: 1px solid rgba(33,150,243,0.1);
+        }
+
+        .footer-top {
+            max-width: 1100px;
+            margin: 0 auto 50px;
+            background: linear-gradient(135deg, rgba(26,35,126,0.3), rgba(192,57,43,0.15));
+            border: 1px solid rgba(33,150,243,0.15);
+            border-radius: 14px;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-top h4 {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .footer-top p { color: #9ca3af; font-size: 0.9rem; }
+
+        .footer-top-btn {
+            background: var(--red);
+            color: white;
+            padding: 13px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .footer-top-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.45);
+            margin-top: 14px;
+            line-height: 1.7;
+            font-size: 0.88rem;
+        }
+
+        .footer-col h4 {
+            color: #90caf9;
+            margin-bottom: 18px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 9px; }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-col ul li a:hover { color: white; }
+
+        .social-links { display: flex; gap: 10px; margin-top: 18px; }
+
+        .social-link {
+            width: 38px; height: 38px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .social-link:hover {
+            background: var(--blue);
+            border-color: var(--bright-blue);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-bottom a {
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom a:hover { color: var(--bright-blue); }
+
+        /* SCROLL TOP */
+        .scroll-top {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            background: var(--blue);
+            color: white;
+            width: 48px; height: 48px;
+            border-radius: 10px;
+            border: 1px solid rgba(33,150,243,0.4);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(26,35,126,0.5);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .scroll-top:hover {
+            background: var(--light-blue);
+            transform: translateY(-3px);
+        }
+
+        .scroll-top.show { display: flex; }
+
+        /* EMERGENCY BANNER */
+        .emergency-banner {
+            background: linear-gradient(90deg, #1a237e, #1565c0);
+            color: white;
+            padding: 11px 40px;
+            text-align: center;
+            font-size: 0.88rem;
+            position: fixed;
+            top: 68px;
+            width: 100%;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(192,57,43,0.4);
+        }
+
+        .emergency-banner strong { color: #ef9a9a; font-size: 0.95rem; }
+
+        .close-banner {
+            position: absolute;
+            right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .close-banner:hover { color: white; }
+
+        /* GENTLE ALERT BOX */
+        .compassion-box {
+            background: linear-gradient(135deg, rgba(26,35,126,0.08), rgba(192,57,43,0.05));
+            border: 1px solid rgba(33,150,243,0.2);
+            border-left: 4px solid var(--blue);
+            border-radius: 10px;
+            padding: 20px 25px;
+            max-width: 1100px;
+            margin: -30px auto 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #374151;
+            font-size: 0.93rem;
+            line-height: 1.7;
+        }
+
+        .compassion-box span { font-size: 1.8rem; flex-shrink: 0; }
+        .compassion-box strong { color: var(--blue); }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .hero-cards { display: none; }
+            .why-grid { grid-template-columns: 1fr; }
+            .why-main-box { height: 260px; }
+            .floating-stat { display: none; }
+            .contact-container { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .process-steps::after { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .trust-bar { gap: 20px; padding: 15px 20px; }
+            .footer-top { flex-direction: column; text-align: center; }
+            .hero-stats { flex-direction: column; max-width: 250px; }
+        }
+
+        @media (max-width: 600px) {
+            nav { padding: 14px 18px; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 68px; left: 0;
+                width: 100%;
+                background: rgba(10,10,10,0.98);
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(33,150,243,0.2);
+            }
+            .nav-links.open { display: flex; }
+            .hamburger { display: flex; }
+            .hero { padding: 145px 20px 70px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero h1 .line-3 { font-size: 1.7rem; }
+            section { padding: 65px 20px; }
+            .section-header h2 { font-size: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .contact-form { padding: 25px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .compassion-box { flex-direction: column; text-align: center; margin: -10px 20px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PARTICLES -->
+    <div class="particles" id="particles"></div>
+
+    <!-- EMERGENCY BANNER -->
+    <div class="emergency-banner" id="emergencyBanner">
+        🕊️ <strong>SwiftNurse 24/7 Palliative Care Helpline:</strong>
+        You are never alone — call us any time at <strong>📞 0800 794 3896</strong>
+        <button class="close-banner" onclick="document.getElementById('emergencyBanner').style.display='none'">✕</button>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo-wrap">
+            <a class="logo" href="#home">
+                🏥 SwiftNurse<span> Homecare</span>
+            </a>
+            <span class="logo-sub">Palliative &amp; End-of-Life Care</span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#philosophy">Our Philosophy</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Our Team</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQs</a></li>
+            <li><a href="#contact" class="nav-btn">💙 Talk To Us</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-grid"></div>
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="badge-dot"></div>
+                SwiftNurse Palliative Care — Compassionate Support Since 2005
+            </div>
+            <h1>
+                <span class="line-1">Dignity, Comfort &amp;</span>
+                <span class="line-2">Compassion</span>
+                <span class="line-3">In Life's Final Chapter</span>
+            </h1>
+            <div class="hero-divider"></div>
+            <p>SwiftNurse Homecare provides expert, deeply compassionate palliative and end-of-life care — supporting patients and families through the most profound journey of life, in the comfort of home.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary">💙 Speak With Our Care Team</a>
+                <a href="#services" class="btn-secondary">🕊️ Explore Our Care</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <h3 id="counter1">0</h3>
+                    <p>Families Supported</p>
+                </div>
+                <div class="stat">
+                    <h3 id="counter2">0</h3>
+                    <p>Specialist Nurses</p>
+                </div>
+                <div class="stat">
+                    <h3 id="counter3">0</h3>
+                    <p>Years Experience</p>
+                </div>
+                <div class="stat">
+                    <h3 id="counter4">0</h3>
+                    <p>Counties Covered</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-cards">
+            <div class="hero-card">
+                <div class="hero-card-icon">🕊️</div>
+                <div>
+                    <h4>Dignity-Centred Care</h4>
+                    <p>Always respectful & honouring</p>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-icon">💊</div>
+                <div>
+                    <h4>Pain Management</h4>
+                    <p>Expert symptom control</p>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-icon">👨‍👩‍👧</div>
+                <div>
+                    <h4>Family Support</h4>
+                    <p>Whole-family care approach</p>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-icon">🌙</div>
+                <div>
+                    <h4>24/7 Night Cover</h4>
+                    <p>Never alone through the night</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+        <div class="trust-item"><span>🏆</span><div><strong>CQC Outstanding</strong> Rated Provider</div></div>
+        <div class="trust-item"><span>🕊️</span><div><strong>Marie Curie</strong> Partner Organisation</div></div>
+        <div class="trust-item"><span>👩‍⚕️</span><div><strong>RCN Accredited</strong> Nursing Standards</div></div>
+        <div class="trust-item"><span>🛡️</span><div><strong>DBS Checked</strong> All Clinical Staff</div></div>
+        <div class="trust-item"><span>📞</span><div><strong>24/7 Helpline</strong> Always Available</div></div>
+    </div>
+
+    <!-- TICKER -->
+    <div class="ticker-wrapper">
+        <div class="ticker-content">
+            <span>Pain & Symptom Management</span>
+            <span>Emotional Support</span>
+            <span>Family Counselling</span>
+            <span>Spiritual Care</span>
+            <span>Respite for Carers</span>
+            <span>Night Sitting</span>
+            <span>Bereavement Support</span>
+            <span>Advance Care Planning</span>
+            <span>Dignity & Comfort Care</span>
+            <span>Medication Management</span>
+            <span>Pain & Symptom Management</span>
+            <span>Emotional Support</span>
+            <span>Family Counselling</span>
+            <span>Spiritual Care</span>
+            <span>Respite for Carers</span>
+            <span>Night Sitting</span>
+            <span>Bereavement Support</span>
+            <span>Advance Care Planning</span>
+            <span>Dignity & Comfort Care</span>
+            <span>Medication Management</span>
+        </div>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <section class="philosophy" id="philosophy">
+        <div class="section-header fade-in" style="margin-bottom:40px;">
+            <div class="section-tag" style="color:var(--red);">🕊️ Our Core Values</div>
+            <h2 style="color:var(--dark);">The SwiftNurse <span style="color:var(--blue);">Palliative Philosophy</span></h2>
+            <p>At SwiftNurse, we believe every person deserves to live and die with dignity, comfort, and the people they love around them.</p>
+        </div>
+
+        <div class="compassion-box fade-in">
+            <span>💙</span>
+            <div><strong>A message from SwiftNurse:</strong> We understand that choosing palliative care is one of the most significant and emotional decisions a family can make. Our entire team is trained not just in clinical excellence, but in human compassion. We are honoured to walk this journey with you.</div>
+        </div>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-card fade-in">
+                <span class="philosophy-icon">🕊️</span>
+                <h3>Dignity Always</h3>
+                <p>Every patient is treated with the utmost dignity and respect — their identity, values and wishes honoured at every stage of care.</p>
+            </div>
+            <div class="philosophy-card fade-in">
+                <span class="philosophy-icon">💙</span>
+                <h3>Compassionate Presence</h3>
+                <p>We believe in being fully present — not just as clinical professionals, but as caring human beings who genuinely care for every patient.</p>
+            </div>
+            <div class="philosophy-card fade-in">
+                <span class="philosophy-icon">🌿</span>
+                <h3>Holistic Wellbeing</h3>
+                <p>True palliative care addresses physical, emotional, social and spiritual needs — we care for the whole person, not just the condition.</p>
+            </div>
+            <div class="philosophy-card fade-in">
+                <span class="philosophy-icon">👨‍👩‍👧</span>
+                <h3>Family at the Centre</h3>
+                <p>Palliative care extends to the whole family. We support, guide and care for loved ones throughout the journey and beyond.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="section-header fade-in">
+            <div class="section-tag">❤️ SwiftNurse Palliative Services</div>
+            <h2>Our <span class="accent-blue">Palliative Care</span> Services</h2>
+            <p class="light-p">Comprehensive, compassionate palliative and end-of-life services delivered by SwiftNurse specialist clinicians — in your home, on your terms.</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card fade-in" onclick="openModal('pain')">
+                <div class="card-accent"></div>
+                <span class="service-icon">💊</span>
+                <h3>Pain & Symptom Management</h3>
+                <p>Expert clinical management of pain, breathlessness, nausea and all physical symptoms — keeping your loved one as comfortable as possible.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('emotional')">
+                <div class="card-accent"></div>
+                <span class="service-icon">💙</span>
+                <h3>Emotional & Psychological Support</h3>
+                <p>Compassionate emotional support for patients navigating fear, grief and anxiety — delivered by trained SwiftNurse palliative care specialists.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('personal')">
+                <div class="card-accent"></div>
+                <span class="service-icon">🛁</span>
+                <h3>Personal Dignity Care</h3>
+                <p>Sensitive, deeply respectful assistance with all personal care — preserving dignity, identity and comfort throughout every stage of care.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('family')">
+                <div class="card-accent"></div>
+                <span class="service-icon">👨‍👩‍👧</span>
+                <h3>Family Carer Support</h3>
+                <p>Practical and emotional support for family caregivers — including training, respite breaks and guidance throughout the palliative journey.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('nightsit')">
+                <div class="card-accent"></div>
+                <span class="service-icon">🌙</span>
+                <h3>Night Sitting Service</h3>
+                <p>Dedicated SwiftNurse night carers so families can rest, knowing their loved one is safe, comfortable and never alone through the night.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('spiritual')">
+                <div class="card-accent"></div>
+                <span class="service-icon">🙏</span>
+                <h3>Spiritual & Cultural Care</h3>
+                <p>Respectful support for spiritual, religious and cultural needs — honouring the beliefs and traditions that matter most to your loved one.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('acp')">
+                <div class="card-accent"></div>
+                <span class="service-icon">📋</span>
+                <h3>Advance Care Planning</h3>
+                <p>Sensitive guidance through DNAR decisions, preferred place of care wishes and lasting power of attorney — ensuring voices are heard.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('nutrition')">
+                <div class="card-accent"></div>
+                <span class="service-icon">🍵</span>
+                <h3>Comfort Nutrition Care</h3>
+                <p>Gentle, patient-led nutritional support focused on pleasure and comfort — respecting reduced appetite and swallowing difficulties with care.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('bereavement')">
+                <div class="card-accent"></div>
+                <span class="service-icon">🌹</span>
+                <h3>Bereavement Support</h3>
+                <p>SwiftNurse continues to support families after loss — offering grief counselling, practical assistance and compassionate bereavement care.</p>
+                <a class="learn-more">Read More →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+        <div class="modal">
+            <div class="modal-top-bar"></div>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-icon" id="modalIcon"></div>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+            <ul id="modalList"></ul>
+            <button class="modal-btn" onclick="closeModal(); document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">
+                💙 Talk To Our SwiftNurse Team
+            </button>
+        </div>
+    </div>
+
+    <!-- WHY US -->
+    <section class="why-us" id="why-us">
+        <div class="section-header fade-in">
+            <div class="section-tag">🌟 The SwiftNurse Difference</div>
+            <h2>Why Families Choose <span class="accent-blue">SwiftNurse</span></h2>
+            <p class="light-p">Palliative care is one of the most important decisions a family will ever make. SwiftNurse Homecare brings clinical expertise and unwavering compassion to your door.</p>
+        </div>
+
+        <div class="why-grid">
+            <div class="why-visual fade-in">
+                <div class="why-main-box">
+                    <div class="why-big-icon">🕊️</div>
+                    <h4>"We don't just care for patients — we care for <strong>whole families</strong>, through the most profound moments of life."</h4>
+                </div>
+                <div class="floating-stat">
+                    <span class="fs-icon">🏆</span>
+                    <div class="fs-text"><h5>CQC Outstanding</h5><p>Highest possible rating</p></div>
+                </div>
+                <div class="floating-stat">
+                    <span class="fs-icon">🕊️</span>
+                    <div class="fs-text"><h5>97% Family Satisfaction</h5><p>Post-care survey 2023</p></div>
+                </div>
+                <div class="floating-stat">
+                    <span class="fs-icon">👩‍⚕️</span>
+                    <div class="fs-text"><h5>Specialist Nurses</h5><p>Palliative care trained</p></div>
+                </div>
+            </div>
+
+            <div class="why-features">
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon blue-icon">👩‍⚕️</div>
+                    <div>
+                        <h4>Specialist Palliative Nurses</h4>
+                        <p>All SwiftNurse palliative carers hold specialist end-of-life care qualifications and undergo ongoing training in compassionate care delivery.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon red-icon">🏥</div>
+                    <div>
+                        <h4>Hospice & Hospital Liaison</h4>
+                        <p>SwiftNurse works closely with hospices, Macmillan nurses, GPs and hospital palliative teams for seamless, coordinated care.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon blue-icon">📋</div>
+                    <div>
+                        <h4>Patient-Led Care Plans</h4>
+                        <p>We listen deeply. Every SwiftNurse palliative plan is shaped by the patient's own wishes, values and preferred way of living.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon red-icon">🌙</div>
+                    <div>
+                        <h4>24/7 Around-the-Clock Care</h4>
+                        <p>SwiftNurse is available day and night — because the need for compassionate care doesn't follow a schedule.</p>
+                    </div>
+                </div>
+                <div class="why-feature fade-in">
+                    <div class="why-feature-icon blue-icon">🌹</div>
+                    <div>
+                        <h4>Bereavement Care Included</h4>
+                        <p>Our care doesn't end at death. SwiftNurse supports families through grief, practical needs and the difficult days that follow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+        <div class="section-header fade-in" style="margin-bottom:70px;">
+            <div class="section-tag" style="color:var(--red);">🗓️ How We Begin</div>
+            <h2 style="color:var(--dark);">Starting Your <span style="color:var(--blue);">SwiftNurse</span> Palliative Journey</h2>
+            <p>We make beginning palliative care as gentle and simple as possible. Here is what to expect when you contact SwiftNurse Homecare.</p>
+        </div>
+
+        <div class="process-steps">
+            <div class="process-step fade-in">
+                <div class="step-circle blue-circle">📞</div>
+                <h4>Compassionate Call</h4>
+                <p>A sensitive, no-pressure conversation with a SwiftNurse specialist — available any time, day or night.</p>
+            </div>
+            <div class="process-step fade-in">
+                <div class="step-circle red-circle">🏠</div>
+                <h4>Home Visit</h4>
+                <p>A specialist SwiftNurse clinician visits to meet the patient and family in the comfort of home — free of charge.</p>
+            </div>
+            <div class="process-step fade-in">
+                <div class="step-circle blue-circle">📋</div>
+                <h4>Care Plan Creation</h4>
+                <p>We create a deeply personalised palliative care plan built around your loved one's wishes and clinical needs.</p>
+            </div>
+            <div class="process-step fade-in">
+                <div class="step-circle red-circle">👩‍⚕️</div>
+                <h4>Care Begins</h4>
+                <p>Your dedicated SwiftNurse palliative team begins care — bringing comfort, dignity and compassion every day.</p>
+            </div>
+            <div class="process-step fade-in">
+                <div class="step-circle blue-circle">🌹</div>
+                <h4>Ongoing Support</h4>
+                <p>SwiftNurse remains with your family through and beyond loss — including bereavement care and grief support.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team" id="team">
+        <div class="section-header fade-in">
+            <div class="section-tag">👩‍⚕️ Our Specialists</div>
+            <h2>Meet the <span class="accent-blue">SwiftNurse</span> Palliative Team</h2>
+            <p class="light-p">Our palliative care specialists bring together decades of clinical expertise and deep personal commitment to dignified, compassionate care.</p>
+        </div>
+
+        <div class="team-grid">
+            <div class="team-card fade-in">
+                <div class="team-avatar" style="background:rgba(26,35,126,0.3);">👩‍⚕️</div>
+                <h4>Dr. Patricia Owuor</h4>
+                <div class="team-role">Lead Palliative Physician</div>
+                <p>25 years in palliative medicine. Specialist in complex symptom management and advance care planning.</p>
+                <div class="team-badge">MD · Palliative Medicine</div>
+            </div>
+            <div class="team-card fade-in">
+                <div class="team-avatar" style="background:rgba(192,57,43,0.25);">👨‍⚕️</div>
+                <h4>Sr. Emmanuel Kiprotich</h4>
+                <div class="team-role">Senior Palliative Nurse</div>
+                <p>Specialist in end-of-life care, pain management and family support. MacMillan trained nurse.</p>
+                <div class="team-badge">RN · MacMillan Trained</div>
+            </div>
+            <div class="team-card fade-in">
+                <div class="team-avatar" style="background:rgba(33,150,243,0.2);">👩‍⚕️</div>
+                <h4>Grace Wambui Njoroge</h4>
+                <div class="team-role">Palliative Care Counsellor</div>
+                <p>Specialist in grief counselling, psychological support and spiritual care for patients and families.</p>
+                <div class="team-badge">BACP Accredited Counsellor</div>
+            </div>
+            <div class="team-card fade-in">
+                <div class="team-avatar" style="background:rgba(26,35,126,0.25);">👨‍⚕️</div>
+                <h4>Rev. Fr. Moses Muthoni</h4>
+                <div class="team-role">Spiritual Care Coordinator</div>
+                <p>Multi-faith spiritual care specialist supporting patients and families of all beliefs and traditions.</p>
+                <div class="team-badge">Interfaith Chaplaincy Cert.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="section-header fade-in" style="margin-bottom:50px;">
+            <div class="section-tag" style="color:var(--red);">💷 Care Packages</div>
+            <h2 style="color:var(--dark);">SwiftNurse <span style="color:var(--blue);">Palliative Care</span> Packages</h2>
+            <p>Compassionate care should never be a financial burden. We offer transparent, flexible packages — and help you access all available funding.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <h3>🕊️ Comfort Support</h3>
+                <div class="price">£22<span>/hr</span></div>
+                <p class="pricing-desc">For patients requiring part-day palliative support</p>
+                <ul>
+                    <li>Symptom monitoring visits</li>
+                    <li>Medication management</li>
+                    <li>Personal dignity care</li>
+                    <li>Emotional support visits</li>
+                    <li>Family guidance calls</li>
+                    <li>24/7 helpline access</li>
+                </ul>
+                <button class="pricing-btn" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </div>
+            <div class="pricing-card popular fade-in">
+                <div class="popular-badge">MOST REQUESTED</div>
+                <h3>💙 Full Palliative Care</h3>
+                <div class="price">£32<span>/hr</span></div>
+                <p class="pricing-desc">Comprehensive whole-person palliative care</p>
+                <ul>
+                    <li>All Comfort Support services</li>
+                    <li>Specialist pain management</li>
+                    <li>Spiritual & cultural care</li>
+                    <li>Family carer training & support</li>
+                    <li>Advance care planning</li>
+                    <li>Medical team coordination</li>
+                    <li>Bereavement support included</li>
+                    <li>Dedicated SwiftNurse specialist</li>
+                </ul>
+                <button class="pricing-btn">Get Started</button>
+            </div>
+            <div class="pricing-card fade-in">
+                <h3>🌙 Live-In Palliative</h3>
+                <div class="price">£1,250<span>/wk</span></div>
+                <p class="pricing-desc">24-hour compassionate presence at home</p>
+                <ul>
+                    <li>All Full Palliative services</li>
+                    <li>24/7 live-in SwiftNurse nurse</li>
+                    <li>Night sitting & monitoring</li>
+                    <li>Continuous symptom management</li>
+                    <li>Daily family updates</li>
+                    <li>Emergency escalation plan</li>
+                    <li>Extended bereavement care</li>
+                </ul>
+                <button class="pricing-btn" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header fade-in">
+            <div class="section-tag">💬 Family Voices</div>
+            <h2>Words From <span class="accent-blue">Families We've Supported</span></h2>
+            <p class="light-p">It is our greatest privilege to have walked alongside these families. Their words mean everything to us at SwiftNurse.</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"When Baba was given weeks to live, we were completely lost. SwiftNurse came into our home and transformed his final weeks into something peaceful and beautiful. The care, the dignity, the love shown to our father was beyond anything we had hoped for. Asante sana SwiftNurse."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background:linear-gradient(135deg,#1a237e,#1565c0);">A</div>
+                    <div class="author-info">
+                        <h4>Amina Wekesa</h4>
+                        <p>Daughter of palliative patient, Nairobi</p>
+                        <span class="care-badge">Cancer — End of Life Care</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"My wife had advanced heart failure and her greatest wish was to die at home, not in hospital. SwiftNurse made that possible. Their nurse was here every day and every night when we needed. She passed peacefully, in her own bed, with family around her. I will forever be grateful."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background:linear-gradient(135deg,#c0392b,#96281b);">J</div>
+                    <div class="author-info">
+                        <h4>Joseph Karanja Mwangi</h4>
+                        <p>Husband of palliative patient, Nakuru</p>
+                        <span class="care-badge">Heart Failure — Live-In Care</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Mama was terrified of pain. The SwiftNurse team managed her pain so expertly that in her final weeks she was comfortable, calm and even laughing with us again. They also supported me as a carer — I didn't realise how much I needed that too. Incredible, incredible care."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background:linear-gradient(135deg,#1565c0,#1976d2);">C</div>
+                    <div class="author-info">
+                        <h4>Christine Atieno Odhiambo</h4>
+                        <p>Daughter of palliative patient, Kisumu</p>
+                        <span class="care-badge">Cancer — Full Palliative Care</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Father was a deeply religious man and we were worried his spiritual needs would be overlooked. The SwiftNurse spiritual care coordinator, Rev. Moses, visited him regularly and prayed with him. It brought Father such peace. SwiftNurse understood that dying well is about more than medicine."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background:linear-gradient(135deg,#c0392b,#1a237e);">D</div>
+                    <div class="author-info">
+                        <h4>David Kipkoech Rotich</h4>
+                        <p>Son of palliative patient, Eldoret</p>
+                        <span class="care-badge">Spiritual & Comfort Care</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Kufikiri kwamba tungemwona Bibi akiteseka usiku wote ilikuwa jambo lililotuumiza sana. SwiftNurse walitupa muuguzi wa usiku ambaye alikaa naye kila usiku. Tuliweza kulala kwa amani kwa mara ya kwanza kwa miezi mingi. Mungu awabariki SwiftNurse."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background:linear-gradient(135deg,#1a237e,#c0392b);">N</div>
+                    <div class="author-info">
+                        <h4>Nyambura Kamau-Githinji</h4>
+                        <p>Granddaughter of patient, Thika</p>
+                        <span class="care-badge">Night Sitting Service</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"After losing my husband, I didn't know how to go on. SwiftNurse continued to check on me for weeks after. Their bereavement counsellor Grace visited me regularly and helped me find a way through the grief. SwiftNurse doesn't just care for patients — they care for whole families."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar" style="background:linear-gradient(135deg,#96281b,#1565c0);">F</div>
+                    <div class="author-info">
+                        <h4>Fatuma Abdi Maalim</h4>
+                        <p>Wife of palliative patient, Mombasa</p>
+                        <span class="care-badge">Bereavement Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUPPORT RESOURCES -->
+    <section class="resources" id="resources">
+        <div class="section-header fade-in">
+            <div class="section-tag">📚 Resources & Guidance</div>
+            <h2>Helpful <span class="accent-blue">Support Resources</span></h2>
+            <p class="light-p">SwiftNurse has prepared these resources to help patients and families navigate palliative care with greater confidence and understanding.</p>
+        </div>
+
+        <div class="resources-grid">
+            <div class="resource-card fade-in">
+                <span class="resource-icon">📖</span>
+                <h4>Understanding Palliative Care</h4>
+                <p>A compassionate guide to what palliative care means, what to expect and how to make the most of the time available.</p>
+                <a class="resource-link">Download Guide →</a>
+            </div>
+            <div class="resource-card fade-in">
+                <span class="resource-icon">📋</span>
+                <h4>Advance Care Planning Guide</h4>
+                <p>Step-by-step guidance on DNAR decisions, lasting power of attorney and documenting your loved one's wishes.</p>
+                <a class="resource-link">Download Guide →</a>
+            </div>
+            <div class="resource-card fade-in">
+                <span class="resource-icon">👨‍👩‍👧</span>
+                <h4>Supporting a Loved One</h4>
+                <p>Practical advice for family caregivers — how to help, how to communicate, and how to look after yourself too.</p>
+                <a class="resource-link">Download Guide →</a>
+            </div>
+            <div class="resource-card fade-in">
+                <span class="resource-icon">🌹</span>
+                <h4>Coping With Grief & Loss</h4>
+                <p>A gentle bereavement guide with advice on navigating grief, practical matters after death and finding support.</p>
+                <a class="resource-link">Download Guide →</a>
+            </div>
+            <div class="resource-card fade-in">
+                <span class="resource-icon">💷</span>
+                <h4>Funding & Financial Help</h4>
+                <p>Information on NHS Continuing Healthcare, Attendance Allowance and charitable funding for palliative care.</p>
+                <a class="resource-link">Download Guide →</a>
+            </div>
+            <div class="resource-card fade-in">
+                <span class="resource-icon">🙏</span>
+                <h4>Spiritual Care Guide</h4>
+                <p>Resources for patients and families seeking spiritual, religious or cultural support during end-of-life care.</p>
+                <a class="resource-link">Download Guide →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="section-header fade-in">
+            <div class="section-tag" style="color:var(--red);">❓ Questions We're Asked</div>
+            <h2 style="color:var(--dark);">Palliative Care <span style="color:var(--blue);">FAQs</span></h2>
+            <p>Honest, compassionate answers to the questions families most often ask about SwiftNurse palliative care.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What exactly is palliative care and when should we consider it?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Palliative care is specialist care focused on providing relief from the symptoms and stress of a serious illness, with the primary goal being to improve quality of life. It can begin at any stage of illness — not just at the very end of life — and can be received alongside curative treatment. SwiftNurse recommends considering palliative care as soon as a serious, life-limiting diagnosis is made.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Does choosing palliative care mean giving up on treatment?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Not at all. Palliative care can — and often does — run alongside curative or disease-modifying treatments. It is not about giving up; it is about living as well as possible. SwiftNurse palliative care focuses on comfort, dignity and quality of life — whatever stage of illness the patient is at.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Can my loved one really stay at home rather than going to a hospice?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">Yes — and for many patients, being at home is their strongest wish. Studies consistently show that most people prefer to die at home, in familiar surroundings with loved ones. SwiftNurse specialises in delivering hospice-quality palliative care in the home environment. With the right support, the vast majority of patients can remain at home safely and comfortably.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How do SwiftNurse nurses manage pain at home?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">SwiftNurse palliative nurses are trained in advanced pain and symptom management. We work closely with your patient's GP, consultant and palliative medicine team to ensure the correct medications and doses are prescribed and administered safely. We monitor pain levels continuously, adjust medication regimens as needed and can access out-of-hours prescribing support at any time.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What support does SwiftNurse offer families after bereavement?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">SwiftNurse's care does not end at the moment of death. We provide bereavement support visits, grief counselling referrals and practical guidance on what to do after a death. Our bereavement counsellor Grace is available to family members for up to 12 months following loss. We believe supporting families through grief is as important as the care we provided before it.</div>
+            </div>
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Is palliative home care funded by the NHS?
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">NHS Continuing Healthcare (CHC) funding may be available for patients with complex palliative care needs. The Fast Track CHC pathway can be activated quickly for patients approaching end of life, enabling funded home palliative care. SwiftNurse has a dedicated funding support specialist who can guide your family through the CHC application process, as well as charitable funding options.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="section-header fade-in">
+            <div class="section-tag">📞 Reach Out to Us</div>
+            <h2>Talk to the <span class="accent-blue">SwiftNurse</span> Team</h2>
+            <p class="light-p">We understand this is a difficult and emotional time. Our team is here to listen, advise and support — with no pressure and no obligation. Please reach out.</p>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info fade-in">
+                <h3>We Are Here For You 💙</h3>
+                <p>Choosing palliative care is an act of profound love. The SwiftNurse Homecare team is ready to answer your questions, visit your home, and begin building a care plan that honours your loved one fully.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon blue-ci">📞</div>
+                        <div>
+                            <h4>Call SwiftNurse Anytime</h4>
+                            <p>0800 794 3896 (Free — 24/7)</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon red-ci">📧</div>
+                        <div>
+                            <h4>Email Our Palliative Team</h4>
+                            <p>palliative@swiftnursehomecare.co.uk</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon blue-ci">📍</div>
+                        <div>
+                            <h4>SwiftNurse Head Office</h4>
+                            <p>15 Harmony Lane, London, EC1A 1BB</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon red-ci">🌙</div>
+                        <div>
+                            <h4>Out-of-Hours Support</h4>
+                            <p>Clinical team available 24 hours, every day</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon blue-ci">⚡</div>
+                        <div>
+                            <h4>Urgent Care Arrangements</h4>
+                            <p>Same-day palliative care available when needed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form fade-in">
+                <h3>💙 Request a SwiftNurse Palliative Consultation</h3>
+                <p class="form-subtitle">Please share as much or as little as you feel comfortable sharing. We will contact you gently and at a time that suits you.</p>
+                <form id="contactForm" onsubmit="submitForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name *</label>
+                            <input type="text" placeholder="e.g. Christine Atieno" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" placeholder="07700 000000" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Relationship to Patient</label>
+                        <select>
+                            <option value="">Please select...</option>
+                            <option>I am the patient</option>
+                            <option>Spouse / Partner</option>
+                            <option>Son / Daughter</option>
+                            <option>Parent</option>
+                            <option>Sibling</option>
+                            <option>Other Family Member</option>
+                            <option>Friend / Carer</option>
+                            <option>Healthcare Professional</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Type of Care Needed</label>
+                        <select>
+                            <option value="">Please select if known...</option>
+                            <option>Comfort Support (part-day)</option>
+                            <option>Full Palliative Care</option>
+                            <option>Live-In Palliative Care</option>
+                            <option>Night Sitting Only</option>
+                            <option>Bereavement Support</option>
+                            <option>I'm not sure — please advise</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>How Can We Help You?</label>
+                        <textarea placeholder="Please tell us a little about your situation. There is no right or wrong thing to say — we are simply here to listen and help..."></textarea>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="consent" required>
+                        <label for="consent">I consent to SwiftNurse Homecare contacting me regarding palliative care services. My information will be handled with complete confidentiality and compassion.</label>
+                    </div>
+                    <button type="submit" class="submit-btn">💙 Send My Message to SwiftNurse</button>
+                    <div class="success-msg" id="successMsg">
+                        💙 Thank you for reaching out. A member of the SwiftNurse palliative care team will be in touch gently and very soon. You are not alone.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div>
+                <h4>🕊️ Need Immediate Palliative Support?</h4>
+                <p>Our SwiftNurse clinical team is available 24 hours a day, 7 days a week — please don't hesitate to call.</p>
+            </div>
+            <button class="footer-top-btn" onclick="window.location.href='tel:08007943896'">📞 Call 0800 794 3896 Now</button>
+        </div>
+
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a class="logo" href="#home" style="font-size:1.3rem;">🏥 SwiftNurse<span> Homecare</span></a>
+                <p>SwiftNurse Homecare delivers compassionate, expert palliative and end-of-life care, chronic condition management and post-surgical care since 2005. CQC Outstanding Rated.</p>
+                <div class="social-links">
+                    <div class="social-link">📘</div>
+                    <div class="social-link">🐦</div>
+                    <div class="social-link">📸</div>
+                    <div class="social-link">▶️</div>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Palliative Services</h4>
+                <ul>
+                    <li><a href="#">Pain Management</a></li>
+                    <li><a href="#">Emotional Support</a></li>
+                    <li><a href="#">Spiritual Care</a></li>
+                    <li><a href="#">Night Sitting</a></li>
+                    <li><a href="#">Bereavement Care</a></li>
+                    <li><a href="#">Advance Care Planning</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>SwiftNurse</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Clinical Team</a></li>
+                    <li><a href="#">CQC Rating</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Partner With Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Patient Support</h4>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Funding Guide</a></li>
+                    <li><a href="#">Download Resources</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Complaints</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2024 SwiftNurse Homecare Ltd. All Rights Reserved. | Registered in England & Wales No. 08234567 | CQC Registered & Rated Outstanding</p>
+            <div style="display:flex;gap:20px;">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // ===== PARTICLES =====
+        function createParticles() {
+            const c = document.getElementById('particles');
+            const colors = ['#1a237e','#c0392b','#2196f3','#1565c0'];
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 20 + 12) + 's';
+                p.style.animationDelay = (Math.random() * 12) + 's';
+                const size = (Math.random() * 8 + 4) + 'px';
+                p.style.width = p.style.height = size;
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                c.appendChild(p);
+            }
+        }
+        createParticles();
+
+        // ===== MODAL DATA =====
+        const modalData = {
+            pain: {
+                icon: '💊',
+                title: 'Pain & Symptom Management',
+                desc: 'SwiftNurse specialist palliative nurses provide expert clinical management of all physical symptoms — ensuring your loved one experiences the greatest possible comfort throughout their journey.',
+                list: ['Advanced pain assessment using validated tools','Opioid and analgesic medication management','Breathlessness management and positioning','Nausea, vomiting and appetite management','Syringe driver and subcutaneous medication support','Oral care and mouth comfort management','Pressure area care and skin integrity','Rapid symptom escalation to palliative physicians']
+            },
+            emotional: {
+                icon: '💙',
+                title: 'Emotional & Psychological Support',
+                desc: 'SwiftNurse provides compassionate, professional emotional support for patients facing their mortality — and for the families walking alongside them.',
+                list: ['Patient-led emotional support conversations','Fear, anxiety and depression management','Life review and legacy conversations','End-of-life wish fulfilment coordination','Family communication and mediation support','Psychological distress recognition and referral','Dignity therapy and meaning-making work','Ongoing counsellor visits throughout care']
+            },
+            personal: {
+                icon: '🛁',
+                title: 'Personal Dignity Care',
+                desc: 'SwiftNurse provides the most respectful, sensitive personal care — protecting identity, dignity and comfort at every moment of the palliative journey.',
+                list: ['Gentle bed bathing and personal hygiene','Dignified dressing and grooming assistance','Hair, nail and skincare with sensitivity','Continence care with total privacy and respect','Oral care and mouth comfort','Comfortable repositioning and pressure relief','Favourite clothing and personal preference honoured','Environment comfort — lighting, scent, music']
+            },
+            family: {
+                icon: '👨‍👩‍👧',
+                title: 'Family Carer Support',
+                desc: 'SwiftNurse recognises that palliative care encompasses the whole family. We provide practical, emotional and educational support to help families through this profound time.',
+                list: ['Family carer education and training sessions','Respite care to allow carers essential rest','Practical guidance on what to expect','Communication coaching with patients','Children and young person support resources','Carer wellbeing monitoring and support','Financial and benefits guidance','Extended family coordination support']
+            },
+            nightsit: {
+                icon: '🌙',
+                title: 'Night Sitting Service',
+                desc: 'SwiftNurse dedicated night sitters provide compassionate overnight presence so families can rest, confident their loved one is safe, monitored and never alone.',
+                list: ['Dedicated SwiftNurse night carer from 10pm–7am','Continuous comfort and safety monitoring','Medication administration during the night','Repositioning and pressure care','Immediate family alerting for any changes','Companionship if the patient is awake','Detailed night report for day care team','Available 7 nights per week']
+            },
+            spiritual: {
+                icon: '🙏',
+                title: 'Spiritual & Cultural Care',
+                desc: 'SwiftNurse deeply respects the spiritual, religious and cultural dimensions of dying — ensuring every patient\'s beliefs and traditions are honoured with reverence.',
+                list: ['Multi-faith chaplaincy and spiritual care visits','Prayer, ritual and sacrament facilitation','Cultural end-of-life tradition support','Sacred text reading and music support','Religious leader coordination','Legacy and memory creation support','Culturally sensitive personal care practices','Post-death rite and ritual support']
+            },
+            acp: {
+                icon: '📋',
+                title: 'Advance Care Planning',
+                desc: 'SwiftNurse gently guides patients and families through the important but sensitive process of documenting wishes and ensuring voices are heard.',
+                list: ['Preferred place of care and death discussions','Do Not Attempt Resuscitation (DNAR) guidance','Lasting Power of Attorney signposting','Statement of wishes and values completion','Anticipatory medication prescription coordination','Communication of wishes to medical team','RESPECT form completion support','Regular review as circumstances change']
+            },
+            nutrition: {
+                icon: '🍵',
+                title: 'Comfort Nutrition Care',
+                desc: 'SwiftNurse approaches nutrition in palliative care with total sensitivity — focusing on pleasure, comfort and the patient\'s own wishes rather than clinical goals.',
+                list: ['Patient-led, pleasure-focused meal support','Favourite food and fluid preparation','Reduced appetite management and guidance','Dysphagia (swallowing difficulty) safe diet','Oral syringe hydration for non-drinkers','Family education on changing nutritional needs','Cultural and religious food preference honouring','Nutritional supplement management if desired']
+            },
+            bereavement: {
+                icon: '🌹',
+                title: 'Bereavement Support',
+                desc: 'SwiftNurse\'s care continues beyond the moment of death — supporting families through the immediate aftermath of loss and the difficult journey of grief.',
+                list: ['Immediate post-death practical guidance','What to do after death — step by step support','Bereavement counsellor home visits','Grief support for children and young people','One-to-one counselling sessions with Grace','Group bereavement support referrals','Anniversaries and difficult dates check-ins','Up to 12 months post-bereavement care']
+            }
+        };
+
+        function openModal(key) {
+            const data = modalData[key];
+            if (!data) return;
+            document.getElementById('modalIcon').textContent = data.icon;
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalDesc').textContent = data.desc;
+            document.getElementById('modalList').innerHTML = data.list.map(i =>
+                `<li><span class="check">✓</span>${i}</li>`
+            ).join('');
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOutside(e) {
+            if (e.target === document.getElementById('modalOverlay')) closeModal();
+        }
+
+        // ===== FAQ =====
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+
+        // ===== COUNTERS =====
+        function animateCounter(id, target, suffix = '+') {
+            let count = 0;
+            const el = document.getElementById(id);
+            if (!el) return;
+            const step = Math.ceil(target / 80);
+            const timer = setInterval(() => {
+                count += step;
+                if (count >= target) { count = target; clearInterval(timer); }
+                el.textContent = count + suffix;
+            }, 25);
+        }
+
+        let countersStarted = false;
+        function startCounters() {
+            if (!countersStarted) {
+                countersStarted = true;
+                animateCounter('counter1', 3200);
+                animateCounter('counter2', 180);
+                animateCounter('counter3', 19);
+                animateCounter('counter4', 42);
+            }
+        }
+
+        // ===== SCROLL ANIMATIONS =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    startCounters();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        setTimeout(startCounters, 900);
+
+        // ===== SCROLL TOP =====
+        window.addEventListener('scroll', () => {
+            document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+        });
+
+        // ===== HAMBURGER =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+        });
+
+        // ===== ACTIVE NAV =====
+        const allSections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            allSections.forEach(s => {
+                if (window.scrollY >= s.offsetTop - 150) current = s.getAttribute('id');
+            });
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.style.color = '#9ca3af';
+                if (a.getAttribute('href') === '#' + current) a.style.color = '#90caf9';
+            });
+        });
+
+        // ===== FORM =====
+        function submitForm(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.submit-btn');
+            btn.textContent = '⏳ Sending your message...';
+            btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('successMsg').style.display = 'block';
+                btn.textContent = '💙 Message Sent';
+                btn.style.background = 'linear-gradient(135deg, #155724, #28a745)';
+                document.getElementById('contactForm').reset();
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
